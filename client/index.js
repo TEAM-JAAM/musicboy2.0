@@ -9,6 +9,9 @@ import App from './app'
 // establishes socket connection
 import './socket'
 
+// establish firestore connection...
+import './firestore/db'
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
