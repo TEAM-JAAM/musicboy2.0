@@ -4,8 +4,9 @@ import {connect} from 'react-redux'
 import {
   initRow,
   toggleCell,
-  playMusic,
-  stopMusic
+  createSequence,
+  stopMusic,
+  startMusic
 } from '../../instruments/utils'
 
 class MusicPlayer extends React.Component {
@@ -16,6 +17,7 @@ class MusicPlayer extends React.Component {
       update: true,
       playing: false
     }
+    this.synthSequence = []
     this.handleCell = this.handleCell.bind(this)
     this.playHandler = this.playHandler.bind(this)
   }
@@ -24,13 +26,17 @@ class MusicPlayer extends React.Component {
     this.setState({
       update: !this.state.update
     })
+    if (this.synthSequence.length) {
+      this.synthSequence.cancel()
+    }
+    this.synthSequence = createSequence(this.state.music).start(0)
   }
   playHandler() {
     if (!this.state.playing) {
       this.setState({
         playing: true
       })
-      return playMusic(this.state.music)
+      startMusic()
     } else {
       this.setState({
         playing: false

@@ -23,7 +23,7 @@ export const toggleCell = cell => {
   synth.triggerAttackRelease('G4', '16n')
 }
 
-export const playMusic = arr => {
+export const createSequence = arr => {
   let seq = new Tone.Sequence(
     (time, note) => {
       synth.triggerAttackRelease(note, '32n', time)
@@ -37,7 +37,11 @@ export const playMusic = arr => {
       return accumulator
     }, []),
     '4n'
-  ).start(0)
+  )
+  return seq
+}
+
+export const startMusic = () => {
   Tone.Transport.start()
 }
 
