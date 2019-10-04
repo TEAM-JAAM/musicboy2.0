@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import db from './firestore/db'
+import {Navbar} from './components'
+import Routes from './routes'
 
 class App extends Component {
   handleClick = async () => {
@@ -23,9 +25,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <button type="button" onClick={() => this.handleClick()}>
-          PRESS ME
-        </button>
+        <Navbar />
+        <Routes />
       </div>
     )
   }
