@@ -1,22 +1,31 @@
 import Tone from 'tone'
+import {assignPitch} from './scales'
 
 export class AudioNode {
-  constructor(row, index) {
+  constructor(row, index, pitch) {
     this.row = row
     this.index = index
     this.status = false
+    this.pitch = pitch
   }
 }
 
-export const initRow = (length = 4) => {
+export const initGrid = (height, width) => {
   let musicArray = []
-  for (let i = 0; i < length; i++) {
-    musicArray.push(new AudioNode(0, i))
+  for (let i = 0; i < height; ++i) {
+    musicArray.push([])
+    for (let j = 0; j < width; ++j) {
+      let node = new AudioNode(i, j, assignPitch[i])
+      musicArray[i].push(node)
+    }
   }
   return musicArray
 }
 
-const synth = new Tone.Synth().toMaster()
+const synth = new Tone.PolySynth({
+  polyphony: 12,
+  voice: Tone.Synth
+}).toMaster()
 
 export const toggleCell = cell => {
   cell.status = !cell.status

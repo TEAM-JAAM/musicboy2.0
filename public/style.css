@@ -20,6 +20,13 @@ form div {
   display: inline-block;
 }
 
+/* SingleInstruments */
+
+table {
+  display: flex;
+  justify-content: center;
+}
+
 .on {
   background-color: limegreen;
 }
@@ -30,7 +37,8 @@ form div {
 
 .cell {
   display: inline-block;
-  margin: 10px;
+  margin: 3px;
+  border: 1px solid black;
   width: 30px;
-  height: 30px;
+  height: 15px;
 }
