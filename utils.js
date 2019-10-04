@@ -1,5 +1,5 @@
 import Tone from 'tone'
-import {assignPitch} from './scales'
+import {synth, assignPitch} from './instruments'
 
 export class AudioNode {
   constructor(row, index, pitch) {
@@ -22,38 +22,32 @@ export const initGrid = (height, width) => {
   return musicArray
 }
 
-const synth = new Tone.PolySynth({
-  polyphony: 12,
-  voice: Tone.Synth
-}).toMaster()
-
 export const toggleCell = cell => {
+  if (!cell.status) synth.triggerAttackRelease(cell.pitch, '16n')
   cell.status = !cell.status
-  synth.triggerAttackRelease('G4', '16n')
 }
 
-export const createSequence = arr => {
-  let seq = new Tone.Sequence(
-    (time, note) => {
+export const createSequence = row => {
+  const seq = new Tone.Sequence(
+    function(time, note) {
       synth.triggerAttackRelease(note, '32n', time)
     },
-    arr.reduce((accumulator, node) => {
-      if (node.status) {
-        accumulator.push('G4')
-      } else {
-        accumulator.push(null)
-      }
-      return accumulator
+    row.reduce((accum, node) => {
+      if (node.status) accum.push(node.pitch)
+      else accum.push(null)
+      return accum
     }, []),
-    '4n'
-  )
+    '8n'
+  ).start(0)
   return seq
 }
 
 export const startMusic = () => {
+  console.log('music started')
   Tone.Transport.start()
 }
 
 export const stopMusic = () => {
+  console.log('music stopped')
   Tone.Transport.stop()
 }

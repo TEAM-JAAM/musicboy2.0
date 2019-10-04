@@ -1,7 +1,6 @@
 import React from 'React'
-import Tone from 'tone'
 import {connect} from 'react-redux'
-import {stopMusic, startMusic} from '../../instruments/utils'
+import {stopMusic, startMusic} from '../../utils'
 import SingleInstrument from './SingleInstrument'
 
 class AllInstruments extends React.Component {
@@ -10,27 +9,22 @@ class AllInstruments extends React.Component {
     this.state = {
       playing: false
     }
-    this.synthSequence = []
-    this.playHandler = this.playHandler.bind(this)
+    this.startOrStop = this.startOrStop.bind(this)
   }
 
-  playHandler() {
+  startOrStop() {
     if (!this.state.playing) {
-      this.setState({
-        playing: true
-      })
+      this.setState({playing: true})
       startMusic()
     } else {
-      this.setState({
-        playing: false
-      })
+      this.setState({playing: false})
       stopMusic()
     }
   }
   render() {
     return (
       <div>
-        <button className="play-btn" type="button" onClick={this.playHandler}>
+        <button className="play-btn" type="button" onClick={this.startOrStop}>
           {!this.state.playing ? '▶️' : '| |'}
         </button>
         <SingleInstrument />
