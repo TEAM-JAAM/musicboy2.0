@@ -9,7 +9,7 @@ const Row = props => {
           <td
             key={node.index}
             className={statusColor}
-            onClick={() => props.handleClick(node)}
+            onClick={() => props.handleToggleCell(node)}
           />
         )
       })}

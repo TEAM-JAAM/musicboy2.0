@@ -4,9 +4,11 @@ import {
   stopMusic,
   startMusic,
   initGrid,
-  AudioNode,
   toggleCell,
-  createNewSequence
+  createNewSequence,
+  updateSequences,
+  addRowToGrid,
+  removeRowFromGrid
 } from '../../utils'
 import SingleInstrument from './SingleInstrument'
 
@@ -16,12 +18,13 @@ class AllInstruments extends React.Component {
     this.sequences = []
     this.state = {
       playing: false,
-      grid: initGrid(12, 8)
-      // update: true
+      grid: initGrid(12, 8),
+      update: true
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleToggleCell = this.handleToggleCell.bind(this)
     this.startOrStop = this.startOrStop.bind(this)
-    this.incrementRows = this.incrementRows.bind(this)
+    this.addRow = this.addRow.bind(this)
+    this.removeRow = this.removeRow.bind(this)
   }
 
   componentDidMount() {
@@ -29,7 +32,6 @@ class AllInstruments extends React.Component {
     for (let i = 0; i < grid.length; ++i) {
       this.sequences.push(createNewSequence(grid[i]))
     }
-    console.log(this.sequences)
   }
 
   startOrStop() {
@@ -42,15 +44,22 @@ class AllInstruments extends React.Component {
     }
   }
 
-  incrementRows() {
+  addRow() {
     const grid = this.state.grid
     this.setState({
-      grid: grid.map((row, idx) => {
-        let pitch = row[0].pitch
-        let node = new AudioNode(idx, row.length, pitch)
-        row.push(node)
-        return row
-      })
+      grid: addRowToGrid(grid)
+    })
+    // all sequences must be updated
+    this.sequences = this.sequences.map((sequence, idx) => {
+      sequence.cancel()
+      return createNewSequence(grid[idx])
+    })
+  }
+
+  removeRow() {
+    const grid = this.state.grid
+    this.setState({
+      grid: removeRowFromGrid(grid)
     })
     this.sequences = this.sequences.map((sequence, idx) => {
       sequence.cancel()
@@ -58,22 +67,12 @@ class AllInstruments extends React.Component {
     })
   }
 
-  handleClick(cell) {
+  handleToggleCell(cell) {
     toggleCell(cell)
-    const grid = this.state.grid
     const rowIdx = cell.row
     const row = this.state.grid[rowIdx]
-    this.sequences = this.sequences.map((sequence, idx) => {
-      if (idx === rowIdx) {
-        sequence.cancel()
-        return createNewSequence(row)
-      } else {
-        return sequence
-      }
-    })
-    this.setState({
-      grid: grid
-    })
+    this.sequences = updateSequences(this.sequences, row, rowIdx)
+    this.setState({update: true})
   }
 
   render() {
@@ -85,12 +84,19 @@ class AllInstruments extends React.Component {
         <button
           className="increment-row-btn"
           type="button"
-          onClick={this.incrementRows}
+          onClick={this.addRow}
         >
           add rows
         </button>
+        <button
+          className="decrement-row-btn"
+          type="button"
+          onClick={this.removeRow}
+        >
+          remove rows
+        </button>
         <SingleInstrument
-          handleClick={this.handleClick}
+          handleToggleCell={this.handleToggleCell}
           grid={this.state.grid}
         />
       </div>

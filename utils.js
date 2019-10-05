@@ -42,11 +42,34 @@ export const createNewSequence = row => {
   return seq
 }
 
-// export const createAllSequences = (grid) => {
-//   return grid.map((row) => {
-//     return createSequence(row)
-//   })
-// }
+export const updateSequences = (sequencesArray, row, rowIdx) => {
+  return sequencesArray.map((sequence, idx) => {
+    if (idx === rowIdx) {
+      sequence.cancel()
+      return createNewSequence(row)
+    } else {
+      return sequence
+    }
+  })
+}
+
+export const addRowToGrid = grid => {
+  return grid.map((row, idx) => {
+    const pitch = row[0].pitch
+    const rowIndex = idx
+    const colIndex = row.length
+    const node = new AudioNode(rowIndex, colIndex, pitch)
+    row.push(node)
+    return row
+  })
+}
+
+export const removeRowFromGrid = grid => {
+  return grid.map(row => {
+    row.pop()
+    return row
+  })
+}
 
 export const startMusic = () => {
   Tone.Transport.start()

@@ -8,7 +8,11 @@ const SingleInstrument = props => {
       <tbody>
         {grid.map(row => {
           return (
-            <Row key={row[0].row} handleClick={props.handleClick} row={row} />
+            <Row
+              key={row[0].row}
+              handleToggleCell={props.handleToggleCell}
+              row={row}
+            />
           )
         })}
       </tbody>
