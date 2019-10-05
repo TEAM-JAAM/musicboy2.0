@@ -2,8 +2,8 @@ import React from 'react'
 import {toggleCell, createSequence} from '../../utils'
 
 class Row extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       sequence: {}
     }
@@ -12,10 +12,9 @@ class Row extends React.Component {
 
   handleClick(cell) {
     toggleCell(cell)
-    if (Object.keys(this.state.sequence).length) {
-      this.state.sequence.cancel()
-    }
-    this.setState({sequence: createSequence(this.props.row)})
+    if (Object.keys(this.state.sequence).length) this.state.sequence.cancel()
+    const row = this.props.row
+    this.setState({sequence: createSequence(row)})
   }
 
   render() {

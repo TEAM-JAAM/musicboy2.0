@@ -42,12 +42,16 @@ export const createSequence = row => {
   return seq
 }
 
+// export const createAllSequences = (grid) => {
+//   return grid.map((row) => {
+//     return createSequence(row)
+//   })
+// }
+
 export const startMusic = () => {
-  console.log('music started')
   Tone.Transport.start()
 }
 
 export const stopMusic = () => {
-  console.log('music stopped')
   Tone.Transport.stop()
 }
