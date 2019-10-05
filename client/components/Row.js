@@ -15,7 +15,13 @@ class Row extends React.Component {
     if (Object.keys(this.state.sequence).length) {
       this.state.sequence.cancel()
     }
+
     this.setState({sequence: createSequence(this.props.row)})
+    // this.props.synthSequence.push(createSequence(cell))
+    // console.log('SEQUENCE ARR', this.props.synthSequence)
+    // // let temp = [this.state.sequence]
+    // // temp.push(createSequence(cell))
+    // this.setState({sequence: {}})
   }
 
   render() {

@@ -10,13 +10,14 @@ export class AudioNode {
   }
 }
 
-export const initGrid = (height, width) => {
+export const initGrid = (width = 1) => {
   let musicArray = []
-  for (let i = 0; i < height; ++i) {
+
+  for (let j = 0; j < 12; ++j) {
     musicArray.push([])
-    for (let j = 0; j < width; ++j) {
-      let node = new AudioNode(i, j, assignPitch[i])
-      musicArray[i].push(node)
+    for (let i = 0; i < width; i++) {
+      let node = new AudioNode(j, i, assignPitch[j])
+      musicArray[j].push(node)
     }
   }
   return musicArray
@@ -32,6 +33,7 @@ export const createSequence = row => {
     function(time, note) {
       synth.triggerAttackRelease(note, '32n', time)
     },
+    //node.status ? node.pitch : null,
     row.reduce((accum, node) => {
       if (node.status) accum.push(node.pitch)
       else accum.push(null)
