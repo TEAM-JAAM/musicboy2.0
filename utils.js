@@ -27,7 +27,7 @@ export const toggleCell = cell => {
   cell.status = !cell.status
 }
 
-export const createSequence = row => {
+export const createNewSequence = row => {
   const seq = new Tone.Sequence(
     function(time, note) {
       synth.triggerAttackRelease(note, '32n', time)
