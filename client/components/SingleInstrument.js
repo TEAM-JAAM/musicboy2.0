@@ -8,7 +8,7 @@ export default class SingleInstrument extends React.Component {
     this.synthSequence = []
 
     this.state = {
-      music: initGrid(8)
+      music: initGrid(20)
     }
   }
 

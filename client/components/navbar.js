@@ -1,57 +1,59 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import React, {Component} from 'react'
+//import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+//import {logout} from '../store'
+import {auth} from '../firestore/db'
+import history from '../history'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>BOILERMAKER</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/play">Jaam Out</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
-
-/**
- * CONTAINER
- */
-const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.id
+export default class Navbar extends Component {
+  constructor() {
+    super()
+    this.handleClick = this.handleClick.bind(this)
+    this.state = {}
   }
-}
-
-const mapDispatch = dispatch => {
-  return {
-    handleClick() {
-      dispatch(logout())
-    }
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('user logged in: ', user)
+        history.push('/home')
+        this.setState({})
+      } else {
+        console.log('user logged out')
+        history.push('/login')
+        this.setState({})
+      }
+    })
   }
-}
 
-export default connect(mapState, mapDispatch)(Navbar)
+  handleClick() {
+    auth.signOut()
+    history.push('/login')
+    this.setState({})
+  }
 
-/**
- * PROP TYPES
- */
-Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  render() {
+    return (
+      <div>
+        <h1>ITS JAMMIN' TIME</h1>
+        <nav>
+          {auth.currentUser ? (
+            <div>
+              <Link to="/home">Home</Link>
+              <Link to="/play">Jaam Out</Link>
+              <a href="#" onClick={this.handleClick}>
+                Logout
+              </a>
+            </div>
+          ) : (
+            <div>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Sign Up</Link>
+              <Link to="/play">Jaam Out</Link>
+            </div>
+          )}
+        </nav>
+        <hr />
+      </div>
+    )
+  }
 }
