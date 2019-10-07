@@ -6,7 +6,7 @@ const SingleInstrument = props => {
   return (
     <table className="instrument-container">
       <tbody>
-        {grid.map(row => {
+        {Object.values(grid).map(row => {
           return (
             <Row
               key={row[0].row}

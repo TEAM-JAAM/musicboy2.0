@@ -10,16 +10,17 @@ export class AudioNode {
   }
 }
 
-export const initGrid = (height, width) => {
-  let musicArray = []
-  for (let i = 0; i < height; ++i) {
-    musicArray.push([])
+export const initGrid = width => {
+  const grid = {}
+  for (let i = 0; i < 12; ++i) {
+    const timeSlice = i
+    grid[timeSlice] = {}
     for (let j = 0; j < width; ++j) {
       let node = new AudioNode(i, j, assignPitch[i])
-      musicArray[i].push(node)
+      grid[timeSlice][j] = node
     }
   }
-  return musicArray
+  return grid
 }
 
 export const toggleCell = cell => {

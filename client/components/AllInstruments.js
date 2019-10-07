@@ -20,7 +20,7 @@ class AllInstruments extends React.Component {
     this.state = {
       // tempo: 80,
       playing: false,
-      grid: initGrid(12, 8),
+      grid: initGrid(8),
       update: true
     }
     this.handleToggleCell = this.handleToggleCell.bind(this)
@@ -38,7 +38,6 @@ class AllInstruments extends React.Component {
 
   startOrStop() {
     if (!this.state.playing) {
-      const curser = Tone.Transport.position
       this.setState({playing: true})
       Tone.Transport.start()
     } else {
@@ -79,6 +78,7 @@ class AllInstruments extends React.Component {
   }
 
   render() {
+    console.log('grid', this.state.grid)
     return (
       <div>
         <button className="play-btn" type="button" onClick={this.startOrStop}>
