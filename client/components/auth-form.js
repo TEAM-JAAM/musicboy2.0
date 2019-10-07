@@ -1,37 +1,105 @@
-import React from 'react'
+/* eslint-disable no-alert */
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import {auth} from '../store'
 
-/**
- * COMPONENT
- */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+import {db, auth, provider} from '../firestore/db'
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
-  )
+class AuthForm extends Component {
+  constructor(props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.googleSignIn = this.googleSignIn.bind(this)
+  }
+
+  handleSubmit(evt) {
+    evt.preventDefault()
+    console.log(evt)
+    const formName = evt.target.name
+    const email = evt.target.email.value
+    const password = evt.target.password.value
+    const projects = evt.target.projects.value
+
+    if (formName === 'signup') {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(cred => {
+          let docRef = db.collection('projects').doc('big-bang')
+          return db
+            .collection('users')
+            .doc(cred.user.uid)
+            .set({
+              projects: docRef
+            })
+        })
+        .catch(error => {
+          alert(error)
+          document.getElementById('mainInput').reset()
+        })
+    } else if (formName === 'login') {
+      auth.signInWithEmailAndPassword(email, password).catch(error => {
+        alert(error)
+        document.getElementById('mainInput').reset()
+      })
+    }
+  }
+
+  googleSignIn() {
+    auth
+      .signInWithPopup(provider)
+      .then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken
+        // The signed-in user info.
+        var user = result.user
+        // ...
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code
+        var errorMessage = error.message
+        // The email of the user's account used.
+        var email = error.email
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential
+        // ...
+      })
+  }
+
+  render() {
+    const {name, displayName, error} = this.props
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit} name={name} id="mainInput">
+          <div>
+            <label htmlFor="email">
+              <small>Email</small>
+            </label>
+            <input name="email" type="text" />
+          </div>
+          <div>
+            <label htmlFor="password">
+              <small>Password</small>
+            </label>
+            <input name="password" type="password" />
+          </div>
+          <div>
+            <label htmlFor="projects">
+              <small>Projects</small>
+            </label>
+            <input name="projects" type="text" />
+          </div>
+          <div>
+            <button type="submit">{displayName}</button>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        <button type="button" onClick={this.googleSignIn}>
+          {displayName} with Google
+        </button>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
+      </div>
+    )
+  }
 }
 
 /**
@@ -57,27 +125,29 @@ const mapSignup = state => {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
-    }
-  }
-}
+// const mapDispatch = dispatch => {
+//   return {
+//     handleSubmit(evt) {
+//       evt.preventDefault()
+//       const formName = evt.target.name
+//       const email = evt.target.email.value
+//       const password = evt.target.password.value
+//       const projects = evt.target.projects.value
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+//       auth.createUserWithEmailAndPassword(email, password).then(cred => {
+//         console.log('user creds', cred)
+//         return db
+//           .collection('users')
+//           .doc(cred.user.uid)
+//           .set({
+//             projects: projects
+//           })
+//       })
 
-/**
- * PROP TYPES
- */
-AuthForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
-}
+//       //dispatch(auth(email, password, formName))
+//     }
+//   }
+// }
+
+export const Login = connect(mapLogin)(AuthForm)
+export const Signup = connect(mapSignup)(AuthForm)
