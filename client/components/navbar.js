@@ -14,7 +14,6 @@ export default class Navbar extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       if (user) {
-        console.log('user logged in: ', user)
         history.push('/home')
         this.setState({})
         db

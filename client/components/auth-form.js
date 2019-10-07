@@ -23,7 +23,7 @@ class AuthForm extends Component {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then(cred => {
-          let docRef = db.collection('projects').doc('big-bang')
+          let docRef = db.collection('projects').doc('npcyFF33WB3T5vc8Le2b')
           return db
             .collection('users')
             .doc(cred.user.uid)
