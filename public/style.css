@@ -36,10 +36,6 @@ form div {
   background-color: limegreen;
 }
 
-.curser {
-  background-color: pink;
-}
-
 .off {
   background-color: grey;
 }
@@ -50,4 +46,8 @@ form div {
   border: 1px solid black;
   width: 30px;
   height: 15px;
+}
+
+.cell:hover {
+  background-color: pink;
 }

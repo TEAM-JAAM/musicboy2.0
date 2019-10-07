@@ -8,7 +8,7 @@ const Row = props => {
         const cellClassName = node.status ? 'cell on' : 'cell off'
         return (
           <div
-            key={node.index}
+            key={node.row}
             className={cellClassName}
             onClick={() => props.handleToggleCell(node)}
           />

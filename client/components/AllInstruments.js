@@ -30,9 +30,10 @@ class AllInstruments extends React.Component {
   }
 
   componentDidMount() {
-    let grid = this.state.grid
+    let grid = Object.values(this.state.grid)
     for (let i = 0; i < grid.length; ++i) {
-      this.sequences.push(createNewSequence(grid[i]))
+      let nodesArray = Object.values(grid[i])
+      this.sequences.push(createNewSequence(nodesArray))
     }
   }
 
@@ -72,8 +73,11 @@ class AllInstruments extends React.Component {
   handleToggleCell(cell) {
     toggleCell(cell)
     const rowIdx = cell.row
-    const row = this.state.grid[rowIdx]
-    this.sequences = updateSequences(this.sequences, row, rowIdx)
+    const grid = Object.values(this.state.grid)
+    let timeSlice = grid.map(tSlice => {
+      return tSlice[rowIdx]
+    })
+    this.sequences = updateSequences(this.sequences, timeSlice, rowIdx)
     this.setState({update: true})
   }
 

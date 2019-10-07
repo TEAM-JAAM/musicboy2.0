@@ -8,7 +8,7 @@ const SingleInstrument = props => {
       {Object.values(grid).map(row => {
         return (
           <Row
-            key={row[0].row}
+            key={row[0].timeSlice}
             handleToggleCell={props.handleToggleCell}
             row={row}
           />

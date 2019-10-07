@@ -2,9 +2,9 @@ import Tone from 'tone'
 import {synth, assignPitch} from './instruments'
 
 export class AudioNode {
-  constructor(row, index, pitch) {
+  constructor(timeSlice, row, pitch) {
+    this.timeSlice = timeSlice
     this.row = row
-    this.index = index
     this.status = false
     this.pitch = pitch
   }
@@ -29,25 +29,26 @@ export const toggleCell = cell => {
 }
 
 export const createNewSequence = row => {
+  row = Object.values(row)
   const seq = new Tone.Sequence(
     function(time, note) {
-      synth.triggerAttackRelease(note, '32n', time)
+      synth.triggerAttackRelease(note, '16n', time)
     },
     row.reduce((accum, node) => {
       if (node.status) accum.push(node.pitch)
       else accum.push(0)
       return accum
     }, []),
-    '4n'
+    '8n'
   ).start(0)
   return seq
 }
 
-export const updateSequences = (sequencesArray, row, rowIdx) => {
+export const updateSequences = (sequencesArray, timeSlice, rowIdx) => {
   return sequencesArray.map((sequence, idx) => {
     if (idx === rowIdx) {
       sequence.cancel()
-      return createNewSequence(row)
+      return createNewSequence(timeSlice)
     } else {
       return sequence
     }
