@@ -1,13 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 import {AllProjects} from './AllProjects'
+import {auth} from '../firestore/db'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email} = props
+export const UserHome = () => {
+  const email = auth.currentUser.email
 
   return (
     <div>
@@ -15,22 +14,4 @@ export const UserHome = props => {
       <AllProjects email={email} />
     </div>
   )
-}
-
-/**
- * CONTAINER
- */
-const mapState = state => {
-  return {
-    email: state.user.email
-  }
-}
-
-export default connect(mapState)(UserHome)
-
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {
-  email: PropTypes.string
 }
