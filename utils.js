@@ -10,14 +10,13 @@ export class AudioNode {
   }
 }
 
-export const initGrid = (width = 1) => {
+export const initGrid = (height, width) => {
   let musicArray = []
-
-  for (let j = 0; j < 12; ++j) {
+  for (let i = 0; i < height; ++i) {
     musicArray.push([])
-    for (let i = 0; i < width; i++) {
-      let node = new AudioNode(j, i, assignPitch[j])
-      musicArray[j].push(node)
+    for (let j = 0; j < width; ++j) {
+      let node = new AudioNode(i, j, assignPitch[i])
+      musicArray[i].push(node)
     }
   }
   return musicArray
