@@ -29,18 +29,16 @@ const SingleInstrument = props => {
   // const grid = timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs[0];
   const grid =
     timeslicesQuerySnapshot && Object.values(timeslicesQuerySnapshot.docs)
-  console.log('grid....', grid)
   return (
     <div className="instrument-container">
       {grid ? (
         grid.map((slice, idx) => {
-          let keys = Object.keys(slice)
           slice = Object.values(slice.data())
           return (
             <Timeslice
-              key={keys[idx]}
+              key={idx}
               sliceIndex={idx}
-              handleToggleCell={props.handleToggleCell}
+              // handleToggleCell={props.handleToggleCell}
               slice={slice}
             />
           )

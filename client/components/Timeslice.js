@@ -1,26 +1,35 @@
 import React from 'react'
 import Tone from 'tone'
-import {AudioNode} from '../../utils'
+import {AudioNode, toggleCell} from '../../utils'
 import {assignPitch} from '../../instruments'
 
 const Timeslice = props => {
+  function handleToggleCell(cell) {
+    toggleCell(cell)
+    console.log(cell)
+    // const rowIdx = cell.row;
+    // const grid = Object.values(this.state.grid);
+    // let timeSlice = grid.map((tSlice) => {
+    // 	return tSlice[rowIdx];
+    // });
+    // this.sequences = updateSequences(this.sequences, timeSlice, rowIdx);
+  }
+
   return (
     <div className="time-slice">
       {props.slice.map((status, idx) => {
         const cellClassName = status ? 'cell on' : 'cell off'
-        console.log('status', status)
-        console.log('props', props)
         let rowNum = idx
         const node = new AudioNode(
           props.sliceIndex,
           rowNum,
-          assignPitch[props.sliceIndex]
+          assignPitch[rowNum]
         )
         return (
           <div
             key={node.row}
             className={cellClassName}
-            onClick={() => props.handleToggleCell(node)}
+            onClick={() => handleToggleCell(node)}
           />
         )
       })}

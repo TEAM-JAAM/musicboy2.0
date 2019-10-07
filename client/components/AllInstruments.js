@@ -25,7 +25,7 @@ class AllInstruments extends React.Component {
       update: true,
       instruments: []
     }
-    this.handleToggleCell = this.handleToggleCell.bind(this)
+    // this.handleToggleCell = this.handleToggleCell.bind(this);
     this.startOrStop = this.startOrStop.bind(this)
     this.addRow = this.addRow.bind(this)
     this.removeRow = this.removeRow.bind(this)
@@ -79,16 +79,17 @@ class AllInstruments extends React.Component {
     })
   }
 
-  handleToggleCell(cell) {
-    toggleCell(cell)
-    const rowIdx = cell.row
-    const grid = Object.values(this.state.grid)
-    let timeSlice = grid.map(tSlice => {
-      return tSlice[rowIdx]
-    })
-    this.sequences = updateSequences(this.sequences, timeSlice, rowIdx)
-    this.setState({update: true})
-  }
+  // handleToggleCell(cell) {
+  // 	toggleCell(cell);
+  // 	console.log(cell);
+  // 	const rowIdx = cell.row;
+  // 	// const grid = Object.values(this.state.grid);
+  // 	let timeSlice = grid.map((tSlice) => {
+  // 		return tSlice[rowIdx];
+  // 	});
+  // 	this.sequences = updateSequences(this.sequences, timeSlice, rowIdx);
+  // 	this.setState({ update: true });
+  // }
 
   render() {
     return (
@@ -112,7 +113,7 @@ class AllInstruments extends React.Component {
           remove column
         </button>
         <SingleInstrument
-          handleToggleCell={this.handleToggleCell}
+          // handleToggleCell={this.handleToggleCell}
           // grid={this.state.grid}
           instrument={this.state.instruments[0]}
         />
