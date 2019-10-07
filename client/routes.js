@@ -7,23 +7,7 @@ import {me} from './store'
 import AllInstruments from './components/AllInstruments'
 import {auth} from './firestore/db'
 
-/**
- * COMPONENT
- */
 class Routes extends Component {
-  // componentDidMount() {
-  //   auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //       console.log('user logged in: ', user)
-  //       //history.push('/home')
-  //       //this.setState({})
-  //     } else {
-  //       console.log('user logged out')
-  //       //history.push('/login')
-  //     }
-  //   })
-  // }
-
   render() {
     return (
       <Switch>

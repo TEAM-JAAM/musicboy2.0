@@ -1,4 +1,4 @@
-import React from 'React'
+import React from 'react'
 import {connect} from 'react-redux'
 import {stopMusic, startMusic} from '../../utils'
 import SingleInstrument from './SingleInstrument'

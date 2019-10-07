@@ -23,11 +23,12 @@ class AuthForm extends Component {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then(cred => {
+          let docRef = db.collection('projects').doc('big-bang')
           return db
             .collection('users')
             .doc(cred.user.uid)
             .set({
-              projects: projects
+              projects: docRef
             })
         })
         .catch(error => {
