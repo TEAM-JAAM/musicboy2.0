@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 //import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 //import {logout} from '../store'
-import {auth} from '../firestore/db'
+import {db, auth} from '../firestore/db'
 import history from '../history'
 
 export default class Navbar extends Component {
@@ -17,6 +17,17 @@ export default class Navbar extends Component {
         console.log('user logged in: ', user)
         history.push('/home')
         this.setState({})
+        db
+          .collection('projects')
+          .get()
+          .then(
+            snapshot => {
+              console.log(snapshot.docs)
+            },
+            err => {
+              console.log(err.message)
+            }
+          )
       } else {
         console.log('user logged out')
         history.push('/login')

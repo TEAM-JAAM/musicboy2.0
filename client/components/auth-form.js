@@ -1,40 +1,74 @@
+/* eslint-disable no-alert */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
-import {db, auth} from '../firestore/db'
+import {db, auth, provider} from '../firestore/db'
 
 class AuthForm extends Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.googleSignIn = this.googleSignIn.bind(this)
   }
 
   handleSubmit(evt) {
     evt.preventDefault()
+    console.log(evt)
     const formName = evt.target.name
     const email = evt.target.email.value
     const password = evt.target.password.value
     const projects = evt.target.projects.value
 
     if (formName === 'signup') {
-      auth.createUserWithEmailAndPassword(email, password).then(cred => {
-        return db
-          .collection('users')
-          .doc(cred.user.uid)
-          .set({
-            projects: projects
-          })
-      })
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(cred => {
+          return db
+            .collection('users')
+            .doc(cred.user.uid)
+            .set({
+              projects: projects
+            })
+        })
+        .catch(error => {
+          alert(error)
+          document.getElementById('mainInput').reset()
+        })
     } else if (formName === 'login') {
-      auth.signInWithEmailAndPassword(email, password)
+      auth.signInWithEmailAndPassword(email, password).catch(error => {
+        alert(error)
+        document.getElementById('mainInput').reset()
+      })
     }
+  }
+
+  googleSignIn() {
+    auth
+      .signInWithPopup(provider)
+      .then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken
+        // The signed-in user info.
+        var user = result.user
+        // ...
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code
+        var errorMessage = error.message
+        // The email of the user's account used.
+        var email = error.email
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential
+        // ...
+      })
   }
 
   render() {
     const {name, displayName, error} = this.props
     return (
       <div>
-        <form onSubmit={this.handleSubmit} name={name}>
+        <form onSubmit={this.handleSubmit} name={name} id="mainInput">
           <div>
             <label htmlFor="email">
               <small>Email</small>
@@ -58,7 +92,10 @@ class AuthForm extends Component {
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
-        <a href="/auth/google">{displayName} with Google</a>
+        <button type="button" onClick={this.googleSignIn}>
+          {displayName} with Google
+        </button>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>
     )
   }
