@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const SingleProject = props => {
+export const ProjectCard = props => {
   const project = props.project
   return (
     <div className="project-container">

@@ -1,5 +1,5 @@
 import React from 'react'
-import {SingleProject} from './SingleProject'
+import {ProjectCard} from './ProjectCard'
 import {Link} from 'react-router-dom'
 // need projects from database
 
@@ -20,7 +20,7 @@ export const AllProjects = props => {
     },
     {
       id: 2,
-      user: 'Andredfafsfsdfsfda',
+      user: email.slice(0, email.indexOf('@')),
       name: 'BB',
       image: '🎹'
     },
@@ -44,16 +44,30 @@ export const AllProjects = props => {
     }
   ]
   return (
-    <div className="list-container">
-      <Link to="/new">
-        <div className="project-container">
-          <div className="project-image">➕</div>
-          <div className="project-header">New Project</div>
-        </div>
-      </Link>
-      {projects.map(project => (
-        <SingleProject key={project.id} project={project} />
-      ))}
+    <div>
+      <div className="list-container">
+        mines
+        <Link to="/new">
+          <div className="project-container">
+            <div className="project-image">➕</div>
+            <div className="project-header">New Project</div>
+          </div>
+        </Link>
+        {projects.map(project => {
+          return project.user === email.slice(0, email.indexOf('@')) ? (
+            <ProjectCard key={project.id} project={project} />
+          ) : null
+        })}
+      </div>
+
+      <div className="list-container">
+        other peoples
+        {projects.map(project => {
+          return project.user !== email.slice(0, email.indexOf('@')) ? (
+            <ProjectCard key={project.id} project={project} />
+          ) : null
+        })}
+      </div>
     </div>
   )
 }
