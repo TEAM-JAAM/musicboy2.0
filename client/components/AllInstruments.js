@@ -1,4 +1,4 @@
-import React from 'React'
+import React from 'react'
 import {connect} from 'react-redux'
 import {
   stopMusic,
@@ -11,12 +11,14 @@ import {
   removeRowFromGrid
 } from '../../utils'
 import SingleInstrument from './SingleInstrument'
+import Tone from 'tone'
 
 class AllInstruments extends React.Component {
   constructor() {
     super()
     this.sequences = []
     this.state = {
+      // tempo: 80,
       playing: false,
       grid: initGrid(12, 8),
       update: true
@@ -36,11 +38,12 @@ class AllInstruments extends React.Component {
 
   startOrStop() {
     if (!this.state.playing) {
+      const curser = Tone.Transport.position
       this.setState({playing: true})
-      startMusic()
+      Tone.Transport.start()
     } else {
       this.setState({playing: false})
-      stopMusic()
+      Tone.Transport.stop()
     }
   }
 
@@ -86,14 +89,15 @@ class AllInstruments extends React.Component {
           type="button"
           onClick={this.addRow}
         >
-          add rows
+          add column
         </button>
         <button
+          disabled={this.state.grid[0].length <= 1}
           className="decrement-row-btn"
           type="button"
           onClick={this.removeRow}
         >
-          remove rows
+          remove column
         </button>
         <SingleInstrument
           handleToggleCell={this.handleToggleCell}

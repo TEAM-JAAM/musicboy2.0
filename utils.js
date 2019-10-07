@@ -34,10 +34,10 @@ export const createNewSequence = row => {
     },
     row.reduce((accum, node) => {
       if (node.status) accum.push(node.pitch)
-      else accum.push(null)
+      else accum.push(0)
       return accum
     }, []),
-    '8n'
+    '4n'
   ).start(0)
   return seq
 }

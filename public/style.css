@@ -31,6 +31,10 @@ table {
   background-color: limegreen;
 }
 
+.curser {
+  background-color: pink;
+}
+
 .off {
   background-color: grey;
 }
