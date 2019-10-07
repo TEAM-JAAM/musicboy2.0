@@ -1,28 +1,15 @@
-import firebase from 'firebase'
-import 'firebase/firestore'
+const firebase = require('firebase/app')
+require('firebase/firestore')
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyCO0SDZOwfPyhhMPn7qqFrxcUF0T-wkTh8',
-  authDomain: 'jaam-f380f.firebaseapp.com',
-  projectId: 'jaam-f380f'
+const jaam = require('../secrets')
+
+const app = firebase.initializeApp({
+  apiKey: jaam.API_KEY,
+  authDomain: jaam.AUTH_DOMAIN,
+  projectId: jaam.PROJECT_ID
 })
 
-const db = firebase.firestore()
-
-const initDb = async () => {
-  try {
-    await db
-      .collection('projects')
-      .doc('big-bang')
-      .set({
-        name: 'first-jaam-project',
-        count: 1
-      })
-    console.log('NOTE: successfully updated first jaam')
-  } catch (error) {
-    console.error('FATAL: failed to populate initial project')
-  }
+module.exports = {
+  app,
+  db: firebase.firestore()
 }
-
-initDb()
-export default db
