@@ -78,7 +78,6 @@ class AllInstruments extends React.Component {
   }
 
   render() {
-    console.log('grid', this.state.grid)
     return (
       <div>
         <button className="play-btn" type="button" onClick={this.startOrStop}>

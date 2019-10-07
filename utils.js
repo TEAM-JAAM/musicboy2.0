@@ -12,11 +12,11 @@ export class AudioNode {
 
 export const initGrid = width => {
   const grid = {}
-  for (let i = 0; i < 12; ++i) {
+  for (let i = 0; i < width; ++i) {
     const timeSlice = i
     grid[timeSlice] = {}
-    for (let j = 0; j < width; ++j) {
-      let node = new AudioNode(i, j, assignPitch[i])
+    for (let j = 0; j < 12; ++j) {
+      let node = new AudioNode(i, j, assignPitch[j])
       grid[timeSlice][j] = node
     }
   }
@@ -33,7 +33,6 @@ export const createNewSequence = row => {
     function(time, note) {
       synth.triggerAttackRelease(note, '32n', time)
     },
-    //node.status ? node.pitch : null,
     row.reduce((accum, node) => {
       if (node.status) accum.push(node.pitch)
       else accum.push(0)

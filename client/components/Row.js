@@ -3,18 +3,18 @@ import Tone from 'tone'
 
 const Row = props => {
   return (
-    <tr className="instrument-row">
+    <div className="time-slice">
       {Object.values(props.row).map(node => {
         const cellClassName = node.status ? 'cell on' : 'cell off'
         return (
-          <td
+          <div
             key={node.index}
             className={cellClassName}
             onClick={() => props.handleToggleCell(node)}
           />
         )
       })}
-    </tr>
+    </div>
   )
 }
 

@@ -22,9 +22,14 @@ form div {
 
 /* SingleInstruments */
 
-table {
+.instrument-container {
   display: flex;
   justify-content: center;
+}
+
+.time-slice {
+  display: flex;
+  flex-direction: column;
 }
 
 .on {

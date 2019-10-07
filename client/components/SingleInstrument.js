@@ -4,19 +4,17 @@ import Row from './Row'
 const SingleInstrument = props => {
   const grid = props.grid
   return (
-    <table className="instrument-container">
-      <tbody>
-        {Object.values(grid).map(row => {
-          return (
-            <Row
-              key={row[0].row}
-              handleToggleCell={props.handleToggleCell}
-              row={row}
-            />
-          )
-        })}
-      </tbody>
-    </table>
+    <div className="instrument-container">
+      {Object.values(grid).map(row => {
+        return (
+          <Row
+            key={row[0].row}
+            handleToggleCell={props.handleToggleCell}
+            row={row}
+          />
+        )
+      })}
+    </div>
   )
 }
 
