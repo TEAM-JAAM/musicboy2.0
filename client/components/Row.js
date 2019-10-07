@@ -1,39 +1,30 @@
 import React from 'react'
-import {toggleCell, createSequence} from '../../utils'
+import Tone from 'tone'
 
-class Row extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      sequence: {}
-    }
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick(cell) {
-    toggleCell(cell)
-    if (Object.keys(this.state.sequence).length) {
-      this.state.sequence.cancel()
-    }
-    this.setState({sequence: createSequence(this.props.row)})
-  }
-
-  render() {
-    return (
-      <tr className="instrument-row">
-        {this.props.row.map(node => {
-          const statusColor = node.status ? 'cell on' : 'cell off'
-          return (
-            <td
-              key={node.index}
-              className={statusColor}
-              onClick={() => this.handleClick(node)}
-            />
-          )
-        })}
-      </tr>
-    )
-  }
+const Row = props => {
+  const curser = Tone.Transport.position.split(':')[1]
+  Tone.Transport.schedule(function(time) {
+    Tone.Draw.schedule(function() {
+      console.log(curser)
+    }, time)
+  })
+  return (
+    <tr className="instrument-row">
+      {props.row.map(node => {
+        const cellClassName = node.status
+          ? `cell on ${curser}`
+          : `cell off ${curser}`
+        // const statusColor = node.status ? 'cell on' : 'cell off';
+        return (
+          <td
+            key={node.index}
+            className={cellClassName}
+            onClick={() => props.handleToggleCell(node)}
+          />
+        )
+      })}
+    </tr>
+  )
 }
 
 export default Row
