@@ -11,7 +11,9 @@ const app = firebase.initializeApp({
   projectId: jaam.PROJECT_ID
 })
 
+const db = firebase.firestore()
+
 module.exports = {
   app,
-  db: firebase.firestore()
+  db
 }
