@@ -1,19 +1,53 @@
-import React from 'react'
-import Row from './Row'
+import React, {useEffect, useState} from 'react'
+import {useDocument} from 'react-firebase-hooks/firestore'
+import {Project} from '../firestore/models'
+import Timeslice from './Timeslice'
 
 const SingleInstrument = props => {
-  const grid = props.grid
+  const instrument = props.instrument
+  const [instrumentDocSnapshot, loading, error] = useDocument(
+    instrument && instrument.ref()
+  )
+
+  const timeslices = instrument && instrument.ref().collection('timeslices')
+  const [timeslicesQuerySnapshot, slicesLoading, slicesError] = useDocument(
+    timeslices
+  )
+
+  // console.log('this instrument name: ', instrumentDocSnapshot && instrumentDocSnapshot.data());
+  //  timeslicesQuerySnapshot &&
+  // timeslicesQuerySnapshot.docs.map((timeSlice) => {
+  // 	// console.log('timeSlice...', timeSlice.data());
+  // });
+  // console.log(timeslicesQuerySnapshot.docs, timeslicesQuerySnapshot.docs[0].data());
+
+  // console.log('timeslices: ', timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs[1].data());
+  // console.log('timeslices length: ', timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs.length);
+
+  //  && timeslicesQuerySnapshot.docs);
+  // const grid = props.grid;
+  // const grid = timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs[0];
+  const grid =
+    timeslicesQuerySnapshot && Object.values(timeslicesQuerySnapshot.docs)
+  console.log('grid....', grid)
   return (
     <div className="instrument-container">
-      {Object.values(grid).map(row => {
-        return (
-          <Row
-            key={row[0].timeSlice}
-            handleToggleCell={props.handleToggleCell}
-            row={row}
-          />
-        )
-      })}
+      {grid ? (
+        grid.map((slice, idx) => {
+          let keys = Object.keys(slice)
+          slice = Object.values(slice.data())
+          return (
+            <Timeslice
+              key={keys[idx]}
+              sliceIndex={idx}
+              handleToggleCell={props.handleToggleCell}
+              slice={slice}
+            />
+          )
+        })
+      ) : (
+        <h1>loading...</h1>
+      )}
     </div>
   )
 }

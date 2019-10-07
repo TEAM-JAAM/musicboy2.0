@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {initGrid} from '../../utils'
-import Row from './Row'
+import Timeslice from './Timeslice'
 
 export default function SingleInstrument(props) {
   console.log('props: ', props)
