@@ -1,7 +1,7 @@
 //import firebase from 'firebase'
 const firebase = require('firebase/app')
 require('firebase/firestore')
-import 'firebase/auth'
+require('firebase/auth')
 
 const jaam = require('../secrets')
 
@@ -11,9 +11,8 @@ const app = firebase.initializeApp({
   projectId: jaam.PROJECT_ID
 })
 
-const db = firebase.firestore()
-
 module.exports = {
   app,
-  db
+  auth: firebase.auth(),
+  db: firebase.firestore()
 }

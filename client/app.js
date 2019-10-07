@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import db from './firestore/db'
+import {db} from './firestore/db'
 import {Navbar} from './components'
 import Routes from './routes'
 
