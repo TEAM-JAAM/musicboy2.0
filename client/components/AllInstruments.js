@@ -12,6 +12,7 @@ import {
 } from '../../utils'
 import SingleInstrument from './SingleInstrument'
 import Tone from 'tone'
+import {Project} from '../firestore/models'
 
 class AllInstruments extends React.Component {
   constructor() {
@@ -21,7 +22,8 @@ class AllInstruments extends React.Component {
       // tempo: 80,
       playing: false,
       grid: initGrid(12, 8),
-      update: true
+      update: true,
+      instruments: []
     }
     this.handleToggleCell = this.handleToggleCell.bind(this)
     this.startOrStop = this.startOrStop.bind(this)
@@ -29,11 +31,18 @@ class AllInstruments extends React.Component {
     this.removeRow = this.removeRow.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let grid = this.state.grid
     for (let i = 0; i < grid.length; ++i) {
       this.sequences.push(createNewSequence(grid[i]))
     }
+
+    const project = await Project.findByPk('npcyFF33WB3T5vc8Le2b')
+    const instruments = await project.getInstruments()
+    console.log('instruments[0]: ', instruments[0].data())
+    this.setState({
+      instruments
+    })
   }
 
   startOrStop() {
@@ -102,6 +111,7 @@ class AllInstruments extends React.Component {
         <SingleInstrument
           handleToggleCell={this.handleToggleCell}
           grid={this.state.grid}
+          instrument={this.state.instruments[0]}
         />
       </div>
     )
