@@ -1,4 +1,4 @@
 import synth from './synth'
-import {assignPitch} from './scales'
+import {assignPitch_G_MAJOR, assignPitch_G_MINOR} from './scales'
 
-export {synth, assignPitch}
+export {synth, assignPitch_G_MAJOR, assignPitch_G_MINOR}

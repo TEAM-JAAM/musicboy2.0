@@ -24,9 +24,7 @@ const SingleInstrument = props => {
   // console.log('timeslices: ', timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs[1].data());
   // console.log('timeslices length: ', timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs.length);
 
-  //  && timeslicesQuerySnapshot.docs);
   // const grid = props.grid;
-  // const grid = timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs[0];
   const grid =
     timeslicesQuerySnapshot && Object.values(timeslicesQuerySnapshot.docs)
   return (
@@ -40,6 +38,7 @@ const SingleInstrument = props => {
               sliceIndex={idx}
               // handleToggleCell={props.handleToggleCell}
               slice={slice}
+              instrument={instrument}
             />
           )
         })

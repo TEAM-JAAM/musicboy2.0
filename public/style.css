@@ -20,6 +20,15 @@ form div {
   display: inline-block;
 }
 
+/* AllInstruments */
+
+.scrolling-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* SingleInstruments */
 
 .instrument-container {

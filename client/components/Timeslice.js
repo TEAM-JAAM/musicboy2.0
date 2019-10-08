@@ -1,9 +1,20 @@
 import React from 'react'
 import Tone from 'tone'
 import {AudioNode, toggleCell} from '../../utils'
-import {assignPitch} from '../../instruments'
+import {assignPitch_G_MAJOR, assignPitch_G_MINOR} from '../../instruments'
+import {useDocument} from 'react-firebase-hooks/firestore'
 
 const Timeslice = props => {
+  const instrument = props.instrument
+  const [instrumentDocSnapshot, loading, error] = useDocument(
+    instrument && instrument.ref()
+  )
+
+  const timeslices = instrument && instrument.ref().collection('timeslices')
+  const [timeslicesQuerySnapshot, slicesLoading, slicesError] = useDocument(
+    timeslices
+  )
+
   function handleToggleCell(cell) {
     toggleCell(cell)
     console.log(cell)
@@ -23,7 +34,7 @@ const Timeslice = props => {
         const node = new AudioNode(
           props.sliceIndex,
           rowNum,
-          assignPitch[rowNum]
+          assignPitch_G_MINOR[rowNum]
         )
         return (
           <div

@@ -49,7 +49,7 @@ class AllInstruments extends React.Component {
   startOrStop() {
     if (!this.state.playing) {
       this.setState({playing: true})
-      Tone.Transport.start()
+      Tone.Transport.start(+0.1)
     } else {
       this.setState({playing: false})
       Tone.Transport.stop()
@@ -112,11 +112,13 @@ class AllInstruments extends React.Component {
         >
           remove column
         </button>
-        <SingleInstrument
-          // handleToggleCell={this.handleToggleCell}
-          // grid={this.state.grid}
-          instrument={this.state.instruments[0]}
-        />
+        <div className="scrolling-wrapper">
+          <SingleInstrument
+            // handleToggleCell={this.handleToggleCell}
+            // grid={this.state.grid}
+            instrument={this.state.instruments[0]}
+          />
+        </div>
       </div>
     )
   }
