@@ -38,7 +38,7 @@ class AllInstruments extends React.Component {
     // 	this.sequences.push(createNewSequence(nodesArray));
     // }
 
-    const project = await Project.findByPk('npcyFF33WB3T5vc8Le2b')
+    const project = await Project.findByPk('CF0zc2kDConmGKz0rWwv')
     const instruments = await project.getInstruments()
     console.log('instruments[0]: ', instruments[0].data())
     this.setState({
@@ -78,18 +78,6 @@ class AllInstruments extends React.Component {
       return createNewSequence(grid[idx])
     })
   }
-
-  // handleToggleCell(cell) {
-  // 	toggleCell(cell);
-  // 	console.log(cell);
-  // 	const rowIdx = cell.row;
-  // 	// const grid = Object.values(this.state.grid);
-  // 	let timeSlice = grid.map((tSlice) => {
-  // 		return tSlice[rowIdx];
-  // 	});
-  // 	this.sequences = updateSequences(this.sequences, timeSlice, rowIdx);
-  // 	this.setState({ update: true });
-  // }
 
   render() {
     return (

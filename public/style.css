@@ -51,10 +51,10 @@ form div {
 
 .cell {
   display: inline-block;
-  margin: 3px;
+  margin: 0px;
   border: 1px solid black;
-  width: 30px;
-  height: 15px;
+  width: 40px;
+  height: 18px;
 }
 
 .cell:hover {

@@ -1,5 +1,5 @@
 import Tone from 'tone'
-import {synth, assignPitch} from './instruments'
+import {synth, assignPitch_G_MAJOR} from './instruments'
 
 export class AudioNode {
   constructor(timeSlice, row, pitch) {
@@ -16,7 +16,7 @@ export const initGrid = width => {
     const timeSlice = i
     grid[timeSlice] = {}
     for (let j = 0; j < 12; ++j) {
-      let node = new AudioNode(i, j, assignPitch[j])
+      let node = new AudioNode(i, j, assignPitch_G_MAJOR[j])
       grid[timeSlice][j] = node
     }
   }

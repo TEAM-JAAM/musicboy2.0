@@ -5,15 +5,13 @@ import {assignPitch_G_MAJOR, assignPitch_G_MINOR} from '../../instruments'
 import {useDocument} from 'react-firebase-hooks/firestore'
 
 const Timeslice = props => {
-  const instrument = props.instrument
-  const [instrumentDocSnapshot, loading, error] = useDocument(
-    instrument && instrument.ref()
-  )
+  const slice = props.slice
+  console.log('slice...', slice)
+  const [sliceDocSnapshot, loading, error] = useDocument(slice && slice.ref)
 
-  const timeslices = instrument && instrument.ref().collection('timeslices')
-  const [timeslicesQuerySnapshot, slicesLoading, slicesError] = useDocument(
-    timeslices
-  )
+  // const nodes = sliceDocSnapshot && sliceDocSnapshot.data().collection(`${props.sliceIndex}`);
+  // console.log('nodes...', nodes);
+  // const [ timeslicesQuerySnapshot, slicesLoading, slicesError ] = useDocument(nodes);
 
   function handleToggleCell(cell) {
     toggleCell(cell)
@@ -25,25 +23,29 @@ const Timeslice = props => {
     // });
     // this.sequences = updateSequences(this.sequences, timeSlice, rowIdx);
   }
-
+  console.log(
+    'mapping over...',
+    sliceDocSnapshot && Object.values(sliceDocSnapshot.data())
+  )
   return (
     <div className="time-slice">
-      {props.slice.map((status, idx) => {
-        const cellClassName = status ? 'cell on' : 'cell off'
-        let rowNum = idx
-        const node = new AudioNode(
-          props.sliceIndex,
-          rowNum,
-          assignPitch_G_MINOR[rowNum]
-        )
-        return (
-          <div
-            key={node.row}
-            className={cellClassName}
-            onClick={() => handleToggleCell(node)}
-          />
-        )
-      })}
+      {sliceDocSnapshot &&
+        Object.values(sliceDocSnapshot.data()).map((status, idx) => {
+          const cellClassName = status ? 'cell on' : 'cell off'
+          let rowNum = idx
+          const node = new AudioNode(
+            props.sliceIndex,
+            rowNum,
+            assignPitch_G_MINOR[rowNum]
+          )
+          return (
+            <div
+              key={node.row}
+              className={cellClassName}
+              onClick={() => handleToggleCell(node)}
+            />
+          )
+        })}
     </div>
   )
 }

@@ -28,4 +28,23 @@ const assignPitch_G_MINOR = {
   11: 'G3'
 }
 
-module.exports = {assignPitch_G_MAJOR, assignPitch_G_MINOR}
+const assignPitch_PENTATONIC = {
+  0: 'A5',
+  1: 'G5',
+  2: 'E5',
+  3: 'D5',
+  4: 'B4',
+  5: 'A4',
+  6: 'G4',
+  7: 'E4',
+  8: 'D4',
+  9: 'B3',
+  10: 'A3',
+  11: 'G3'
+}
+
+module.exports = {
+  assignPitch_G_MAJOR,
+  assignPitch_G_MINOR,
+  assignPitch_PENTATONIC
+}

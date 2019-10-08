@@ -14,8 +14,6 @@ const SingleInstrument = props => {
     timeslices
   )
 
-  // console.log('this instrument name: ', instrumentDocSnapshot && instrumentDocSnapshot.data());
-  //  timeslicesQuerySnapshot &&
   // timeslicesQuerySnapshot.docs.map((timeSlice) => {
   // 	// console.log('timeSlice...', timeSlice.data());
   // });
@@ -31,16 +29,8 @@ const SingleInstrument = props => {
     <div className="instrument-container">
       {grid ? (
         grid.map((slice, idx) => {
-          slice = Object.values(slice.data())
-          return (
-            <Timeslice
-              key={idx}
-              sliceIndex={idx}
-              // handleToggleCell={props.handleToggleCell}
-              slice={slice}
-              instrument={instrument}
-            />
-          )
+          // slice = Object.values(slice.data());
+          return <Timeslice key={idx} sliceIndex={idx} slice={slice} />
         })
       ) : (
         <h1>loading...</h1>
