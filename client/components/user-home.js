@@ -1,58 +1,104 @@
-import React, {Component} from 'react'
-import {db, auth} from '../firestore/db'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import React, {useState} from 'react'
+import {AllProjects} from './AllProjects'
+import {auth} from '../firestore/db'
+import {Modal, Button} from 'react-bootstrap'
 
-export default class UserHome extends Component {
-  constructor() {
-    super()
-    this.state = {
-      list: []
+/**
+ * COMPONENT
+ */
+export const UserHome = () => {
+  const email = auth.currentUser.email
+
+  // modal
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+  const handleSubmit = () => {
+    event.preventDefault()
+    const data = {
+      name: event.target.title.value,
+      emoji: event.target.image.value,
+      permissions: event.target.privacy.value,
+      tempo: event.target.tempo.value,
+      members: ['emails']
     }
+    console.log(data)
+    handleClose()
+  }
+  const [rangeVal, setRangeVal] = useState(50)
+  const handleRange = () => {
+    setRangeVal(event.target.value)
   }
 
-  async componentDidMount() {
-    const docRef = await db
-      .collection('users')
-      .doc(auth.currentUser.uid)
-      .get()
-
-    let projects
-    let projectsBody
-    if (docRef.data().projects) {
-      projects = docRef.data().projects
-      if (projects.id) {
-        const projectsPromise = await db
-          .collection('projects')
-          .doc(projects.id)
-          .get()
-        if (projectsPromise) {
-          projectsBody = projectsPromise.data()
-        } else {
-          projectsBody = null
-        }
-      }
-    } else {
-      projectsBody = null
-    }
-
-    this.setState({list: [projectsBody]})
-  }
-
-  render() {
-    console.log(this.state)
-    const email = auth.currentUser.email
-
-    return (
-      <div>
-        <h3>Welcome, {email}</h3>
-
-        {this.state.list[0] ? (
-          <div>{this.state.list.map(proj => <li key="1">{proj.name}</li>)}</div>
-        ) : (
-          <div />
-        )}
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Modal show={show} onHide={handleClose}>
+        <form onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>You're making a masterpiece!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Now, time for some decisions.......
+            <div className="form-options">
+              <label htmlFor="title">Title</label>
+              <input name="title" type="text" placeholder="Project Name" />
+            </div>
+            <div className="form-options">
+              <label htmlFor="image">Image</label>
+              <select name="image">
+                <option value="🎵">🎵</option>
+                <option value="🎸">🎸</option>
+                <option value="🎷">🎷</option>
+                <option value="🎹">🎹</option>
+                <option value="🎻">🎻</option>
+                <option value="🎤">🎤</option>
+                <option value="🎺">🎺</option>
+                <option value="🎧">🎧</option>
+                <option value="🥁">🥁</option>
+              </select>
+            </div>
+            <div>
+              <div className="form-options">
+                <label htmlFor="public">Public</label>
+                <input type="radio" name="privacy" id="public" value={false} />
+              </div>
+              <div className="form-options">
+                <label htmlFor="hidden">Hidden</label>
+                <input type="radio" name="privacy" id="hidden" value={true} />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="tempo">Tempo</label>
+              <input
+                type="range"
+                name="tempo"
+                min="50"
+                max="200"
+                onInput={handleRange}
+              />
+              <output>{rangeVal}</output>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" variant="primary">
+              Create
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
+      <AllProjects email={email} />
+      <Button
+        variant="danger"
+        type="primary"
+        size="lg"
+        block
+        onClick={handleShow}
+      >
+        New Project
+      </Button>
+    </div>
+  )
 }

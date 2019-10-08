@@ -62,3 +62,12 @@ td {
   width: 30px;
   height: 15px;
 }
+
+.closed {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.center {
+  justify-self: center;
+}

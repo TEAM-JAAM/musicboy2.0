@@ -50,6 +50,7 @@
     "express-session": "^1.15.1",
     "firebase": "^7.0.0",
     "history": "^4.9.0",
+    "holderjs": "^2.9.6",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
