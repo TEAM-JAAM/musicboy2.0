@@ -29,7 +29,7 @@ const SingleInstrument = props => {
       {instrumentDocSnapshot &&
         timeslicesQuerySnapshot && (
           <table className="instrument-container">
-            <tbody>
+            <tbody className="table-body">
               {grid.map(row => {
                 return (
                   <Row
