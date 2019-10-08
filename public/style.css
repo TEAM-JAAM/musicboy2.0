@@ -47,40 +47,11 @@ table {
   height: 15px;
 }
 
-/* Project Icon Styles */
-.list-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
+.closed {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
-.project-container {
-  flex: 1;
-  display: flex;
-  justify-items: center;
-  flex-direction: column;
-  text-align: center;
-  max-width: 160px;
-  min-width: 160px;
-  height: 220px;
-  margin: 10px;
-}
-
-.project-image {
-  flex: 1;
-  font-size: 600%;
-  border: 3px solid grey;
-  padding: 5px;
-}
-
-.project-header {
-  flex: 1;
-  font-size: 20px;
-}
-
-.project-info {
-  flex: 1;
-  font-size: auto;
-  color: rgb(146, 145, 145);
+.center {
+  justify-self: center;
 }

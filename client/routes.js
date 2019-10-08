@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import NewProject from './components/NewProject'
 import {Login, Signup, UserHome} from './components'
-import {me} from './store'
 import AllInstruments from './components/AllInstruments'
 import {auth} from './firestore/db'
 
@@ -13,7 +11,6 @@ class Routes extends Component {
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/new" component={NewProject} />
         <Route path="/play" component={AllInstruments} />
         {auth.currentUser && (
           <Switch>
