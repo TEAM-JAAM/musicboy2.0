@@ -23,7 +23,7 @@ class AllInstruments extends React.Component {
       playing: false,
       grid: initGrid(12, 8),
       update: true,
-      instruments: []
+      instrument: null
     }
     this.handleToggleCell = this.handleToggleCell.bind(this)
     this.startOrStop = this.startOrStop.bind(this)
@@ -37,11 +37,22 @@ class AllInstruments extends React.Component {
       this.sequences.push(createNewSequence(grid[i]))
     }
 
+    // project document reference will be passed as a prop...
+    // need to register for this project document
+    // [projectDocRef, projectLoading, projectError] = useDocument(this.props.projectDocRef)
     const project = await Project.findByPk('npcyFF33WB3T5vc8Le2b')
-    const instruments = await project.getInstruments()
-    console.log('instruments[0]: ', instruments[0].data())
+    const projectDocRef = project.ref()
+
+    // register for instrument collection reference...
+    // [instrumentCollectionRef, instrumentsLoading, instrumentsError]
+    const instrumentCollectionRef = Project.findAllInstruments(projectDocRef)
+    const instrumentsQuerySnapshot = await instrumentCollectionRef.get()
+    if (instrumentsQuerySnapshot.empty) {
+      console.error('FATAL: failed to update ')
+    }
+    const instrument = instrumentsQuerySnapshot.docs[0].ref
     this.setState({
-      instruments
+      instrument: instrument
     })
   }
 
@@ -111,7 +122,7 @@ class AllInstruments extends React.Component {
         <SingleInstrument
           handleToggleCell={this.handleToggleCell}
           grid={this.state.grid}
-          instrument={this.state.instruments[0]}
+          instrumentDocRef={this.state.instrument}
         />
       </div>
     )

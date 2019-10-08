@@ -9,8 +9,8 @@ const util = require('../utils/dbUtils')
 // associated with a single project.
 //
 class Project {
-  constructor(projectDocSnapshot) {
-    this.projectDocSnaphot = projectDocSnapshot
+  constructor(projectDocRef) {
+    this.projectDocRef = projectDocRef
   }
 
   // Static methods...........................................................
@@ -29,7 +29,7 @@ class Project {
       .get()
     if (!projects.empty) {
       console.log('NOTE: found existing project data')
-      return new Project(projects.docs[0])
+      return new Project(projects.docs[0].ref)
     } else {
       // populate default data...
       const defaults = {
@@ -41,8 +41,7 @@ class Project {
 
       console.log('NOTE: creating new project...', objectData)
       const newProjectDocRef = await projectCollectionRef.add(objectData)
-      const newProjectDocSnapshot = await newProjectDocRef.get()
-      return new Project(newProjectDocSnapshot)
+      return new Project(newProjectDocRef)
     }
   }
 
@@ -51,9 +50,17 @@ class Project {
   static async findByPk(projectDocId) {
     const projectDocRef = db.collection('projects').doc(projectDocId)
     const projectDocSnapshot = await projectDocRef.get()
-    if (projectDocSnapshot.exists) return new Project(projectDocSnapshot)
+    if (projectDocSnapshot.exists) return new Project(projectDocRef)
 
     return undefined
+  }
+
+  static findAllInstruments(projectDocRef) {
+    return projectDocRef.collection('instruments')
+  }
+
+  static fromDocRef(projectDocRef) {
+    return new Project(projectDocRef)
   }
 
   // Instance methods.........................................................
@@ -63,29 +70,9 @@ class Project {
     return Instrument.create(this, objectData)
   }
 
-  async getInstruments() {
-    const projectDocRef = this.ref()
-    const instrumentQuerySnapshot = await projectDocRef
-      .collection('instruments')
-      .get()
-    if (instrumentQuerySnapshot.empty) return undefined
-
-    const instruments = []
-    instrumentQuerySnapshot.forEach(instrumentDocSnapshot => {
-      instruments.push(new Instrument(this, instrumentDocSnapshot))
-    })
-
-    return instruments
-  }
-
-  // Return the data associated with this project
-  data() {
-    return this.projectDocSnaphot.data()
-  }
-
   // Return the Firestore reference to this project document
   ref() {
-    return this.projectDocSnaphot.ref
+    return this.projectDocRef
   }
 }
 

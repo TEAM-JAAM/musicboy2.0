@@ -9,14 +9,15 @@ import {auth} from './firestore/db'
 
 class Routes extends Component {
   render() {
+    console.log('auth.currentUser: ', auth.currentUser)
     return (
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/play" component={AllInstruments} />
         {auth.currentUser && (
           <Switch>
             <Route path="/home" component={UserHome} />
+            <Route path="/play" component={AllInstruments} />
           </Switch>
         )}
         <Route component={Login} />

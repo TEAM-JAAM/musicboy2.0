@@ -14,5 +14,6 @@ const app = firebase.initializeApp({
 module.exports = {
   app,
   auth: firebase.auth(),
-  db: firebase.firestore()
+  db: firebase.firestore(),
+  firestore: firebase.firestore
 }
