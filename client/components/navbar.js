@@ -34,7 +34,6 @@ export default class Navbar extends Component {
           )
       } else {
         console.log('user logged out')
-        history.push('/')
         this.setState({show: false})
       }
     })
@@ -42,7 +41,6 @@ export default class Navbar extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
-    console.log(evt)
     const formName = evt.target.name
     const email = evt.target.email.value
     const password = evt.target.password.value
@@ -52,12 +50,11 @@ export default class Navbar extends Component {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then(cred => {
-          let docRef = db.collection('projects').doc('npcyFF33WB3T5vc8Le2b')
           return db
             .collection('users')
             .doc(cred.user.uid)
             .set({
-              projects: docRef
+              email: cred.user.email
             })
         })
         .catch(error => {
@@ -80,12 +77,11 @@ export default class Navbar extends Component {
         var token = result.credential.accessToken
         // The signed-in user info.
         var user = result.user
-        let docRef = db.collection('projects').doc('npcyFF33WB3T5vc8Le2b')
         return db
           .collection('users')
           .doc(user.uid)
           .set({
-            projects: docRef
+            email: user.email
           })
       })
       .catch(function(error) {
@@ -134,7 +130,6 @@ export default class Navbar extends Component {
                   })
                 }}
               >
-                {/* <Link to="/login"> Login</Link> */}
                 <a>Login</a>
               </Button>
               <Button
@@ -146,7 +141,6 @@ export default class Navbar extends Component {
                   })
                 }}
               >
-                {/* <Link to="/signup"> Sign Up</Link> */}
                 <a> Sign Up</a>
               </Button>
               <Button
@@ -167,6 +161,9 @@ export default class Navbar extends Component {
         </nav>
         {this.state.popUp ? (
           <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>{this.state.popUp}</Modal.Title>
+            </Modal.Header>
             <Modal.Body>
               <div>
                 <form
@@ -193,7 +190,9 @@ export default class Navbar extends Component {
                     <input name="projects" type="text" />
                   </div>
                   <div>
-                    <button type="submit">{this.state.popUp}</button>
+                    <Button variant="primary" type="submit">
+                      {this.state.popUp}
+                    </Button>
                   </div>
                 </form>
                 <Button

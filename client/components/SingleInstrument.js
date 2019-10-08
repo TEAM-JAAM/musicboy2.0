@@ -5,7 +5,7 @@ const SingleInstrument = props => {
   const grid = props.grid
   return (
     <table className="instrument-container">
-      <tbody>
+      <tbody className="table-body">
         {grid.map(row => {
           return (
             <Row
