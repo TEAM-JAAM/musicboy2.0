@@ -1,17 +1,27 @@
 import React from 'react'
 import Tone from 'tone'
 import {AudioNode, toggleCell} from '../../utils'
-import {G_MAJOR, G_MINOR} from '../../instruments'
 import {useDocument} from 'react-firebase-hooks/firestore'
+import {
+  synth,
+  tiny,
+  kalimba,
+  electricCello,
+  steelPan,
+  marimba,
+  bassGuitar,
+  pianoetta,
+  G_MAJOR,
+  G_MINOR,
+  PENTATONIC
+} from '../../instruments'
 
 const Timeslice = props => {
   const slice = props.slice
-  console.log('slice...', slice)
   const [sliceDocSnapshot, loading, error] = useDocument(slice && slice.ref)
 
-  // const nodes = sliceDocSnapshot && sliceDocSnapshot.data().collection(`${props.sliceIndex}`);
-  // console.log('nodes...', nodes);
-  // const [ timeslicesQuerySnapshot, slicesLoading, slicesError ] = useDocument(nodes);
+  const currentInstrument = steelPan
+  const currentScale = PENTATONIC
 
   function handleToggleCell(cell) {
     toggleCell(cell)
@@ -23,17 +33,18 @@ const Timeslice = props => {
     // });
     // this.sequences = updateSequences(this.sequences, timeSlice, rowIdx);
   }
-  console.log(
-    'mapping over...',
-    sliceDocSnapshot && Object.values(sliceDocSnapshot.data())
-  )
   return (
     <div className="time-slice">
       {sliceDocSnapshot &&
         Object.values(sliceDocSnapshot.data()).map((status, idx) => {
           const cellClassName = status ? 'cell on' : 'cell off'
           let rowNum = idx
-          const node = new AudioNode(props.sliceIndex, rowNum, G_MINOR[rowNum])
+          const node = new AudioNode(
+            props.sliceIndex,
+            rowNum,
+            currentScale[rowNum],
+            currentInstrument
+          )
           return (
             <div
               key={node.row}

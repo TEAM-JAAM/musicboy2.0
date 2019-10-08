@@ -14,17 +14,15 @@ const SingleInstrument = props => {
     timeslices
   )
 
-  // timeslicesQuerySnapshot.docs.map((timeSlice) => {
-  // 	// console.log('timeSlice...', timeSlice.data());
-  // });
-  // console.log(timeslicesQuerySnapshot.docs, timeslicesQuerySnapshot.docs[0].data());
-
-  // console.log('timeslices: ', timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs[1].data());
-  // console.log('timeslices length: ', timeslicesQuerySnapshot && timeslicesQuerySnapshot.docs.length);
-
-  // const grid = props.grid;
   const grid =
     timeslicesQuerySnapshot && Object.values(timeslicesQuerySnapshot.docs)
+  let sequences =
+    grid &&
+    grid.reduce((accum, querySnapshot) => {
+      accum.push(querySnapshot.data())
+      return accum
+    }, [])
+  console.log('grid ... ', sequences)
   return (
     <div className="instrument-container">
       {grid ? (

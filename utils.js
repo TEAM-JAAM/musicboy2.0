@@ -1,30 +1,31 @@
 import Tone from 'tone'
-import {synth, assignPitch_G_MAJOR} from './instruments'
+import {synth, G_MAJOR} from './instruments'
 
 export class AudioNode {
-  constructor(timeSlice, row, pitch) {
+  constructor(timeSlice, row, pitch, instrument) {
     this.timeSlice = timeSlice
     this.row = row
     this.status = false
     this.pitch = pitch
+    this.instrument = instrument
   }
 }
 
-export const initGrid = width => {
-  const grid = {}
-  for (let i = 0; i < width; ++i) {
-    const timeSlice = i
-    grid[timeSlice] = {}
-    for (let j = 0; j < 12; ++j) {
-      let node = new AudioNode(i, j, assignPitch_G_MAJOR[j])
-      grid[timeSlice][j] = node
-    }
-  }
-  return grid
-}
+// export const initGrid = width => {
+//   const grid = {}
+//   for (let i = 0; i < width; ++i) {
+//     const timeSlice = i
+//     grid[timeSlice] = {}
+//     for (let j = 0; j < 12; ++j) {
+//       let node = new AudioNode(i, j, G_MAJOR[j])
+//       grid[timeSlice][j] = node
+//     }
+//   }
+//   return grid
+// }
 
 export const toggleCell = cell => {
-  if (!cell.status) synth.triggerAttackRelease(cell.pitch, '16n')
+  if (!cell.status) cell.instrument.triggerAttackRelease(cell.pitch, '16n')
   cell.status = !cell.status
 }
 
