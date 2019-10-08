@@ -38,7 +38,7 @@ class AllInstruments extends React.Component {
     // 	this.sequences.push(createNewSequence(nodesArray));
     // }
 
-    const project = await Project.findByPk('CF0zc2kDConmGKz0rWwv')
+    const project = await Project.findByPk('DpWxlpYe2DU9vLv3lcud')
     const instruments = await project.getInstruments()
     console.log('instruments[0]: ', instruments[0].data())
     this.setState({

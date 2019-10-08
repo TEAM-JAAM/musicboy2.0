@@ -1,7 +1,7 @@
 import React from 'react'
 import Tone from 'tone'
 import {AudioNode, toggleCell} from '../../utils'
-import {assignPitch_G_MAJOR, assignPitch_G_MINOR} from '../../instruments'
+import {G_MAJOR, G_MINOR} from '../../instruments'
 import {useDocument} from 'react-firebase-hooks/firestore'
 
 const Timeslice = props => {
@@ -33,11 +33,7 @@ const Timeslice = props => {
         Object.values(sliceDocSnapshot.data()).map((status, idx) => {
           const cellClassName = status ? 'cell on' : 'cell off'
           let rowNum = idx
-          const node = new AudioNode(
-            props.sliceIndex,
-            rowNum,
-            assignPitch_G_MINOR[rowNum]
-          )
+          const node = new AudioNode(props.sliceIndex, rowNum, G_MINOR[rowNum])
           return (
             <div
               key={node.row}

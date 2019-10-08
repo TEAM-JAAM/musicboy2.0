@@ -1,4 +1,4 @@
-const assignPitch_G_MAJOR = {
+const G_MAJOR = {
   0: 'D5',
   1: 'C5',
   2: 'B4',
@@ -13,7 +13,7 @@ const assignPitch_G_MAJOR = {
   11: 'G3'
 }
 
-const assignPitch_G_MINOR = {
+const G_MINOR = {
   0: 'D5',
   1: 'C5',
   2: 'Bb4',
@@ -28,7 +28,7 @@ const assignPitch_G_MINOR = {
   11: 'G3'
 }
 
-const assignPitch_PENTATONIC = {
+const PENTATONIC = {
   0: 'A5',
   1: 'G5',
   2: 'E5',
@@ -44,7 +44,7 @@ const assignPitch_PENTATONIC = {
 }
 
 module.exports = {
-  assignPitch_G_MAJOR,
-  assignPitch_G_MINOR,
-  assignPitch_PENTATONIC
+  G_MAJOR,
+  G_MINOR,
+  PENTATONIC
 }
