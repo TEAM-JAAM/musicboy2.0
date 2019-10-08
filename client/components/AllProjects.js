@@ -31,7 +31,7 @@ export const AllProjects = props => {
         email.slice(0, email.indexOf('@'))
       ],
       max: 5,
-      name: 'BB',
+      name: 'Theo Is Making A Game',
       image: '🎹'
     },
     {
@@ -45,7 +45,7 @@ export const AllProjects = props => {
       id: 4,
       members: ['Chris', 'Theo'],
       max: 5,
-      name: 'Jam',
+      name: 'Chris Can Juggle Anything',
       image: '🎻'
     },
     {
@@ -59,7 +59,7 @@ export const AllProjects = props => {
       id: 6,
       members: [email.slice(0, email.indexOf('@'))],
       max: 1,
-      name: 'Rock',
+      name: 'My Email is in the Array of Band Members',
       image: '🎸'
     },
     {
