@@ -4,11 +4,11 @@ const util = require('../utils/dbUtils')
 // --[ Timeslice ]------------------------------------------------------------
 //
 class Timeslice {
-  constructor(parentInstrument, timesliceDocSnapshot) {
-    this.parentInstrument = parentInstrument
-    this.timesliceDocSnapshot = timesliceDocSnapshot
+  constructor(timesliceDocRef) {
+    this.timesliceDocRef = timesliceDocRef
   }
 
+  // Static Methods ..........................................................
   // Create a new timeslice
   // Mandatory fields: index: the index of the timeslice, starting at 0
   // By default, a timeslice is a 12 note scale
@@ -24,6 +24,7 @@ class Timeslice {
       .collection('timeslices')
       .doc(objectData.index)
     newTimesliceDocRef.set({
+      index: Number(objectData.index),
       0: false,
       1: false,
       2: false,
@@ -38,18 +39,23 @@ class Timeslice {
       11: false
     })
 
-    const newTimesliceDocSnapshot = await newTimesliceDocRef.get()
-    return new Timeslice(parentInstrument, newTimesliceDocSnapshot)
+    return new Timeslice(newTimesliceDocRef)
   }
 
-  // Return the data associated with this project
-  data() {
-    return this.timesliceDocSnapshot.data()
+  static fromDocRef(timesliceDocRef) {
+    return new timesliceDocRef()
+  }
+
+  // Instance methods..........................................................
+  update(index, value) {
+    this.timesliceDocRef.update({
+      [`${index}`]: value
+    })
   }
 
   // Return the Firestore reference to this timeslice document
   ref() {
-    return this.timesliceDocSnapshot.ref
+    return this.timesliceDocRef
   }
 }
 

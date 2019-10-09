@@ -8,6 +8,10 @@ class MissingMandatoryFieldError extends Error {
   }
 }
 
+class UnknownUserError extends Error {}
+class UserDocumentUnavailable extends Error {}
+class UnknownProjectError extends Error {}
+
 //
 // --[ Utility Methods ]----------------------------------------------------
 const allMandatoryFieldsProvided = (objectData, mandatoryFields) => {
@@ -24,6 +28,10 @@ const populateDefaults = (objectData, defaults) => {
 
 module.exports = {
   MissingMandatoryFieldError,
+  UnknownUserError,
+  UserDocumentUnavailable,
+  UnknownProjectError,
+
   allMandatoryFieldsProvided,
   populateDefaults
 }

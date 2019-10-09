@@ -8,6 +8,7 @@ import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap'
  */
 export const UserHome = () => {
   const email = auth.currentUser.email
+  const uid = auth.currentUser.uid
 
   // modal
   const [show, setShow] = useState(false)
@@ -32,6 +33,7 @@ export const UserHome = () => {
 
   return (
     <div>
+      <AllProjects email={email} uid={uid} />
       <Modal show={show} onHide={handleClose}>
         <form onSubmit={handleSubmit}>
           <Modal.Header closeButton>
@@ -94,7 +96,6 @@ export const UserHome = () => {
           </Modal.Footer>
         </form>
       </Modal>
-      <AllProjects email={email} />
       <Button
         variant="danger"
         type="primary"

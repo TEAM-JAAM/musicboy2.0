@@ -6,11 +6,11 @@ const INITIAL_TIMESLICES = 8
 // --[ Instrument ]-----------------------------------------------------------
 //
 class Instrument {
-  constructor(parentProject, instrumentDocSnapshot) {
-    this.parentProject = parentProject
-    this.instrumentDocSnapshot = instrumentDocSnapshot
+  constructor(instrumentDocRef) {
+    this.instrumentDocRef = instrumentDocRef
   }
 
+  // Static methods...........................................................
   // Create a new instrument AND a set of 8 timeslices
   // Mandatory fields: name
   static async create(parentProject, objectData) {
@@ -33,11 +33,7 @@ class Instrument {
       .doc(objectData.name)
     await newInstrumentDocRef.set(objectData)
 
-    const newInstrumentDocSnapshot = await newInstrumentDocRef.get()
-    const newInstrument = new Instrument(
-      parentProject,
-      newInstrumentDocSnapshot
-    )
+    const newInstrument = new Instrument(newInstrumentDocRef)
     for (let i = 0; i < INITIAL_TIMESLICES; ++i) {
       await Timeslice.create(newInstrument, {
         index: `${i}`
@@ -47,14 +43,19 @@ class Instrument {
     return newInstrument
   }
 
-  // Return the data associated with this project
-  data() {
-    return this.instrumentDocSnapshot.data()
+  static findAllTimeslices(instrumentDocRef) {
+    return instrumentDocRef && instrumentDocRef.collection('timeslices')
   }
+
+  static fromDocRef(instrumentDocRef) {
+    return instrumentDocRef && new Instrument(instrumentDocRef)
+  }
+
+  // Instance methods.........................................................
 
   // Return the Firestore reference to this instrument document
   ref() {
-    return this.instrumentDocSnapshot.ref
+    return this.instrumentDocRef
   }
 }
 

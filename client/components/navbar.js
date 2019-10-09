@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {db, auth, provider} from '../firestore/db'
 import history from '../history'
-import {Modal, Button} from 'react-bootstrap'
+import {Modal, Button, Row} from 'react-bootstrap'
 
 export default class Navbar extends Component {
   constructor() {
@@ -170,18 +170,20 @@ export default class Navbar extends Component {
                   name={this.state.popUp}
                   id="mainInput"
                 >
-                  <div>
-                    <label htmlFor="email">
-                      <small>Email</small>
-                    </label>
-                    <input name="email" type="text" />
-                  </div>
-                  <div>
-                    <label htmlFor="password">
-                      <small>Password</small>
-                    </label>
-                    <input name="password" type="password" />
-                  </div>
+                  <Row className="align-self-center">
+                    <Row className="m-3">
+                      <label htmlFor="email">
+                        <small>Email</small>
+                      </label>
+                      <input name="email" type="text" />
+                    </Row>
+                    <Row>
+                      <label htmlFor="password">
+                        <small>Password</small>
+                      </label>
+                      <input name="password" type="password" />
+                    </Row>
+                  </Row>
                   <div>
                     <Button variant="primary" type="submit">
                       {this.state.popUp}
