@@ -18,7 +18,7 @@ const AllProjects = props => {
   const [projectQueryResults, loading, error] = useCollection(
     Project.findAllProjectsForUserQuery(uid)
   )
-  const projects = Project.fetchProjectData(projectQueryResults)
+  const projects = Project.fetchAllProjectsData(projectQueryResults)
 
   // carousel
   const [index, setIndex] = useState(0)
@@ -48,7 +48,7 @@ const AllProjects = props => {
     setValue(val)
   }
 
-  if (error) throw new Error('Firestore error encountered')
+  if (error) throw new Error('FATAL: Firestore error encountered')
 
   if (loading) {
     return (
@@ -82,12 +82,11 @@ const AllProjects = props => {
           activeIndex={index}
           direction={direction}
           onSelect={handleSelect}
-          onClick={handleClick}
         >
           {projects &&
             projects.map(project => {
               return viewChanger(project) ? (
-                <Carousel.Item key={project.name}>
+                <Carousel.Item key={project.name} onClick={handleClick}>
                   <img
                     className="d-block w-100"
                     src={`https://imgholder.ru/2500x800/8493a8/adb9ca&text=${

@@ -24,7 +24,6 @@ class Timeslice {
       .collection('timeslices')
       .doc(objectData.index)
     newTimesliceDocRef.set({
-      index: Number(objectData.index),
       0: false,
       1: false,
       2: false,
@@ -42,16 +41,26 @@ class Timeslice {
     return new Timeslice(newTimesliceDocRef)
   }
 
-  static fromDocRef(timesliceDocRef) {
-    return new timesliceDocRef()
+  static fetchTimesliceData(documentQuerySnapshot) {
+    return documentQuerySnapshot && documentQuerySnapshot.data()
   }
 
-  // Instance methods..........................................................
-  update(index, value) {
-    this.timesliceDocRef.update({
+  static fetchTimesliceIndex(documentQuerySnapshot) {
+    return documentQuerySnapshot && documentQuerySnapshot.id
+  }
+
+  static fromDocRef(timesliceDocRef) {
+    return new Timeslice(timesliceDocRef)
+  }
+
+  static update(documentQuerySnapshot, index, value) {
+    console.log('trying to set index: ', index, ' to value: ', value)
+    documentQuerySnapshot.ref.update({
       [`${index}`]: value
     })
   }
+
+  // Instance methods..........................................................
 
   // Return the Firestore reference to this timeslice document
   ref() {

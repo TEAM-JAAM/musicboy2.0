@@ -43,8 +43,16 @@ class Instrument {
     return newInstrument
   }
 
-  static findAllTimeslices(instrumentDocRef) {
-    return instrumentDocRef && instrumentDocRef.collection('timeslices')
+  static fetchInstrumentData(documentQuerySnapshot) {
+    return documentQuerySnapshot && documentQuerySnapshot.data()
+  }
+
+  static findInstrumentTimeslicesQuery(docRef) {
+    return docRef && docRef.collection('timeslices')
+  }
+
+  static fetchTimesliceDocRefs(querySnapshot) {
+    return querySnapshot && querySnapshot.docs
   }
 
   static fromDocRef(instrumentDocRef) {
