@@ -14,11 +14,11 @@ nav a {
   display: inline-block;
   margin: 1em;
 }
-/*
+
 form div {
   margin: 1em;
   display: inline-block;
-} */
+}
 
 /* SingleInstruments */
 
@@ -70,4 +70,8 @@ td {
 
 .center {
   justify-self: center;
+}
+
+.icon {
+  font-size: 1.5rem;
 }

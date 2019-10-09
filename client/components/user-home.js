@@ -1,7 +1,15 @@
 import React, {useState} from 'react'
 import AllProjects from './AllProjects'
 import {auth} from '../firestore/db'
-import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap'
+import {
+  Modal,
+  Button,
+  Tooltip,
+  OverlayTrigger,
+  ToggleButton,
+  ToggleButtonGroup,
+  Form
+} from 'react-bootstrap'
 
 /**
  * COMPONENT
@@ -9,6 +17,12 @@ import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap'
 export const UserHome = () => {
   const email = auth.currentUser.email
   const uid = auth.currentUser.uid
+
+  // privacy switch
+  const [publicVal, setPublicVal] = useState(false)
+  const handleSwitch = () => {
+    setPublicVal(!publicVal)
+  }
 
   // modal
   const [show, setShow] = useState(false)
@@ -62,7 +76,19 @@ export const UserHome = () => {
             <div>
               <div>
                 <label htmlFor="public">Public?</label>
-                <input type="radio" name="privacy" id="public" value={false} />
+                <ToggleButtonGroup
+                  name="public"
+                  type="radio"
+                  value={publicVal}
+                  onChange={handleSwitch}
+                >
+                  <ToggleButton variant="outline-success" value={true}>
+                    Yes
+                  </ToggleButton>
+                  <ToggleButton variant="outline-secondary" value={false}>
+                    No
+                  </ToggleButton>
+                </ToggleButtonGroup>
               </div>
             </div>
             <div>
@@ -82,8 +108,9 @@ export const UserHome = () => {
                 max="200"
                 onInput={handleRange}
               />
-
-              <output>{rangeVal}</output>
+              <div>
+                <output>{rangeVal} bpm</output>
+              </div>
             </div>
           </Modal.Body>
           <Modal.Footer>

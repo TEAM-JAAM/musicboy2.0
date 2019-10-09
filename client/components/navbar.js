@@ -108,7 +108,6 @@ export default class Navbar extends Component {
   render() {
     return (
       <div>
-        <h1>ITS JAMMIN' TIME</h1>
         <nav>
           {auth.currentUser ? (
             <div>
