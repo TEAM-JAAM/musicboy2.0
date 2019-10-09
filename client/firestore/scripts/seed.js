@@ -1,5 +1,5 @@
-const {app, db} = require('../db')
-const {Project, User} = require('../models')
+const {app} = require('../db')
+const {Project} = require('../models')
 
 const createProjectOnce = async (projectName, type = 'Private') => {
   const project = await Project.findOrCreate({
@@ -22,79 +22,64 @@ const createProjectOnce = async (projectName, type = 'Private') => {
 
 const seed = async () => {
   try {
-    //   // project with 1 instrument added to test123@email.com
-    //   const projectWith1Instrument = await createProjectOnce(
-    //     '@jaam.test.single-instrument'
-    //   )
-    //   await projectWith1Instrument.addUserToProject({
-    //     email: 'test123@email.com',
-    //     uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
-    //   })
-    //   await projectWith1Instrument.addUserToProject({
-    //     email: 'test1234@email.com',
-    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
-    //   })
-
-    //   // project with 3 instruments added to cody@email.com
-    //   const projectWith3Instruments = await createProjectOnce(
-    //     '@jaam.test.3-instruments'
-    //   )
-    //   await projectWith3Instruments.addInstrument({
-    //     name: 'saxaphone'
-    //   })
-    //   await projectWith3Instruments.addInstrument({
-    //     name: 'accordian'
-    //   })
-    //   await projectWith3Instruments.addUserToProject({
-    //     email: 'cody@email.com',
-    //     uid: '6ox30d9FbvSfAInSSwQyAnk59bJ3'
-    //   })
-    //   await projectWith3Instruments.addUserToProject({
-    //     email: 'test1234@email.com',
-    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
-    //   })
-
-    //   // public project with 1 instrument...
-    //   const publicProjectWith1Instrument = await createProjectOnce(
-    //     '@jaam.test.public.1-instrument',
-    //     'Public'
-    //   )
-
-    //   // public project with 3 instruments...
-    //   const publicProjectWith3Instruments = await createProjectOnce(
-    //     '@jaam.test.public.3-instruments',
-    //     'Public'
-    //   )
-    //   await publicProjectWith3Instruments.addInstrument({
-    //     name: 'saxaphone'
-    //   })
-    //   await publicProjectWith3Instruments.addInstrument({
-    //     name: 'accordian'
-    //   })
-
-    //   // all projects added to test1234@email.com...
-    //   await publicProjectWith1Instrument.addUserToProject({
-    //     email: 'test1234@email.com',
-    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
-    //   })
-    //   await publicProjectWith3Instruments.addUserToProject({
-    //     email: 'test1234@email.com',
-    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
-    //   })
-
-    // const projectQuery = db.collection('projects').where('users', 'array-contains', '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2')
-    // const querySnapshot = await projectQuery.get()
-    // console.log('size of result: ', querySnapshot.size)
-    // querySnapshot.forEach((projectRef) => {
-    //   console.log('project data: ', projectRef.data())
-    // })
-    const projectQuery = Project.findAllProjectsForUserQuery(
-      '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
+    // project with 1 instrument added to test123@email.com
+    const projectWith1Instrument = await createProjectOnce(
+      '@jaam.test.single-instrument'
     )
-    const querySnapshot = await projectQuery.get()
-    console.log('size of result: ', querySnapshot.size)
-    querySnapshot.forEach(projectRef => {
-      console.log('project data: ', projectRef.data())
+    await projectWith1Instrument.addUserToProject({
+      email: 'test123@email.com',
+      uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
+    })
+    await projectWith1Instrument.addUserToProject({
+      email: 'test1234@email.com',
+      uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    })
+
+    // project with 3 instruments added to cody@email.com
+    const projectWith3Instruments = await createProjectOnce(
+      '@jaam.test.3-instruments'
+    )
+    await projectWith3Instruments.addInstrument({
+      name: 'saxaphone'
+    })
+    await projectWith3Instruments.addInstrument({
+      name: 'accordian'
+    })
+    await projectWith3Instruments.addUserToProject({
+      email: 'cody@email.com',
+      uid: '6ox30d9FbvSfAInSSwQyAnk59bJ3'
+    })
+    await projectWith3Instruments.addUserToProject({
+      email: 'test1234@email.com',
+      uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    })
+
+    // public project with 1 instrument...
+    const publicProjectWith1Instrument = await createProjectOnce(
+      '@jaam.test.public.1-instrument',
+      'Public'
+    )
+
+    // public project with 3 instruments...
+    const publicProjectWith3Instruments = await createProjectOnce(
+      '@jaam.test.public.3-instruments',
+      'Public'
+    )
+    await publicProjectWith3Instruments.addInstrument({
+      name: 'saxaphone'
+    })
+    await publicProjectWith3Instruments.addInstrument({
+      name: 'accordian'
+    })
+
+    // all projects added to test1234@email.com...
+    await publicProjectWith1Instrument.addUserToProject({
+      email: 'test1234@email.com',
+      uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    })
+    await publicProjectWith3Instruments.addUserToProject({
+      email: 'test1234@email.com',
+      uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
     })
 
     console.log('NOTE: completed database seed')
