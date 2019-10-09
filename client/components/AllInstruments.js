@@ -38,9 +38,8 @@ class AllInstruments extends React.Component {
     // 	this.sequences.push(createNewSequence(nodesArray));
     // }
 
-    const project = await Project.findByPk('DpWxlpYe2DU9vLv3lcud')
+    const project = await Project.findByPk('6USSWQf4AAKDvl6uWGhp')
     const instruments = await project.getInstruments()
-    console.log('instruments[0]: ', instruments[0].data())
     this.setState({
       instruments
     })
@@ -49,7 +48,7 @@ class AllInstruments extends React.Component {
   startOrStop() {
     if (!this.state.playing) {
       this.setState({playing: true})
-      Tone.Transport.start(+0.1)
+      Tone.Transport.start()
     } else {
       this.setState({playing: false})
       Tone.Transport.stop()

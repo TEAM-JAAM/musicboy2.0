@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {Project} from '../firestore/models'
 import Timeslice from './Timeslice'
+import {toggleCell, updateSequence} from '../../utils'
 
 const SingleInstrument = props => {
   const instrument = props.instrument
@@ -16,19 +17,31 @@ const SingleInstrument = props => {
 
   const grid =
     timeslicesQuerySnapshot && Object.values(timeslicesQuerySnapshot.docs)
-  let sequences =
-    grid &&
-    grid.reduce((accum, querySnapshot) => {
-      accum.push(querySnapshot.data())
-      return accum
-    }, [])
-  console.log('grid ... ', sequences)
+
+  const sequences = {}
+
+  const allNodes = {}
+
+  function handleToggleCell(cell) {
+    toggleCell(cell)
+    const rowOfNodes = allNodes[cell.row]
+    if (sequences[cell.row]) sequences[cell.row].cancel()
+    sequences[cell.row] = updateSequence(rowOfNodes, cell)
+  }
+
   return (
     <div className="instrument-container">
       {grid ? (
-        grid.map((slice, idx) => {
-          // slice = Object.values(slice.data());
-          return <Timeslice key={idx} sliceIndex={idx} slice={slice} />
+        grid.map((querySnapshot, idx) => {
+          return (
+            <Timeslice
+              key={idx}
+              handleToggleCell={handleToggleCell}
+              sliceIndex={idx}
+              allNodes={allNodes}
+              slice={querySnapshot}
+            />
+          )
         })
       ) : (
         <h1>loading...</h1>

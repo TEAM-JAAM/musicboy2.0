@@ -45,15 +45,22 @@ export const createNewSequence = row => {
   return seq
 }
 
-export const updateSequences = (sequencesArray, timeSlice, rowIdx) => {
-  return sequencesArray.map((sequence, idx) => {
-    if (idx === rowIdx) {
-      sequence.cancel()
-      return createNewSequence(timeSlice)
-    } else {
-      return sequence
-    }
-  })
+export const updateSequence = (row, cell) => {
+  row = Object.values(row)
+  console.log('row...', row)
+  const seq = new Tone.Sequence(
+    function(time, note) {
+      cell.instrument.triggerAttackRelease(note, '16n', time)
+    },
+    row.reduce((accum, node) => {
+      if (node.status) accum.push(node.pitch)
+      else accum.push(0)
+      return accum
+    }, []),
+    '8n'
+  ).start(0)
+  console.log('seq...', seq)
+  return seq
 }
 
 export const addRowToGrid = grid => {
