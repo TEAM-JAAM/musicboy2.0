@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {AllProjects} from './AllProjects'
+import AllProjects from './AllProjects'
 import {auth} from '../firestore/db'
 import {Modal, Button} from 'react-bootstrap'
 
@@ -8,6 +8,7 @@ import {Modal, Button} from 'react-bootstrap'
  */
 export const UserHome = () => {
   const email = auth.currentUser.email
+  const uid = auth.currentUser.uid
 
   // modal
   const [show, setShow] = useState(false)
@@ -32,6 +33,7 @@ export const UserHome = () => {
 
   return (
     <div>
+      <AllProjects email={email} uid={uid} />
       <Modal show={show} onHide={handleClose}>
         <form onSubmit={handleSubmit}>
           <Modal.Header closeButton>
@@ -89,7 +91,6 @@ export const UserHome = () => {
           </Modal.Footer>
         </form>
       </Modal>
-      <AllProjects email={email} />
       <Button
         variant="danger"
         type="primary"

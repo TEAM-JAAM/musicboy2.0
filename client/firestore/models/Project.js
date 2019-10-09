@@ -1,4 +1,4 @@
-const {db} = require('../db')
+const {db, firestore} = require('../db')
 const Instrument = require('./Instrument')
 const util = require('../utils/dbUtils')
 
@@ -9,8 +9,8 @@ const util = require('../utils/dbUtils')
 // associated with a single project.
 //
 class Project {
-  constructor(projectDocSnapshot) {
-    this.projectDocSnaphot = projectDocSnapshot
+  constructor(projectDocRef) {
+    this.projectDocRef = projectDocRef
   }
 
   // Static methods...........................................................
@@ -29,11 +29,12 @@ class Project {
       .get()
     if (!projects.empty) {
       console.log('NOTE: found existing project data')
-      return new Project(projects.docs[0])
+      return new Project(projects.docs[0].ref)
     } else {
       // populate default data...
       const defaults = {
         members: [],
+        memberUids: [],
         permissions: 'Private',
         tempo: 60
       }
@@ -41,8 +42,7 @@ class Project {
 
       console.log('NOTE: creating new project...', objectData)
       const newProjectDocRef = await projectCollectionRef.add(objectData)
-      const newProjectDocSnapshot = await newProjectDocRef.get()
-      return new Project(newProjectDocSnapshot)
+      return new Project(newProjectDocRef)
     }
   }
 
@@ -51,9 +51,35 @@ class Project {
   static async findByPk(projectDocId) {
     const projectDocRef = db.collection('projects').doc(projectDocId)
     const projectDocSnapshot = await projectDocRef.get()
-    if (projectDocSnapshot.exists) return new Project(projectDocSnapshot)
+    if (projectDocSnapshot.exists) return new Project(projectDocRef)
 
     return undefined
+  }
+
+  static findAllProjectsForUserQuery(uid) {
+    return (
+      uid &&
+      db.collection('projects').where('memberUids', 'array-contains', uid)
+    )
+  }
+
+  static fetchProjectData(querySnapshot) {
+    const projects = []
+    querySnapshot &&
+      querySnapshot.forEach(queryDocSnapshot => {
+        const project = queryDocSnapshot.data()
+        project.docRef = queryDocSnapshot.ref
+        projects.push(project)
+      })
+    return projects
+  }
+
+  static findAllInstruments(projectDocRef) {
+    return projectDocRef && projectDocRef.collection('instruments')
+  }
+
+  static fromDocRef(projectDocRef) {
+    return new Project(projectDocRef)
   }
 
   // Instance methods.........................................................
@@ -63,29 +89,33 @@ class Project {
     return Instrument.create(this, objectData)
   }
 
-  async getInstruments() {
-    const projectDocRef = this.ref()
-    const instrumentQuerySnapshot = await projectDocRef
-      .collection('instruments')
-      .get()
-    if (instrumentQuerySnapshot.empty) return undefined
+  async addUserToProject(objectData) {
+    const mandatoryFields = ['email', 'uid']
+    if (!util.allMandatoryFieldsProvided(objectData, mandatoryFields)) {
+      throw new util.MissingMandatoryFieldError(mandatoryFields)
+    }
 
-    const instruments = []
-    instrumentQuerySnapshot.forEach(instrumentDocSnapshot => {
-      instruments.push(new Instrument(this, instrumentDocSnapshot))
+    await this.projectDocRef.update({
+      members: firestore.FieldValue.arrayUnion(objectData.email),
+      memberUids: firestore.FieldValue.arrayUnion(objectData.uid)
     })
-
-    return instruments
   }
 
-  // Return the data associated with this project
-  data() {
-    return this.projectDocSnaphot.data()
+  async removeUserFromProject(objectData) {
+    const mandatoryFields = ['email', 'uid']
+    if (!util.allMandatoryFieldsProvided(objectData, mandatoryFields)) {
+      throw new util.MissingMandatoryFieldError(mandatoryFields)
+    }
+
+    await this.projectDocRef.update({
+      members: firestore.FieldValue.arrayRemove(objectData.email),
+      memberUids: firestore.FieldValue.arrayRemove(objectData.uid)
+    })
   }
 
   // Return the Firestore reference to this project document
   ref() {
-    return this.projectDocSnaphot.ref
+    return this.projectDocRef
   }
 }
 

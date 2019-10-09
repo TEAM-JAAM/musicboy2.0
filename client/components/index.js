@@ -5,6 +5,3 @@
  */
 export {default as Navbar} from './navbar'
 export {UserHome} from './user-home'
-export {
-  default as AllInstrumentsFromFirestore
-} from './AllInstrumentsWithFirestore'

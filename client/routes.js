@@ -4,15 +4,18 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import {UserHome} from './components'
 import AllInstruments from './components/AllInstruments'
 import {auth} from './firestore/db'
+import SingleProject from './components/single-project/SingleProject'
 
 class Routes extends Component {
   render() {
+    console.log('auth.currentUser: ', auth.currentUser)
     return (
       <Switch>
-        <Route path="/play" component={AllInstruments} />
         {auth.currentUser && (
           <Switch>
             <Route path="/home" component={UserHome} />
+            <Route path="/projects/:docRef" component={SingleProject} />
+            <Route path="/play" component={AllInstruments} />
           </Switch>
         )}
       </Switch>
