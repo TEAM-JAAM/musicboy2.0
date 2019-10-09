@@ -9,8 +9,8 @@ class MissingMandatoryFieldError extends Error {
 }
 
 class UnknownUserError extends Error {}
-
 class UserDocumentUnavailable extends Error {}
+class UnknownProjectError extends Error {}
 
 //
 // --[ Utility Methods ]----------------------------------------------------
@@ -30,6 +30,7 @@ module.exports = {
   MissingMandatoryFieldError,
   UnknownUserError,
   UserDocumentUnavailable,
+  UnknownProjectError,
 
   allMandatoryFieldsProvided,
   populateDefaults

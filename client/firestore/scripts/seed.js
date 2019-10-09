@@ -1,4 +1,4 @@
-const {app} = require('../db')
+const {app, db} = require('../db')
 const {Project, User} = require('../models')
 
 const createProjectOnce = async (projectName, type = 'Private') => {
@@ -22,56 +22,80 @@ const createProjectOnce = async (projectName, type = 'Private') => {
 
 const seed = async () => {
   try {
-    // project with 1 instrument added to test123@email.com
-    const projectWith1Instrument = await createProjectOnce(
-      '@jaam.test.single-instrument'
-    )
-    const test123 = await User.findOne({
-      uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
-    })
-    await test123.addProjectToUser(projectWith1Instrument)
+    //   // project with 1 instrument added to test123@email.com
+    //   const projectWith1Instrument = await createProjectOnce(
+    //     '@jaam.test.single-instrument'
+    //   )
+    //   await projectWith1Instrument.addUserToProject({
+    //     email: 'test123@email.com',
+    //     uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
+    //   })
+    //   await projectWith1Instrument.addUserToProject({
+    //     email: 'test1234@email.com',
+    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    //   })
 
-    // project with 3 instruments added to cody@email.com
-    const projectWith3Instruments = await createProjectOnce(
-      '@jaam.test.3-instruments'
-    )
-    await projectWith3Instruments.addInstrument({
-      name: 'saxaphone'
-    })
-    await projectWith3Instruments.addInstrument({
-      name: 'accordian'
-    })
-    const cody = await User.findOne({
-      uid: '6ox30d9FbvSfAInSSwQyAnk59bJ3'
-    })
-    await cody.addProjectToUser(projectWith3Instruments)
+    //   // project with 3 instruments added to cody@email.com
+    //   const projectWith3Instruments = await createProjectOnce(
+    //     '@jaam.test.3-instruments'
+    //   )
+    //   await projectWith3Instruments.addInstrument({
+    //     name: 'saxaphone'
+    //   })
+    //   await projectWith3Instruments.addInstrument({
+    //     name: 'accordian'
+    //   })
+    //   await projectWith3Instruments.addUserToProject({
+    //     email: 'cody@email.com',
+    //     uid: '6ox30d9FbvSfAInSSwQyAnk59bJ3'
+    //   })
+    //   await projectWith3Instruments.addUserToProject({
+    //     email: 'test1234@email.com',
+    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    //   })
 
-    // public project with 1 instrument...
-    const publicProjectWith1Instrument = await createProjectOnce(
-      '@jaam.test.public.1-instrument',
-      'Public'
-    )
+    //   // public project with 1 instrument...
+    //   const publicProjectWith1Instrument = await createProjectOnce(
+    //     '@jaam.test.public.1-instrument',
+    //     'Public'
+    //   )
 
-    // public project with 3 instruments...
-    const publicProjectWith3Instruments = await createProjectOnce(
-      '@jaam.test.public.3-instruments',
-      'Public'
-    )
-    await publicProjectWith3Instruments.addInstrument({
-      name: 'saxaphone'
-    })
-    await publicProjectWith3Instruments.addInstrument({
-      name: 'accordian'
-    })
+    //   // public project with 3 instruments...
+    //   const publicProjectWith3Instruments = await createProjectOnce(
+    //     '@jaam.test.public.3-instruments',
+    //     'Public'
+    //   )
+    //   await publicProjectWith3Instruments.addInstrument({
+    //     name: 'saxaphone'
+    //   })
+    //   await publicProjectWith3Instruments.addInstrument({
+    //     name: 'accordian'
+    //   })
 
-    // all projects added to test1234@email.com...
-    const test1234 = await User.findOne({
-      uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    //   // all projects added to test1234@email.com...
+    //   await publicProjectWith1Instrument.addUserToProject({
+    //     email: 'test1234@email.com',
+    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    //   })
+    //   await publicProjectWith3Instruments.addUserToProject({
+    //     email: 'test1234@email.com',
+    //     uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    //   })
+
+    // const projectQuery = db.collection('projects').where('users', 'array-contains', '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2')
+    // const querySnapshot = await projectQuery.get()
+    // console.log('size of result: ', querySnapshot.size)
+    // querySnapshot.forEach((projectRef) => {
+    //   console.log('project data: ', projectRef.data())
+    // })
+    const projectQuery = Project.findAllProjectsForUserQuery(
+      '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
+    )
+    const querySnapshot = await projectQuery.get()
+    console.log('size of result: ', querySnapshot.size)
+    querySnapshot.forEach(projectRef => {
+      console.log('project data: ', projectRef.data())
     })
-    await test1234.addProjectToUser(projectWith1Instrument)
-    await test1234.addProjectToUser(projectWith3Instruments)
-    await test1234.addProjectToUser(publicProjectWith1Instrument)
-    await test1234.addProjectToUser(publicProjectWith3Instruments)
 
     console.log('NOTE: completed database seed')
   } catch (error) {

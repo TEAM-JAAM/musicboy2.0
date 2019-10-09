@@ -1,4 +1,4 @@
-const {db, firestore} = require('../db')
+const {db} = require('../db')
 const util = require('../utils/dbUtils')
 
 //
@@ -32,60 +32,15 @@ class User {
     return new User(userDocSnapshot.ref)
   }
 
-  static async findAllProjects(userDocRef, query) {
-    const userDocSnapshot = await userDocRef.get()
-    if (!userDocSnapshot.exists) {
-      throw new util.UnknownUserError()
-    }
-
-    return userDocSnapshot.data().projects
-  }
-
   static fromDocRef(userDocRef) {
     return new User(userDocRef)
   }
 
+  static docRefFromUid(uid) {
+    return uid && db.collection('users').doc(uid)
+  }
+
   // Instance methods......................................................
-  async addProjectToUser(project) {
-    const projectDocRef = project.ref()
-
-    // add project to user document...
-    await this.userDocRef.update({
-      projects: firestore.FieldValue.arrayUnion(projectDocRef)
-    })
-
-    const userSnapshot = await this.userDocRef.get()
-    if (!userSnapshot.exists) {
-      throw new util.UserDocumentUnavailable()
-    }
-    const user = userSnapshot.data()
-
-    // add user to project's member's list...
-    await projectDocRef.update({
-      members: firestore.FieldValue.arrayUnion(user.email)
-    })
-  }
-
-  async removeProjectFromUser(project) {
-    const projectDocRef = project.ref()
-
-    // remove project from user document...
-    await this.userDocRef.update({
-      projects: firestore.FieldValue.arrayRemove(projectDocRef)
-    })
-
-    const userSnapshot = await this.userDocRef.get()
-    if (!userSnapshot.exists) {
-      throw new util.UserDocumentUnavailable()
-    }
-    const user = userSnapshot.data()
-
-    // remove user from project's member list...
-    await projectDocRef.update({
-      members: firestore.FieldValue.arrayRemove(user.email)
-    })
-  }
-
   ref() {
     return this.userDocRef
   }

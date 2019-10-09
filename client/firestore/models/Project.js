@@ -1,4 +1,4 @@
-const {db} = require('../db')
+const {db, firestore} = require('../db')
 const Instrument = require('./Instrument')
 const util = require('../utils/dbUtils')
 
@@ -34,6 +34,7 @@ class Project {
       // populate default data...
       const defaults = {
         members: [],
+        memberUids: [],
         permissions: 'Private',
         tempo: 60
       }
@@ -55,6 +56,24 @@ class Project {
     return undefined
   }
 
+  static findAllProjectsForUserQuery(uid) {
+    return (
+      uid &&
+      db.collection('projects').where('memberUids', 'array-contains', uid)
+    )
+  }
+
+  static fetchProjectData(querySnapshot) {
+    const projects = []
+    querySnapshot &&
+      querySnapshot.forEach(queryDocSnapshot => {
+        const project = queryDocSnapshot.data()
+        project.docRef = queryDocSnapshot.ref
+        projects.push(project)
+      })
+    return projects
+  }
+
   static findAllInstruments(projectDocRef) {
     return projectDocRef.collection('instruments')
   }
@@ -68,6 +87,30 @@ class Project {
   // set of timeslices
   addInstrument(objectData) {
     return Instrument.create(this, objectData)
+  }
+
+  async addUserToProject(objectData) {
+    const mandatoryFields = ['email', 'uid']
+    if (!util.allMandatoryFieldsProvided(objectData, mandatoryFields)) {
+      throw new util.MissingMandatoryFieldError(mandatoryFields)
+    }
+
+    await this.projectDocRef.update({
+      members: firestore.FieldValue.arrayUnion(objectData.email),
+      memberUids: firestore.FieldValue.arrayUnion(objectData.uid)
+    })
+  }
+
+  async removeUserFromProject(objectData) {
+    const mandatoryFields = ['email', 'uid']
+    if (!util.allMandatoryFieldsProvided(objectData, mandatoryFields)) {
+      throw new util.MissingMandatoryFieldError(mandatoryFields)
+    }
+
+    await this.projectDocRef.update({
+      members: firestore.FieldValue.arrayRemove(objectData.email),
+      memberUids: firestore.FieldValue.arrayRemove(objectData.uid)
+    })
   }
 
   // Return the Firestore reference to this project document
