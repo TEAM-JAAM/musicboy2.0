@@ -47,7 +47,6 @@ export const createNewSequence = row => {
 
 export const updateSequence = (row, cell) => {
   row = Object.values(row)
-  console.log('row...', row)
   const seq = new Tone.Sequence(
     function(time, note) {
       cell.instrument.triggerAttackRelease(note, '16n', time)
@@ -59,7 +58,6 @@ export const updateSequence = (row, cell) => {
     }, []),
     '8n'
   ).start(0)
-  console.log('seq...', seq)
   return seq
 }
 

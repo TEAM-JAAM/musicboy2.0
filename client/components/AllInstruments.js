@@ -21,23 +21,14 @@ class AllInstruments extends React.Component {
     this.state = {
       // tempo: 80,
       playing: false,
-      // grid: initGrid(1),
-      update: true,
       instruments: []
     }
-    // this.handleToggleCell = this.handleToggleCell.bind(this);
     this.startOrStop = this.startOrStop.bind(this)
     this.addRow = this.addRow.bind(this)
     this.removeRow = this.removeRow.bind(this)
   }
 
   async componentDidMount() {
-    // let grid = Object.values(this.state.grid);
-    // for (let i = 0; i < grid.length; ++i) {
-    // 	let nodesArray = Object.values(grid[i]);
-    // 	this.sequences.push(createNewSequence(nodesArray));
-    // }
-
     const project = await Project.findByPk('6USSWQf4AAKDvl6uWGhp')
     const instruments = await project.getInstruments()
     this.setState({
@@ -55,28 +46,9 @@ class AllInstruments extends React.Component {
     }
   }
 
-  addRow() {
-    const grid = this.state.grid
-    this.setState({
-      grid: addRowToGrid(grid)
-    })
-    // all sequences must be updated
-    this.sequences = this.sequences.map((sequence, idx) => {
-      sequence.cancel()
-      return createNewSequence(grid[idx])
-    })
-  }
+  addRow() {}
 
-  removeRow() {
-    const grid = this.state.grid
-    this.setState({
-      grid: removeRowFromGrid(grid)
-    })
-    this.sequences = this.sequences.map((sequence, idx) => {
-      sequence.cancel()
-      return createNewSequence(grid[idx])
-    })
-  }
+  removeRow() {}
 
   render() {
     return (
@@ -100,11 +72,7 @@ class AllInstruments extends React.Component {
           remove column
         </button>
         <div className="scrolling-wrapper">
-          <SingleInstrument
-            // handleToggleCell={this.handleToggleCell}
-            // grid={this.state.grid}
-            instrument={this.state.instruments[0]}
-          />
+          <SingleInstrument instrument={this.state.instruments[0]} />
         </div>
       </div>
     )
