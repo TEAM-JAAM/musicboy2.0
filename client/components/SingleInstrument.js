@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {Project} from '../firestore/models'
 import Timeslice from './Timeslice'
-import {toggleCell, updateSequence} from '../../utils'
+import {toggleCell, updateSequence, createNewSequence} from '../../utils'
 
 const SingleInstrument = props => {
   const instrument = props.instrument
@@ -18,15 +18,13 @@ const SingleInstrument = props => {
   const grid =
     timeslicesQuerySnapshot && Object.values(timeslicesQuerySnapshot.docs)
 
-  const sequences = {}
+  let allNodes = {}
 
-  const allNodesState = {}
+  let sequence = createNewSequence(allNodes)
 
   function handleToggleCell(cell) {
     toggleCell(cell)
-    if (sequences[cell.row]) sequences[cell.row].cancel()
-    const rowOfNodes = allNodesState[cell.row]
-    sequences[cell.row] = updateSequence(rowOfNodes, cell)
+    sequence = updateSequence(sequence, cell)
   }
 
   return (
@@ -37,8 +35,8 @@ const SingleInstrument = props => {
             <Timeslice
               key={idx}
               handleToggleCell={handleToggleCell}
+              allNodes={allNodes}
               sliceIndex={idx}
-              allNodesState={allNodesState}
               slice={querySnapshot}
             />
           )

@@ -16,36 +16,51 @@ export const toggleCell = cell => {
   cell.status = !cell.status
 }
 
-export const createNewSequence = row => {
-  row = Object.values(row)
+export const createNewSequence = gridObj => {
+  let chordsArray = []
+  let arr = Object.values(gridObj)
+  console.log('grid', gridObj)
+  for (let i = 0; i < arr.length; ++i) {
+    let slice = Object.values(arr[i])
+    let chord = []
+    for (let j = 0; j < slice.length; ++j) {
+      let node = slice[j]
+      if (node.status) chord.push(node.pitch)
+    }
+    chordsArray.push(chord)
+  }
+  console.log('chordsArray', chordsArray)
+
+  let chordArr = chordsArray.map(chord => {
+    return new Tone.Event(null, chord)
+  })
+
   const seq = new Tone.Sequence(
     function(time, note) {
-      synth.triggerAttackRelease(note, '16n', time)
+      synth.triggerAttackRelease(note, '32n', time)
     },
-    row.reduce((accum, node) => {
-      if (node.status) accum.push(node.pitch)
-      else accum.push(0)
-      return accum
-    }, []),
-    '8n'
+    chordArr,
+    '4n'
   ).start(0)
+  console.log('seq in createNewSequence', seq)
   return seq
 }
 
-export const updateSequence = (row, cell) => {
-  row = Object.values(row)
-  const seq = new Tone.Sequence(
-    function(time, note) {
-      cell.instrument.triggerAttackRelease(note, '16n', time)
-    },
-    row.reduce((accum, node) => {
-      if (node.status) accum.push(node.pitch)
-      else accum.push(0)
-      return accum
-    }, []),
-    '8n'
-  ).start(0)
-  return seq
+export const updateSequence = (sequence, cell) => {
+  console.log('seq in updateSequence', sequence)
+  console.log('cell in updateSequence', cell)
+  const timeSlice = cell.timeSlice
+  let eventToUpdate = sequence._events[timeSlice].value
+  if (Array.isArray(eventToUpdate)) {
+    if (eventToUpdate.includes(cell.pitch)) {
+      eventToUpdate = eventToUpdate.filter(note => note !== cell.pitch)
+    } else {
+      eventToUpdate.push(cell.pitch)
+    }
+  } else {
+    eventToUpdate = [cell.pitch]
+  }
+  return sequence
 }
 
 export const addRowToGrid = grid => {
