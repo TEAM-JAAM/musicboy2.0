@@ -21,7 +21,7 @@ const AllProjects = props => {
   const [projectQueryResults, loading, error] = useCollection(
     Project.findAllProjectsForUserQuery(uid)
   )
-  const projects = Project.fetchProjectData(projectQueryResults)
+  const projects = Project.fetchAllProjectsData(projectQueryResults)
 
   // carousel
   const width = 3000
@@ -60,8 +60,8 @@ const AllProjects = props => {
     setValue(val)
   }
 
-  // firestore returns
-  if (error) throw new Error('Firestore error encountered')
+  if (error) throw new Error('FATAL: Firestore error encountered')
+
   if (loading) {
     return (
       <Spinner animation="border" role="status">

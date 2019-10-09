@@ -5,3 +5,5 @@
  */
 export {default as Navbar} from './navbar'
 export {UserHome} from './user-home'
+
+export {SingleProject} from './project/SingleProject'
