@@ -63,7 +63,21 @@ class Project {
     )
   }
 
-  static fetchProjectData(querySnapshot) {
+  static findProjectQuery(documentId) {
+    return documentId && db.collection('projects').doc(documentId)
+  }
+
+  static findProjectInstrumentsQuery(documentId) {
+    return (
+      documentId &&
+      db
+        .collection('projects')
+        .doc(documentId)
+        .collection('instruments')
+    )
+  }
+
+  static fetchAllProjectsData(querySnapshot) {
     const projects = []
     querySnapshot &&
       querySnapshot.forEach(queryDocSnapshot => {
@@ -74,8 +88,12 @@ class Project {
     return projects
   }
 
-  static findAllInstruments(projectDocRef) {
-    return projectDocRef && projectDocRef.collection('instruments')
+  static fetchProjectData(documentQuerySnapshot) {
+    return documentQuerySnapshot && documentQuerySnapshot.data()
+  }
+
+  static fetchInstrumentDocRefs(querySnapshot) {
+    return querySnapshot && querySnapshot.docs
   }
 
   static fromDocRef(projectDocRef) {

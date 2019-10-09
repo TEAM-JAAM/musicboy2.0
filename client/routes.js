@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {UserHome} from './components'
+import {SingleProject, UserHome} from './components'
 import AllInstruments from './components/AllInstruments'
 import {auth} from './firestore/db'
-import SingleProject from './components/single-project/SingleProject'
 
 class Routes extends Component {
   render() {
