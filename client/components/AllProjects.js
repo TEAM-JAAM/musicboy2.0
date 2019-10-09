@@ -78,33 +78,7 @@ const AllProjects = props => {
             </ToggleButtonGroup>
           </Row>
         </div>
-        <Carousel
-          activeIndex={index}
-          direction={direction}
-          onSelect={handleSelect}
-          onClick={handleClick}
-        >
-          {projects &&
-            projects.map(project => {
-              return viewChanger(project) ? (
-                <Carousel.Item key={project.name}>
-                  <img
-                    className="d-block w-100"
-                    src={`https://imgholder.ru/2500x800/8493a8/adb9ca&text=${
-                      project.name
-                    }&font=kelson`}
-                    alt={project.name}
-                  />
-                  <Carousel.Caption>
-                    <h3>{project.image}</h3>
-                    <p>
-                      The Band: {project.members.length} out of {project.max}
-                    </p>
-                  </Carousel.Caption>
-                </Carousel.Item>
-              ) : null
-            })}
-        </Carousel>
+
         <Carousel
           activeIndex={index}
           direction={direction}
