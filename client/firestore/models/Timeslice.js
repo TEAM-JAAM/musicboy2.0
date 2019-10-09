@@ -42,6 +42,13 @@ class Timeslice {
     return new Timeslice(parentInstrument, newTimesliceDocSnapshot)
   }
 
+  update(index, value) {
+    console.log('got to slice update')
+    this.timesliceDocRef.update({
+      [`${index}`]: value
+    })
+  }
+
   // Return the data associated with this project
   data() {
     return this.timesliceDocSnapshot.data()
@@ -51,6 +58,12 @@ class Timeslice {
   ref() {
     return this.timesliceDocSnapshot.ref
   }
+}
+
+Timeslice.prototype.update = function(index, value) {
+  this.timesliceDocRef.update({
+    [`${index}`]: value
+  })
 }
 
 module.exports = Timeslice

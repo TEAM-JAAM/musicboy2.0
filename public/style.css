@@ -23,6 +23,7 @@ form div {
 /* AllInstruments */
 
 .scrolling-wrapper {
+  margin: 20px 0 30px 30px;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -31,7 +32,15 @@ form div {
 
 /* SingleInstruments */
 
-.instrument-container {
+.table-body {
+  background: url('./jaamlogo.png') no-repeat center center local,
+    linear-gradient(
+      0deg,
+      rgba(0, 142, 255, 1) 0%,
+      rgba(148, 195, 255, 1) 36%,
+      rgba(0, 255, 252, 1) 100%
+    );
+  background-size: contain;
   display: flex;
   justify-content: center;
 }
@@ -45,18 +54,18 @@ form div {
   background-color: limegreen;
 }
 
-.off {
-  background-color: grey;
-}
-
 .cell {
-  display: inline-block;
   margin: 0px;
-  border: 1px solid black;
   width: 40px;
   height: 18px;
+  border: 1px solid white;
 }
 
-.cell:hover {
-  background-color: pink;
+.closed {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.center {
+  justify-self: center;
 }

@@ -19,7 +19,6 @@ import {
 const Timeslice = props => {
   const slice = props.slice
   const [sliceDocSnapshot, loading, error] = useDocument(slice && slice.ref)
-
   const currentInstrument = synth
   const currentScale = PENTATONIC
 
@@ -27,7 +26,6 @@ const Timeslice = props => {
     <div className="time-slice">
       {sliceDocSnapshot &&
         Object.values(sliceDocSnapshot.data()).map((status, idx) => {
-          const cellClassName = status ? 'cell on' : 'cell off'
           let rowIndex = idx
           let sliceIndex = props.sliceIndex
           const node = new AudioNode(
@@ -36,16 +34,20 @@ const Timeslice = props => {
             currentScale[rowIndex],
             currentInstrument
           )
-          if (!props.allNodes[rowIndex]) {
-            props.allNodes[rowIndex] = {[sliceIndex]: node}
+          if (!props.allNodesState[rowIndex]) {
+            props.allNodesState[rowIndex] = {[sliceIndex]: node}
           } else {
-            props.allNodes[rowIndex][sliceIndex] = node
+            props.allNodesState[rowIndex][sliceIndex] = node
           }
+          const cellClassName = status ? 'cell on' : 'cell off'
           return (
             <div
               key={node.row}
               className={cellClassName}
-              onClick={() => props.handleToggleCell(node)}
+              onClick={() => {
+                props.handleToggleCell(node)
+                sliceDocSnapshot.update(node.row, node.status)
+              }}
             />
           )
         })}

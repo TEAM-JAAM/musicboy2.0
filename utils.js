@@ -11,19 +11,6 @@ export class AudioNode {
   }
 }
 
-// export const initGrid = width => {
-//   const grid = {}
-//   for (let i = 0; i < width; ++i) {
-//     const timeSlice = i
-//     grid[timeSlice] = {}
-//     for (let j = 0; j < 12; ++j) {
-//       let node = new AudioNode(i, j, G_MAJOR[j])
-//       grid[timeSlice][j] = node
-//     }
-//   }
-//   return grid
-// }
-
 export const toggleCell = cell => {
   if (!cell.status) cell.instrument.triggerAttackRelease(cell.pitch, '16n')
   cell.status = !cell.status

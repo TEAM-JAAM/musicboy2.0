@@ -39,9 +39,7 @@ class Instrument {
       newInstrumentDocSnapshot
     )
     for (let i = 0; i < INITIAL_TIMESLICES; ++i) {
-      await Timeslice.create(newInstrument, {
-        index: `${i}`
-      })
+      await Timeslice.create(newInstrument)
     }
 
     return newInstrument

@@ -14,6 +14,11 @@ import SingleInstrument from './SingleInstrument'
 import Tone from 'tone'
 import {Project} from '../firestore/models'
 
+// The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page.
+// if (Tone.context.state !== 'running') {
+//   Tone.context.resume();
+// }
+
 class AllInstruments extends React.Component {
   constructor() {
     super()
@@ -29,7 +34,7 @@ class AllInstruments extends React.Component {
   }
 
   async componentDidMount() {
-    const project = await Project.findByPk('6USSWQf4AAKDvl6uWGhp')
+    const project = await Project.findByPk('0mMOrHE89poWZe1MsdPC')
     const instruments = await project.getInstruments()
     this.setState({
       instruments

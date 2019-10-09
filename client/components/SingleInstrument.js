@@ -20,17 +20,17 @@ const SingleInstrument = props => {
 
   const sequences = {}
 
-  const allNodes = {}
+  const allNodesState = {}
 
   function handleToggleCell(cell) {
     toggleCell(cell)
-    const rowOfNodes = allNodes[cell.row]
     if (sequences[cell.row]) sequences[cell.row].cancel()
+    const rowOfNodes = allNodesState[cell.row]
     sequences[cell.row] = updateSequence(rowOfNodes, cell)
   }
 
   return (
-    <div className="instrument-container">
+    <div className="table-body">
       {grid ? (
         grid.map((querySnapshot, idx) => {
           return (
@@ -38,7 +38,7 @@ const SingleInstrument = props => {
               key={idx}
               handleToggleCell={handleToggleCell}
               sliceIndex={idx}
-              allNodes={allNodes}
+              allNodesState={allNodesState}
               slice={querySnapshot}
             />
           )
