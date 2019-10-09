@@ -75,7 +75,7 @@ class Project {
   }
 
   static findAllInstruments(projectDocRef) {
-    return projectDocRef.collection('instruments')
+    return projectDocRef && projectDocRef.collection('instruments')
   }
 
   static fromDocRef(projectDocRef) {

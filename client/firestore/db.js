@@ -15,5 +15,6 @@ module.exports = {
   app,
   auth: firebase.auth(),
   db: firebase.firestore(),
-  firestore: firebase.firestore
+  firestore: firebase.firestore,
+  provider: new firebase.auth.GoogleAuthProvider()
 }

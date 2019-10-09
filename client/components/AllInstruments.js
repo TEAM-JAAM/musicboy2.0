@@ -41,7 +41,7 @@ class AllInstruments extends React.Component {
     // need to register for this project document
     // [projectDocRef, projectLoading, projectError] = useDocument(this.props.projectDocRef)
     const project = await Project.findByPk('npcyFF33WB3T5vc8Le2b')
-    const projectDocRef = project.ref()
+    const projectDocRef = project && project.ref()
 
     // register for instrument collection reference...
     // [instrumentCollectionRef, instrumentsLoading, instrumentsError]

@@ -32,7 +32,7 @@ export const createNewSequence = row => {
     function(time, note) {
       synth.triggerAttackRelease(note, '32n', time)
     },
-    //node.status ? node.pitch : null,
+
     row.reduce((accum, node) => {
       if (node.status) accum.push(node.pitch)
       else accum.push(0)
