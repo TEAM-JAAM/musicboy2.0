@@ -44,7 +44,6 @@ export default class Navbar extends Component {
     const formName = evt.target.name
     const email = evt.target.email.value
     const password = evt.target.password.value
-    const projects = evt.target.projects.value
 
     if (formName === 'Signup') {
       auth
@@ -184,25 +183,20 @@ export default class Navbar extends Component {
                     <input name="password" type="password" />
                   </div>
                   <div>
-                    <label htmlFor="projects">
-                      <small>Projects</small>
-                    </label>
-                    <input name="projects" type="text" />
-                  </div>
-                  <div>
                     <Button variant="primary" type="submit">
                       {this.state.popUp}
                     </Button>
                   </div>
                 </form>
                 <Button
-                  variant="primary"
+                  variant="outline-primary"
                   onClick={() => {
                     this.googleSignIn()
                     this.handleClose()
                   }}
                 >
-                  {this.state.popUp} with Google
+                  {this.state.popUp} with{' '}
+                  <img src="https://img.icons8.com/color/24/000000/google-logo.png" />
                 </Button>
                 <Button variant="secondary" onClick={this.handleClose}>
                   Close

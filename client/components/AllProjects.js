@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {ToggleButtonGroup, Carousel, Row, ToggleButton} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 // need projects from database
 
-export const AllProjects = props => {
+const AllProjects = props => {
   const {email} = props
 
   const projects = [
@@ -77,7 +77,7 @@ export const AllProjects = props => {
       image: '🎻'
     }
   ]
-
+  console.log(projects)
   // carousel
   const [index, setIndex] = useState(0)
   const [direction, setDirection] = useState(null)
@@ -88,6 +88,7 @@ export const AllProjects = props => {
   const handleClick = () => {
     // go to project page at current index
     console.log('will go to: ', projects[index])
+    console.log(props.history)
   }
 
   // toggle buttons
@@ -127,6 +128,7 @@ export const AllProjects = props => {
         direction={direction}
         onSelect={handleSelect}
         onClick={handleClick}
+        interval={3000}
       >
         {projects.map(project => {
           return viewChanger(project) ? (
@@ -139,9 +141,9 @@ export const AllProjects = props => {
                 alt={project.name}
               />
               <Carousel.Caption>
-                <h3>{project.image}</h3>
                 <p>
-                  The Band: {project.members.length} out of {project.max}
+                  {project.image} The Band: {project.members.length} out of{' '}
+                  {project.max}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -151,3 +153,5 @@ export const AllProjects = props => {
     </div>
   )
 }
+
+export default withRouter(AllProjects)

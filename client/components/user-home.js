@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import {AllProjects} from './AllProjects'
+import AllProjects from './AllProjects'
 import {auth} from '../firestore/db'
-import {Modal, Button} from 'react-bootstrap'
+import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap'
 
 /**
  * COMPONENT
@@ -58,17 +58,21 @@ export const UserHome = () => {
               </select>
             </div>
             <div>
-              <div className="form-options">
-                <label htmlFor="public">Public</label>
+              <div>
+                <label htmlFor="public">Public?</label>
                 <input type="radio" name="privacy" id="public" value={false} />
-              </div>
-              <div className="form-options">
-                <label htmlFor="hidden">Hidden</label>
-                <input type="radio" name="privacy" id="hidden" value={true} />
               </div>
             </div>
             <div>
-              <label htmlFor="tempo">Tempo</label>
+              <label htmlFor="tempo">
+                Tempo
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>The rate your song will play</Tooltip>}
+                >
+                  <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
+                </OverlayTrigger>
+              </label>
               <input
                 type="range"
                 name="tempo"
@@ -76,6 +80,7 @@ export const UserHome = () => {
                 max="200"
                 onInput={handleRange}
               />
+
               <output>{rangeVal}</output>
             </div>
           </Modal.Body>
