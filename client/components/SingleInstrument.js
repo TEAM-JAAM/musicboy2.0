@@ -2,6 +2,7 @@ import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import Row from './Row'
 import {Instrument} from '../firestore/models'
+import {Grid} from '../../utils'
 
 const SingleInstrument = props => {
   const instrumentDocRef = props.instrumentDocRef

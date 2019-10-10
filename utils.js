@@ -2,56 +2,13 @@ import Tone from 'tone'
 import {synth, assignPitch} from './instruments'
 
 export class AudioNode {
-  constructor(row, index, pitch) {
+  constructor(row, index, pitch, instrument) {
     this.row = row
     this.index = index
     this.status = false
     this.pitch = pitch
+    this.instrument = instrument
   }
-}
-
-export const initGrid = (height, width) => {
-  let musicArray = []
-  for (let i = 0; i < height; ++i) {
-    musicArray.push([])
-    for (let j = 0; j < width; ++j) {
-      let node = new AudioNode(i, j, assignPitch[i])
-      musicArray[i].push(node)
-    }
-  }
-  return musicArray
-}
-
-export const toggleCell = cell => {
-  if (!cell.status) synth.triggerAttackRelease(cell.pitch, '16n')
-  cell.status = !cell.status
-}
-
-export const createNewSequence = row => {
-  const seq = new Tone.Sequence(
-    function(time, note) {
-      synth.triggerAttackRelease(note, '32n', time)
-    },
-
-    row.reduce((accum, node) => {
-      if (node.status) accum.push(node.pitch)
-      else accum.push(0)
-      return accum
-    }, []),
-    '4n'
-  ).start(0)
-  return seq
-}
-
-export const updateSequences = (sequencesArray, row, rowIdx) => {
-  return sequencesArray.map((sequence, idx) => {
-    if (idx === rowIdx) {
-      sequence.cancel()
-      return createNewSequence(row)
-    } else {
-      return sequence
-    }
-  })
 }
 
 export const addRowToGrid = grid => {
@@ -78,4 +35,97 @@ export const startMusic = () => {
 
 export const stopMusic = () => {
   Tone.Transport.stop()
+}
+
+export class Grid {
+  constructor() {
+    this.key = null
+    this.instrument = null
+    this.grid = []
+    this.sequence = []
+  }
+
+  setUpGrid(slices) {
+    if (slices && this.key && this.instrument) {
+      let nodeArray = []
+      for (let i = 0; i < slices.length; ++i) {
+        let booleanArray = Object.entries(slices[i].data())
+        nodeArray.push([])
+        for (let j = 0; j < 12; ++j) {
+          let node = new AudioNode(j, i, this.key[j], this.instrument)
+          if (booleanArray[j]) {
+            node.status = true
+          }
+          nodeArray[i].push(node)
+        }
+      }
+      this.grid = nodeArray
+    } else {
+      console.log('No slices were passed to the grid')
+    }
+  }
+
+  setKey(keyName) {
+    this.key = keyName
+  }
+
+  setInstrument(inst) {
+    this.instrument = inst
+  }
+
+  setUpSequence() {
+    let chordSequence = this.grid.map(slice => {
+      return slice.map(node => {
+        if (node.status) {
+          return node.pitch
+        }
+      })
+    })
+    this.sequence = this.createNewSequence(chordSequence)
+  }
+
+  createNewSequence(chordsArray) {
+    let chordArr = chordsArray.map(chord => {
+      return new Tone.Event(null, chord)
+    })
+
+    const seq = new Tone.Sequence(
+      function(time, note) {
+        this.instrument.triggerAttackRelease(note, '32n', time)
+      },
+      chordArr,
+      '4n'
+    ).start(0)
+    console.log('seq in createNewSequence', seq)
+    this.sequence = seq
+  }
+
+  updateSequence(cell) {
+    const timeSlice = cell.timeSlice
+    let eventToUpdate = this.sequence._events[timeSlice].value
+    if (Array.isArray(eventToUpdate)) {
+      if (eventToUpdate.includes(cell.pitch)) {
+        eventToUpdate = eventToUpdate.filter(note => note !== cell.pitch)
+      } else {
+        eventToUpdate.push(cell.pitch)
+      }
+    } else {
+      eventToUpdate = [cell.pitch]
+    }
+  }
+
+  playCell(row, col, value) {
+    //creates a change in status
+    let cell = this.grid[col][row]
+    let instrument = cell.instrument
+    if (!value) instrument.triggerAttackRelease(cell.pitch, '16n')
+  }
+
+  updateSlice(index, singleSlice) {
+    this.grid[index].forEach(cell => {
+      if (singleSlice[cell.row] !== cell.status) {
+        this.grid[index][cell.row].status = singleSlice[cell.row]
+      }
+    })
+  }
 }
