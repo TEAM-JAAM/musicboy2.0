@@ -11,11 +11,6 @@ export class AudioNode {
   }
 }
 
-export const toggleCell = cell => {
-  if (!cell.status) synth.triggerAttackRelease(cell.pitch, '16n')
-  cell.status = !cell.status
-}
-
 export const addRowToGrid = grid => {
   return grid.map((row, idx) => {
     const pitch = row[0].pitch
@@ -61,7 +56,7 @@ export class Grid {
           if (booleanArray[j]) {
             node.status = true
           }
-          nodeArray[j].push(node)
+          nodeArray[i].push(node)
         }
       }
       this.grid = nodeArray
@@ -73,6 +68,11 @@ export class Grid {
   setKey(keyName) {
     this.key = keyName
   }
+
+  setInstrument(inst) {
+    this.instrument = inst
+  }
+
   setUpSequence() {
     let chordSequence = this.grid.map(slice => {
       return slice.map(node => {
@@ -114,15 +114,18 @@ export class Grid {
     }
   }
 
-  // addNewTimesliceBlock() {
-  //   console.log('INSTRUMENT: trying to add a new timeslice block to the grid')
-  // }
-  //   removeTimesliceBlock = () => console.log('INSTRUMENT: trying to remove a timeslice block')
-  //   setKey = (key) => {
-  //     this.key = key
-  //     console.log('INSTRUMENT: trying to set the key to: ', key)
-  //   }
-  //   setCell = (row, col, value) => {
-  //     console.log('INSTRUMENT: changing the value of: (', row, ',', col, ') to ', value)
-  //   }
+  playCell(row, col, value) {
+    //creates a change in status
+    let cell = this.grid[col][row]
+    let instrument = cell.instrument
+    if (!value) instrument.triggerAttackRelease(cell.pitch, '16n')
+  }
+
+  updateSlice(index, singleSlice) {
+    this.grid[index].forEach(cell => {
+      if (singleSlice[cell.row] !== cell.status) {
+        this.grid[index][cell.row].status = singleSlice[cell.row]
+      }
+    })
+  }
 }
