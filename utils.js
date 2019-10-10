@@ -43,30 +43,36 @@ export const stopMusic = () => {
 }
 
 export class Grid {
-  constructor(collectionOfSlices, key, instrument) {
-    this.slices = collectionOfSlices
-    this.key = key
-    this.instrument = instrument
-    this.grid = this.setUpGrid(this.slices)
-    this.sequence = this.setUpSequence()
+  constructor() {
+    this.key = null
+    this.instrument = null
+    this.grid = []
+    this.sequence = []
   }
 
   setUpGrid(slices) {
-    let nodeArray = []
-    for (let i = 0; i < slices.length; ++i) {
-      let booleanArray = Object.entries(slices[i].data())
-      nodeArray.push([])
-      for (let j = 0; j < 12; ++j) {
-        let node = new AudioNode(j, i, this.key[j], this.instrument)
-        if (booleanArray[j]) {
-          node.status = true
+    if (slices && this.key && this.instrument) {
+      let nodeArray = []
+      for (let i = 0; i < slices.length; ++i) {
+        let booleanArray = Object.entries(slices[i].data())
+        nodeArray.push([])
+        for (let j = 0; j < 12; ++j) {
+          let node = new AudioNode(j, i, this.key[j], this.instrument)
+          if (booleanArray[j]) {
+            node.status = true
+          }
+          nodeArray[j].push(node)
         }
-        nodeArray[j].push(node)
       }
+      this.grid = nodeArray
+    } else {
+      console.log('No slices were passed to the grid')
     }
-    return nodeArray
   }
 
+  setKey(keyName) {
+    this.key = keyName
+  }
   setUpSequence() {
     let chordSequence = this.grid.map(slice => {
       return slice.map(node => {
@@ -75,39 +81,42 @@ export class Grid {
         }
       })
     })
-    return createNewSequence(chordSequence)
+    this.sequence = this.createNewSequence(chordSequence)
   }
 
-  createNewSequence(arr) {
+  createNewSequence(chordsArray) {
+    let chordArr = chordsArray.map(chord => {
+      return new Tone.Event(null, chord)
+    })
+
     const seq = new Tone.Sequence(
       function(time, note) {
-        synth.triggerAttackRelease(note, '32n', time)
+        this.instrument.triggerAttackRelease(note, '32n', time)
       },
-
-      row.reduce((accum, node) => {
-        if (node.status) accum.push(node.pitch)
-        else accum.push(0)
-        return accum
-      }, []),
+      chordArr,
       '4n'
     ).start(0)
-    return seq
+    console.log('seq in createNewSequence', seq)
+    this.sequence = seq
   }
 
-  updateSequences = (sequencesArray, row, rowIdx) => {
-    return sequencesArray.map((sequence, idx) => {
-      if (idx === rowIdx) {
-        sequence.cancel()
-        return createNewSequence(row)
+  updateSequence(cell) {
+    const timeSlice = cell.timeSlice
+    let eventToUpdate = this.sequence._events[timeSlice].value
+    if (Array.isArray(eventToUpdate)) {
+      if (eventToUpdate.includes(cell.pitch)) {
+        eventToUpdate = eventToUpdate.filter(note => note !== cell.pitch)
       } else {
-        return sequence
+        eventToUpdate.push(cell.pitch)
       }
-    })
+    } else {
+      eventToUpdate = [cell.pitch]
+    }
   }
 
-  addNewTimesliceBlock() {
-    console.log('INSTRUMENT: trying to add a new timeslice block to the grid')
-  }
+  // addNewTimesliceBlock() {
+  //   console.log('INSTRUMENT: trying to add a new timeslice block to the grid')
+  // }
   //   removeTimesliceBlock = () => console.log('INSTRUMENT: trying to remove a timeslice block')
   //   setKey = (key) => {
   //     this.key = key
