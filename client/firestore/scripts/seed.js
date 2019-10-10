@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 const {app} = require('../db')
 const {Project} = require('../models')
 
@@ -23,9 +24,7 @@ const createProjectOnce = async (projectName, type = 'Private') => {
 const seed = async () => {
   try {
     // project with 1 instrument added to test123@email.com
-    const projectWith1Instrument = await createProjectOnce(
-      '@jaam.test.single-instrument'
-    )
+    const projectWith1Instrument = await createProjectOnce('Dance Party')
     await projectWith1Instrument.addUserToProject({
       email: 'test123@email.com',
       uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
@@ -34,10 +33,39 @@ const seed = async () => {
       email: 'test1234@email.com',
       uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
     })
+    await projectWith1Instrument.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
+    })
+
+    // project with 1 instrument 2 added to test123@email.com & andrea
+    const projectWith1Instrument2 = await createProjectOnce('Jazz Vibes')
+    await projectWith1Instrument2.addUserToProject({
+      email: 'test123@email.com',
+      uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
+    })
+    await projectWith1Instrument2.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
+    })
+
+    // project with 1 instrument 3 added to test123@email.com & andrea
+    const projectWith1Instrument3 = await createProjectOnce(
+      'Welcome to Rock City',
+      'Public'
+    )
+    await projectWith1Instrument3.addUserToProject({
+      email: 'test123@email.com',
+      uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
+    })
+    await projectWith1Instrument3.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
+    })
 
     // project with 3 instruments added to cody@email.com
     const projectWith3Instruments = await createProjectOnce(
-      '@jaam.test.3-instruments'
+      'Testing, Testing, 1-2-3'
     )
     await projectWith3Instruments.addInstrument({
       name: 'saxaphone'
@@ -56,13 +84,21 @@ const seed = async () => {
 
     // public project with 1 instrument...
     const publicProjectWith1Instrument = await createProjectOnce(
-      '@jaam.test.public.1-instrument',
+      'Money in the Banana',
+      'Public'
+    )
+    const publicProjectWith1Instrument2 = await createProjectOnce(
+      'Theo is Making a Game',
+      'Public'
+    )
+    const publicProjectWith1Instrument3 = await createProjectOnce(
+      'Chris Can Juggle',
       'Public'
     )
 
     // public project with 3 instruments...
     const publicProjectWith3Instruments = await createProjectOnce(
-      '@jaam.test.public.3-instruments',
+      'You Spin Me Right Triangle',
       'Public'
     )
     await publicProjectWith3Instruments.addInstrument({
@@ -77,9 +113,34 @@ const seed = async () => {
       email: 'test1234@email.com',
       uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
     })
+    await publicProjectWith1Instrument2.addUserToProject({
+      email: 'test1234@email.com',
+      uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    })
+    await publicProjectWith1Instrument3.addUserToProject({
+      email: 'test1234@email.com',
+      uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    })
     await publicProjectWith3Instruments.addUserToProject({
       email: 'test1234@email.com',
       uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
+    })
+    // all projects added to andreasoloko@gmail.com...
+    await publicProjectWith1Instrument.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
+    })
+    await publicProjectWith1Instrument2.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
+    })
+    await publicProjectWith1Instrument3.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
+    })
+    await publicProjectWith3Instruments.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
     })
 
     console.log('NOTE: completed database seed')

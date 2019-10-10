@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap'
 import {withRouter} from 'react-router-dom'
 import PublicProjects from './PublicProjects'
+import UserProjectsList from './UserProjectsList'
 import {Project} from '../firestore/models'
 
 // need projects from database
@@ -50,7 +51,7 @@ const AllProjects = props => {
   // toggle buttons
   const [value, setValue] = useState(1)
   const viewChanger = project => {
-    if (value % 2) {
+    if (value === 1) {
       return project.members.includes(email)
     } else {
       return project.permissions === 'Public'
@@ -108,34 +109,39 @@ const AllProjects = props => {
             </ToggleButtonGroup>
           </Row>
         </div>
-        <Carousel
-          activeIndex={index}
-          direction={direction}
-          onSelect={handleSelect}
-          interval={3000}
-        >
-          {projects.map(project => {
-            return viewChanger(project) ? (
-              <Carousel.Item onClick={handleClick} key={project.id}>
-                <img
-                  className="d-block w-100"
-                  src={`https://imgholder.ru/${width}x${height()}/${
-                    colors[colorIdx]
-                  }/adb9ca&text=${project.name}&font=kelson`}
-                  alt={project.name}
-                />
-                <Carousel.Caption>
-                  <p>
-                    {project.image} The Band: {project.members.length} out of{' '}
-                    {project.max}
-                  </p>
-                </Carousel.Caption>
-              </Carousel.Item>
-            ) : (
-              <PublicProjects />
-            )
-          })}
-        </Carousel>
+
+        {value === 2 ? (
+          <PublicProjects projects={projects} />
+        ) : value === 3 ? (
+          <UserProjectsList projects={projects} />
+        ) : (
+          <Carousel
+            activeIndex={index}
+            direction={direction}
+            onSelect={handleSelect}
+            interval={3000}
+          >
+            {projects.map(project => {
+              return viewChanger(project) ? (
+                <Carousel.Item onClick={handleClick} key={project.id}>
+                  <img
+                    className="d-block w-100"
+                    src={`https://imgholder.ru/${width}x${height()}/${
+                      colors[colorIdx]
+                    }/adb9ca&text=${project.name}&font=kelson`}
+                    alt={project.name}
+                  />
+                  <Carousel.Caption>
+                    <p>
+                      {project.image} The Band: {project.members.length} out of{' '}
+                      {project.max}
+                    </p>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              ) : null
+            })}
+          </Carousel>
+        )}
       </div>
     )
   }
