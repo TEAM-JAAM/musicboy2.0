@@ -26,16 +26,16 @@ const seed = async () => {
     // project with 1 instrument added to test123@email.com
     const projectWith1Instrument = await createProjectOnce('Dance Party')
     await projectWith1Instrument.addUserToProject({
+      email: 'andreasoloko@gmail.com',
+      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
+    })
+    await projectWith1Instrument.addUserToProject({
       email: 'test123@email.com',
       uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
     })
     await projectWith1Instrument.addUserToProject({
       email: 'test1234@email.com',
       uid: 'NsutCoTAD7TndhjoPoaKeKyq7MZ2'
-    })
-    await projectWith1Instrument.addUserToProject({
-      email: 'andreasoloko@gmail.com',
-      uid: 'G7UijBPqV4aWBNHFM3jChIj1Oyk1'
     })
 
     // project with 1 instrument 2 added to test123@email.com & andrea

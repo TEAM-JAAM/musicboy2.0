@@ -22,8 +22,9 @@ export const SingleProjectDetails = ({docRef}) => {
       <div>
         <h1>Single Project Details</h1>
         <p>project.name: {project.name}</p>
+        <p>project.members: {project.members.join(', ')}</p>
         <p>project.emoji: {project.emoji}</p>
-        <p>project.maxMembers: {project.maxMembers}</p>
+        <p>project.maxMembers: {project.max}</p>
         <p>project.permissions: {project.permissions}</p>
         <p>project.tempo: {project.tempo}</p>
       </div>

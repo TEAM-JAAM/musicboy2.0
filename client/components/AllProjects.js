@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
-import {MdViewCarousel, MdGroup, MdList, MdPerson, MdHome} from 'react-icons/md'
+import {MdGroup, MdAccountCircle, MdHome, MdMusicNote} from 'react-icons/md'
 import {
   ToggleButtonGroup,
   Carousel,
@@ -10,7 +10,7 @@ import {
   OverlayTrigger,
   Tooltip
 } from 'react-bootstrap'
-import {withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import PublicProjects from './PublicProjects'
 import UserProjectsList from './UserProjectsList'
 import {Project} from '../firestore/models'
@@ -42,9 +42,6 @@ const AllProjects = props => {
   const colors = ['007BFF', '0069D9', '0062CC', '268FFF']
   const colorIdx = (index + 1) % colors.length
   const handleClick = () => {
-    console.log('will go to: ', projects[index])
-    console.log('history: ', history)
-    console.log('will push: ', `/projects/${projects[index].docRef.id}`)
     history.push(`/projects/${projects[index].docRef.id}`)
   }
 
@@ -59,6 +56,9 @@ const AllProjects = props => {
   }
   const handleChange = val => {
     setValue(val)
+    if (val === 4) {
+      history.push('/jammed')
+    }
   }
 
   if (error) throw new Error('FATAL: Firestore error encountered')
@@ -85,7 +85,7 @@ const AllProjects = props => {
               <ToggleButton key={1} variant="outline-dark" value={1}>
                 <OverlayTrigger
                   placement="top"
-                  overlay={<Tooltip>my songs</Tooltip>}
+                  overlay={<Tooltip>Home</Tooltip>}
                 >
                   <MdHome className="icon" />
                 </OverlayTrigger>
@@ -93,7 +93,7 @@ const AllProjects = props => {
               <ToggleButton key={2} variant="outline-dark" value={2}>
                 <OverlayTrigger
                   placement="top"
-                  overlay={<Tooltip>public songs</Tooltip>}
+                  overlay={<Tooltip>Public Sessions</Tooltip>}
                 >
                   <MdGroup className="icon" />
                 </OverlayTrigger>
@@ -101,9 +101,17 @@ const AllProjects = props => {
               <ToggleButton key={3} variant="outline-dark" value={3}>
                 <OverlayTrigger
                   placement="top"
-                  overlay={<Tooltip>all songs list view</Tooltip>}
+                  overlay={<Tooltip>My Account</Tooltip>}
                 >
-                  <MdList className="icon" />
+                  <MdAccountCircle className="icon" />
+                </OverlayTrigger>
+              </ToggleButton>
+              <ToggleButton key={4} variant="outline-dark" value={4}>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>Jaam</Tooltip>}
+                >
+                  <MdMusicNote className="icon" />
                 </OverlayTrigger>
               </ToggleButton>
             </ToggleButtonGroup>
@@ -111,9 +119,9 @@ const AllProjects = props => {
         </div>
 
         {value === 2 ? (
-          <PublicProjects projects={projects} />
+          <PublicProjects projects={projects} email={email} uid={uid} />
         ) : value === 3 ? (
-          <UserProjectsList projects={projects} />
+          <UserProjectsList projects={projects} email={email} uid={uid} />
         ) : (
           <Carousel
             activeIndex={index}
@@ -123,7 +131,7 @@ const AllProjects = props => {
           >
             {projects.map(project => {
               return viewChanger(project) ? (
-                <Carousel.Item onClick={handleClick} key={project.id}>
+                <Carousel.Item onClick={handleClick} key={project.docRef.id}>
                   <img
                     className="d-block w-100"
                     src={`https://imgholder.ru/${width}x${height()}/${
