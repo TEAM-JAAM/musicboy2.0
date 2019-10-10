@@ -4,7 +4,7 @@ import {Spinner} from 'react-bootstrap'
 
 import {Instrument} from '../../firestore/models'
 import {SingleTimeslice} from '../timeslice/SingleTimeslice'
-import {Grid} from '../../utils'
+import {Grid} from '../../../utils'
 
 export const SingleInstrumentTimeslices = ({docRef}) => {
   // grid containing the music sequences...
@@ -55,7 +55,7 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
   useEffect(
     () => {
       if (timeslicesQueryResult) {
-        grid.current.setupGrid(timeslicesQueryResult)
+        grid.current.setUpGrid(timeslicesQueryResult)
       }
     },
     [timeslicesQueryResult]
@@ -76,11 +76,12 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
       <div>
         {timeslicesDocRefs.map(timesliceDocRef => {
           return (
-            <SingleTimeslice
-              key={timesliceDocRef.id}
-              docRef={timesliceDocRef.ref}
-              grid={grid.current}
-            />
+            <div className="table-body" key={timesliceDocRef.id}>
+              <SingleTimeslice
+                docRef={timesliceDocRef.ref}
+                grid={grid.current}
+              />
+            </div>
           )
         })}
       </div>

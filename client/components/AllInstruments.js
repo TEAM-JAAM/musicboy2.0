@@ -1,15 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {
-  stopMusic,
-  startMusic,
-  initGrid,
-  toggleCell,
-  createNewSequence,
-  updateSequences,
-  addRowToGrid,
-  removeRowFromGrid
-} from '../../utils'
+// import {
+//   stopMusic,
+//   startMusic,
+//   initGrid,
+//   toggleCell,
+//   createNewSequence,
+//   updateSequences,
+//   addRowToGrid,
+//   removeRowFromGrid
+// } from '../../utils'
 import SingleInstrument from './SingleInstrument'
 import Tone from 'tone'
 import {Project} from '../firestore/models'
