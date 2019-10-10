@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import {SingleProject, UserHome} from './components'
-
 import {auth} from './firestore/db'
 
 class Routes extends Component {
