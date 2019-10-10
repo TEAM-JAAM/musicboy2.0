@@ -1,4 +1,27 @@
-import synth from './synth'
-import {assignPitch} from './scales'
+import {
+  synth,
+  tiny,
+  kalimba,
+  electricCello,
+  steelPan,
+  electric,
+  marimba,
+  bassGuitar,
+  pianoetta
+} from './synth'
+import {G_MAJOR, G_MINOR, PENTATONIC} from './scales'
 
-export {synth, assignPitch}
+export {
+  synth,
+  tiny,
+  kalimba,
+  electricCello,
+  steelPan,
+  marimba,
+  electric,
+  bassGuitar,
+  pianoetta,
+  G_MAJOR,
+  G_MINOR,
+  PENTATONIC
+}
