@@ -4,7 +4,7 @@ import {Spinner} from 'react-bootstrap'
 
 import {Instrument} from '../../firestore/models'
 import {SingleTimeslice} from '../timeslice/SingleTimeslice'
-import Grid from './Grid'
+import {Grid} from '../../utils'
 
 export const SingleInstrumentTimeslices = ({docRef}) => {
   // grid containing the music sequences...
