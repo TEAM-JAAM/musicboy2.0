@@ -2,24 +2,45 @@ import Tone from 'tone'
 import {synth, assignPitch} from './instruments'
 
 export class AudioNode {
-  constructor(row, index, pitch) {
+  constructor(row, index, pitch, instrument) {
     this.row = row
     this.index = index
     this.status = false
     this.pitch = pitch
+    this.instrument = instrument
   }
 }
 
-export const initGrid = (height, width) => {
-  let musicArray = []
-  for (let i = 0; i < height; ++i) {
-    musicArray.push([])
-    for (let j = 0; j < width; ++j) {
-      let node = new AudioNode(i, j, assignPitch[i])
-      musicArray[i].push(node)
-    }
+export class Grid {
+  constructor(slices, key, instrument) {
+    this.slices = slices
+    this.key = key
+    this.instrument = instrument
   }
-  return musicArray
+
+  setUpGrid(singleInstrument) {
+    let musicArray = []
+    for (let i = 0; i < this.slices; ++i) {
+      musicArray.push([])
+      for (let j = 0; j < 12; ++j) {
+        let node = new AudioNode(i, j, this.key[j], this.instrument)
+        musicArray[i].push(node)
+      }
+    }
+    return musicArray
+  }
+
+  //   addNewTimesliceBlock = () => {
+  //     console.log('INSTRUMENT: trying to add a new timeslice block to the grid')
+  //   }
+  //   removeTimesliceBlock = () => console.log('INSTRUMENT: trying to remove a timeslice block')
+  //   setKey = (key) => {
+  //     this.key = key
+  //     console.log('INSTRUMENT: trying to set the key to: ', key)
+  //   }
+  //   setCell = (row, col, value) => {
+  //     console.log('INSTRUMENT: changing the value of: (', row, ',', col, ') to ', value)
+  //   }
 }
 
 export const toggleCell = cell => {
