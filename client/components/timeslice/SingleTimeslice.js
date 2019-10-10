@@ -43,17 +43,24 @@ export const SingleTimeslice = ({docRef, grid}) => {
   if (timesliceQueryResult) {
     let timesliceArr = Object.entries(timeslice)
 
-    return timesliceArr.map(cell => {
-      const statusColor = cell[1] ? 'cell on' : 'cell off'
-      return (
-        <div
-          key={cell}
-          className={statusColor}
-          onClick={() => {
-            handleClick(cell[0])
-          }}
-        />
-      )
-    })
+    return (
+      <td>
+        <table>
+          {timesliceArr.map(cell => {
+            const statusColor = cell[1] ? 'cell on' : 'cell off'
+            return (
+              <tr key={cell}>
+                <td
+                  className={statusColor}
+                  onClick={() => {
+                    handleClick(cell[0])
+                  }}
+                />
+              </tr>
+            )
+          })}
+        </table>
+      </td>
+    )
   }
 }
