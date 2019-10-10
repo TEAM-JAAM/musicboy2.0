@@ -18,6 +18,9 @@ const PublicProjects = props => {
   }
 
   const featuredProject = projects[Math.floor(Math.random() * projects.length)]
+  const joinOrJaam = () => {
+    return featuredProject.members.includes(email) ? 'Go Jaam' : 'Join +'
+  }
   // error handlers
   if (error) throw new Error('FATAL: Firestore error encountered')
   if (loading) {
@@ -45,7 +48,7 @@ const PublicProjects = props => {
               variant="success"
               onClick={() => handleClick(featuredProject.docRef)}
             >
-              Join +
+              {joinOrJaam()}
             </Button>
           </Card.Body>
         </Card>
