@@ -71,3 +71,20 @@ td {
 .center {
   justify-self: center;
 }
+
+/* managing single-instrument-container & single-instrument-options */
+.single-instrument-with-details {
+  display: flex;
+}
+
+.single-instrument-options {
+  flex: 1;
+}
+
+.single-instrument-container {
+  flex: 9;
+  display: flex;
+  flex-direction: row;
+}
+
+/* managing single-instrument-options */

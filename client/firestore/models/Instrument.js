@@ -59,8 +59,13 @@ class Instrument {
     return instrumentDocRef && new Instrument(instrumentDocRef)
   }
 
-  // Instance methods.........................................................
+  static update(documentQuerySnapshot, key, value) {
+    documentQuerySnapshot.ref.update({
+      [`${key}`]: value
+    })
+  }
 
+  // Instance methods.........................................................
   // Return the Firestore reference to this instrument document
   ref() {
     return this.instrumentDocRef
