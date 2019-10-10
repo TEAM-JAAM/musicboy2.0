@@ -1,18 +1,35 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {Button, Spinner} from 'react-bootstrap'
 
 import {Timeslice} from '../../firestore/models'
 
-export const SingleTimeslice = ({docRef}) => {
+export const SingleTimeslice = ({docRef, grid}) => {
+  const instrumentGrid = useRef(grid)
   const [timesliceQueryResult, loading, error] = useDocument(docRef)
   const timesliceIndex = Timeslice.fetchTimesliceIndex(timesliceQueryResult)
   const timeslice = Timeslice.fetchTimesliceData(timesliceQueryResult)
 
+  useEffect(
+    () => {
+      if (timesliceQueryResult) {
+        const updatedTimeslice = timesliceQueryResult.data()
+        console.log('timeslice: got a change: ', updatedTimeslice)
+        instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
+      }
+    },
+    [timesliceQueryResult]
+  )
+
   const handleClick = async value => {
     console.log('clicked index: ', value, ', typeof value: ', typeof value)
     console.log('value in local store: ', timeslice[value].toString())
-    await Timeslice.update(timesliceQueryResult, value, !timeslice[value])
+    const newCellValue = !timeslice[value]
+    await Timeslice.update(timesliceQueryResult, value, newCellValue)
+
+    if (newCellValue === true) {
+      instrumentGrid.current.playCell(value, timesliceIndex)
+    }
   }
 
   if (error) throw new Error('FATAL: firestore error encountered')
