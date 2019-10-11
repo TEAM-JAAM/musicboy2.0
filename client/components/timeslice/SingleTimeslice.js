@@ -21,11 +21,8 @@ export const SingleTimeslice = ({docRef, grid}) => {
   )
 
   const handleClick = async row => {
-    console.log('clicked index: ', row, ', typeof row: ', typeof row)
-    console.log('row in local store: ', timeslice[row].toString())
     const newCellRow = !timeslice[row]
     await Timeslice.update(timesliceQueryResult, row, newCellRow)
-
     if (newCellRow === true) {
       instrumentGrid.current.playCell(row, timesliceIndex)
     }
