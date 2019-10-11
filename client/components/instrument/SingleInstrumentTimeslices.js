@@ -73,13 +73,10 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
   }
   if (timeslicesQueryResult) {
     return (
-      <div>
+      <div className="single-instrument-container">
         {timeslicesDocRefs.map(timesliceDocRef => {
           return (
-            <div
-              className="single-instrument-container"
-              key={timesliceDocRef.id}
-            >
+            <div key={timesliceDocRef.id}>
               <SingleTimeslice
                 docRef={timesliceDocRef.ref}
                 grid={grid.current}

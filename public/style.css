@@ -78,13 +78,19 @@ td {
 }
 
 .single-instrument-options {
-  flex: 1;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .single-instrument-container {
-  flex: 9;
+  flex: 8;
   display: flex;
   flex-direction: row;
 }
 
-/* managing single-instrument-options */
+/* single-instrument-options */
+.select-instrument-name .select-instrument-key {
+}

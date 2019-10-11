@@ -2,28 +2,17 @@ import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {Spinner} from 'react-bootstrap'
 import {Instrument} from '../../firestore/models'
-// import {
-// 	synth,
-// 	tiny,
-// 	kalimba,
-// 	electricCello,
-// 	steelPan,
-// 	marimba,
-// 	electric,
-// 	bassGuitar,
-// 	pianoetta,
-// 	G_MAJOR,
-// 	G_MINOR,
-// 	PENTATONIC
-// } from '../../instruments';
 
 export const SingleInstrumentDetails = ({docRef}) => {
   const [instrumentQueryResult, loading, error] = useDocument(docRef)
   const instrument = Instrument.fetchInstrumentData(instrumentQueryResult)
 
   function handleChange(event) {
-    Instrument.update(instrumentQueryResult, 'name', event.target.value)
-    // console.log('insrument', instrument);
+    Instrument.update(
+      instrumentQueryResult,
+      `${event.target.name}`,
+      event.target.value
+    )
   }
 
   if (error) throw new Error('FATAL: firestore error encountered')
@@ -37,18 +26,29 @@ export const SingleInstrumentDetails = ({docRef}) => {
   if (instrumentQueryResult) {
     return (
       <div className="single-instrument-options">
-        <h1>{instrument.name}</h1>
-        <label htmlFor="select-instrument">select instrument</label>
-        <select
-          onChange={handleChange}
-          name="select-instrument"
-          className="select-instrument-type"
-        >
-          <option value="synth">synth</option>
-          <option value="steelPan">steelPan</option>
-          <option value="electric">electric</option>
-        </select>
-        <p>instrument.key: {instrument.key}</p>
+        <h2>{instrument.name}</h2>
+        <div className="select-instrument-name">
+          <label htmlFor="name">select instrument</label>
+          <select onChange={handleChange} name="name">
+            <option value="" selected disabled hidden>
+              {instrument.name}
+            </option>
+            <option value="synth">synth</option>
+            <option value="steelPan">steel pan</option>
+            <option value="electricCello">electric cello</option>
+          </select>
+        </div>
+        <div className="select-instrument-key">
+          <label htmlFor="key">change key</label>
+          <select onChange={handleChange} name="key">
+            <option value="" selected disabled hidden>
+              {instrument.key}
+            </option>
+            <option value="G_MAJOR">major</option>
+            <option value="G_MINOR">minor</option>
+            <option value="PENTATONIC">pentatonic</option>
+          </select>
+        </div>
       </div>
     )
   }
