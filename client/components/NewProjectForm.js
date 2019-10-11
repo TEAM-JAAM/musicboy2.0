@@ -32,7 +32,7 @@ const NewProjectForm = props => {
     const data = {
       name: event.target.title.value,
       emoji: event.target.image.value,
-      permissions: event.target.permissions.value ? 'Public' : 'Private',
+      permissions: publicVal ? 'Public' : 'Private',
       tempo: event.target.tempo.value,
       members: [email],
       memberUids: [uid],
