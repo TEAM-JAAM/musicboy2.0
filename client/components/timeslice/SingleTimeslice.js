@@ -14,7 +14,6 @@ export const SingleTimeslice = ({docRef, grid}) => {
     () => {
       if (timesliceQueryResult) {
         const updatedTimeslice = timesliceQueryResult.data()
-        console.log('timeslice: got a change: ', updatedTimeslice)
         instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
       }
     },
@@ -42,25 +41,22 @@ export const SingleTimeslice = ({docRef, grid}) => {
   }
   if (timesliceQueryResult) {
     let timesliceArr = Object.entries(timeslice)
-
     return (
-      <td>
-        <table>
-          {timesliceArr.map(cell => {
-            const statusColor = cell[1] ? 'cell on' : 'cell off'
-            return (
-              <tr key={cell}>
-                <td
-                  className={statusColor}
-                  onClick={() => {
-                    handleClick(cell[0])
-                  }}
-                />
-              </tr>
-            )
-          })}
-        </table>
-      </td>
+      <table>
+        {timesliceArr.map(cell => {
+          const statusColor = cell[1] ? 'cell on' : 'cell off'
+          return (
+            <tr key={cell}>
+              <td
+                className={statusColor}
+                onClick={() => {
+                  handleClick(cell[0])
+                }}
+              />
+            </tr>
+          )
+        })}
+      </table>
     )
   }
 }
