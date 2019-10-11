@@ -5,5 +5,6 @@
  */
 export {default as Navbar} from './navbar'
 export {UserHome} from './user-home'
+export {default as Err} from './Error'
 
 export {SingleProject} from './project/SingleProject'

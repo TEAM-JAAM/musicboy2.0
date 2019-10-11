@@ -71,3 +71,7 @@ td {
 .center {
   justify-self: center;
 }
+
+.icon {
+  font-size: 1.5rem;
+}
