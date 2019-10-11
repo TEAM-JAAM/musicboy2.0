@@ -67,6 +67,7 @@ const PublicProjects = props => {
                   border="primary"
                 >
                   <Card.Img
+                    onClick={() => handleClick(project.docRef)}
                     variant="top"
                     src={`https://dummyimage.com/1000x5:2/007bff/fff.jpg&text=${
                       project.name

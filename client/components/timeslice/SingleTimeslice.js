@@ -10,15 +10,15 @@ export const SingleTimeslice = ({docRef, grid}) => {
   const timesliceIndex = Timeslice.fetchTimesliceIndex(timesliceQueryResult)
   const timeslice = Timeslice.fetchTimesliceData(timesliceQueryResult)
 
-  useEffect(
-    () => {
-      if (timesliceQueryResult) {
-        const updatedTimeslice = timesliceQueryResult.data()
-        instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
-      }
-    },
-    [timesliceQueryResult]
-  )
+  // useEffect(
+  //   () => {
+  //     if (timesliceQueryResult) {
+  //       const updatedTimeslice = timesliceQueryResult.data()
+  //       instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
+  //     }
+  //   },
+  //   [timesliceQueryResult]
+  // )
 
   const handleClick = async row => {
     const newCellRow = !timeslice[row]
@@ -40,19 +40,21 @@ export const SingleTimeslice = ({docRef, grid}) => {
     let timesliceArr = Object.entries(timeslice)
     return (
       <table>
-        {timesliceArr.map(cell => {
-          const statusColor = cell[1] ? 'cell on' : 'cell off'
-          return (
-            <tr key={cell}>
-              <td
-                className={statusColor}
-                onClick={() => {
-                  handleClick(cell[0])
-                }}
-              />
-            </tr>
-          )
-        })}
+        <tbody>
+          {timesliceArr.map(cell => {
+            const statusColor = cell[1] ? 'cell on' : 'cell off'
+            return (
+              <tr key={cell}>
+                <td
+                  className={statusColor}
+                  onClick={() => {
+                    handleClick(cell[0])
+                  }}
+                />
+              </tr>
+            )
+          })}
+        </tbody>
       </table>
     )
   }
