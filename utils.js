@@ -55,6 +55,7 @@ export class Grid {
 
   setUpGrid(slices) {
     if (slices && this.key && this.instrument) {
+      console.log('SETUP GRID CALLED')
       this.chordArray = []
       let nodeArray = []
       let docsArray = slices.docs
@@ -167,5 +168,9 @@ export class Grid {
         }
       })
     }
+  }
+
+  getGridSize() {
+    return this.grid.length
   }
 }
