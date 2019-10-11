@@ -39,7 +39,7 @@ const NewProjectForm = props => {
       max: 5
     }
     const project = await Project.findOrCreate(data)
-    await project.addInstrument({name: 'electricCello'})
+    await project.addInstrument({name: 'synth'})
     const id = project.ref().id
     history.push(`/projects/${id}`)
     handleClose()
