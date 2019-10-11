@@ -38,7 +38,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
             <option value="electricCello">electric cello</option>
           </select>
         </div>
-        <div className="select-instrument-key">
+        {/* <div className="select-instrument-key">
           <label htmlFor="key">change key</label>
           <select onChange={handleChange} name="key">
             <option value="" selected disabled hidden>
@@ -48,7 +48,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
             <option value="G_MINOR">minor</option>
             <option value="PENTATONIC">pentatonic</option>
           </select>
-        </div>
+        </div> */}
       </div>
     )
   }

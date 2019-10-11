@@ -58,11 +58,12 @@ export class Grid {
     this.instrument = null
     this.grid = []
     this.sequence = []
+    this.chordArray = []
   }
 
   setUpGrid(slices) {
     if (slices && this.key && this.instrument) {
-      let chordArray = []
+      this.chordArray = []
       let nodeArray = []
       let docsArray = slices.docs
       for (let i = 0; i < docsArray.length; ++i) {
@@ -77,15 +78,15 @@ export class Grid {
           }
           nodeArray[i].push(node)
         }
-        chordArray.push(chord)
+        this.chordArray.push(chord)
       }
       this.grid = nodeArray
       if (!this.sequence.length) {
-        this.createNewSequence(chordArray)
+        this.createNewSequence(this.chordArray)
       } else {
         this.sequence._events.forEach((chord, idx) => {
-          if (chord.value.length !== chordArray[idx].length)
-            chord.value = chordArray[idx]
+          if (chord.value.length !== this.chordArray[idx].length)
+            chord.value = this.chordArray[idx]
         })
       }
     } else {
@@ -115,8 +116,16 @@ export class Grid {
       bassGuitar: bassGuitar,
       pianoetta: pianoetta
     }
-
     this.instrument = instrumentMap[inst]
+    this.grid.forEach(slice => {
+      slice.forEach(node => {
+        node.instrument = this.instrument
+      })
+    })
+    if (this.sequence.length) {
+      this.sequence.cancel()
+      this.createNewSequence(this.chordArray)
+    }
     console.log('WE ARE SETTING OUR INSTRUMENT', this.instrument)
   }
 
@@ -145,7 +154,6 @@ export class Grid {
     ).start(0)
 
     this.sequence = seq
-    console.log('this sequence was just created', this.sequence)
   }
 
   updateSequenceSlice(cell) {
