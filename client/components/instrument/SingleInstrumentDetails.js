@@ -2,6 +2,7 @@ import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {Spinner} from 'react-bootstrap'
 import {Instrument} from '../../firestore/models'
+import {Grid} from '../../../utils'
 
 export const SingleInstrumentDetails = ({docRef}) => {
   const [instrumentQueryResult, loading, error] = useDocument(docRef)
@@ -10,7 +11,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
   function handleChange(event) {
     Instrument.update(
       instrumentQueryResult,
-      `${event.target.name}`,
+      event.target.name,
       event.target.value
     )
   }
@@ -30,7 +31,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
         <div className="select-instrument-name">
           <label htmlFor="name">select instrument</label>
           <select onChange={handleChange} name="name">
-            <option value="" selected disabled hidden>
+            <option defaultValue="" disabled hidden>
               {instrument.name}
             </option>
             <option value="synth">synth</option>
@@ -41,7 +42,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
         <div className="select-instrument-key">
           <label htmlFor="key">change key</label>
           <select onChange={handleChange} name="key">
-            <option value="" selected disabled hidden>
+            <option defaultValue="" disabled hidden>
               {instrument.key}
             </option>
             <option value="G_MAJOR">major</option>

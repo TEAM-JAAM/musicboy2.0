@@ -43,14 +43,6 @@ export const removeRowFromGrid = grid => {
   })
 }
 
-export const startMusic = () => {
-  Tone.Transport.start()
-}
-
-export const stopMusic = () => {
-  Tone.Transport.stop()
-}
-
 export class Grid {
   constructor() {
     this.key = null
@@ -127,15 +119,13 @@ export class Grid {
   }
 
   createNewSequence(chordsArray) {
-    console.log('INSTRUMENT', this.instrument)
-    console.log('MARIMBA', marimba)
     let chordArr = chordsArray.map(chord => {
       return new Tone.Event(null, chord)
     })
     let inst = this.instrument
     const seq = new Tone.Sequence(
       function(time, note) {
-        steelPan.triggerAttackRelease(note, '32n', time)
+        inst.triggerAttackRelease(note, '32n', time)
       },
       chordArr,
       '4n'
@@ -161,9 +151,7 @@ export class Grid {
 
   playCell(row, col) {
     //creates a change in status
-    console.log('THIS GRID', this.grid)
     let cell = this.grid[col][row]
-    console.log('cell', cell)
     let instrument = cell.instrument
     instrument.triggerAttackRelease(cell.pitch, '16n')
     // this.updateSequence(cell)

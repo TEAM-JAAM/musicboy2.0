@@ -1,5 +1,4 @@
 import React from 'react'
-import {stopMusic, startMusic} from '../../../utils'
 import {SingleInstrumentDetails} from './SingleInstrumentDetails'
 import {SingleInstrumentTimeslices} from './SingleInstrumentTimeslices'
 import {Button} from 'react-bootstrap'
