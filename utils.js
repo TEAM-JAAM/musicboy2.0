@@ -77,10 +77,8 @@ export class Grid {
       if (!this.sequence.length) {
         this.createNewSequence(this.chordArray)
       } else {
-        this.sequence._events.forEach((chord, idx) => {
-          if (chord.value.length !== this.chordArray[idx].length)
-            chord.value = this.chordArray[idx]
-        })
+        this.sequence.cancel()
+        this.createNewSequence(this.chordArray)
       }
     } else {
       console.log('No slices were passed to the grid')
@@ -94,7 +92,15 @@ export class Grid {
       PENTATONIC: PENTATONIC
     }
     this.key = keyMap[keyName]
-    //console.log('WE ARE SETTING OUR KEY', this.key)
+    this.grid.forEach(slice => {
+      slice.forEach(node => {
+        node.key = this.key
+      })
+    })
+    if (this.sequence.length) {
+      this.sequence.cancel()
+      this.createNewSequence(this.chordArray)
+    }
   }
 
   setInstrument(inst) {
@@ -134,22 +140,15 @@ export class Grid {
       chordArr,
       '4n'
     ).start(0)
-
     this.sequence = seq
-    // console.log('this sequence was just created', this.sequence)
   }
 
   updateSequenceSlice(cell) {
-    console.log('updateSequence was just called')
     let eventToUpdate = this.sequence._events[cell.index].value
-    if (Array.isArray(eventToUpdate)) {
-      if (eventToUpdate.includes(cell.pitch)) {
-        eventToUpdate = eventToUpdate.filter(note => note !== cell.pitch)
-      } else {
-        eventToUpdate.push(cell.pitch)
-      }
+    if (eventToUpdate.includes(cell.pitch)) {
+      eventToUpdate = eventToUpdate.filter(note => note !== cell.pitch)
     } else {
-      eventToUpdate = [cell.pitch]
+      eventToUpdate.push(cell.pitch)
     }
   }
 
@@ -164,7 +163,9 @@ export class Grid {
     if (this.grid.length) {
       this.grid[index].forEach(cell => {
         if (singleSlice[cell.row] !== cell.status) {
-          this.grid[index][cell.row].status = singleSlice[cell.row]
+          const cellToUpdate = this.grid[index][cell.row]
+          cellToUpdate.status = singleSlice[cell.row]
+          this.updateSequenceSlice(cellToUpdate)
         }
       })
     }
