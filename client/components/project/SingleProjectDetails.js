@@ -1,6 +1,7 @@
 import React from 'react'
+import Tone from 'tone'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {Spinner} from 'react-bootstrap'
+import {Button, Spinner} from 'react-bootstrap'
 
 import {Project} from '../../firestore/models'
 
@@ -27,6 +28,23 @@ export const SingleProjectDetails = ({docRef}) => {
         <p>project.maxMembers: {project.max}</p>
         <p>project.permissions: {project.permissions}</p>
         <p>project.tempo: {project.tempo}</p>
+        <br />
+        <Button
+          variant="success"
+          onClick={() => {
+            Tone.Transport.start()
+          }}
+        >
+          Play
+        </Button>
+        <Button
+          variant="warning"
+          onClick={() => {
+            Tone.Transport.stop()
+          }}
+        >
+          Stop
+        </Button>
       </div>
     )
   }

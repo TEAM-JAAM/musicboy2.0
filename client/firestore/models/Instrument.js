@@ -62,6 +62,12 @@ class Instrument {
     documentQuerySnapshot.ref.update(objectData)
   }
 
+  static update(documentQuerySnapshot, key, value) {
+    documentQuerySnapshot.ref.update({
+      [`${key}`]: value
+    })
+  }
+
   // Instance methods.........................................................
   async addTimesliceBlock(startingIndex, numberOfTimeslices) {
     const instrumentDocSnapshot = await this.instrumentDocRef.get()
@@ -85,6 +91,22 @@ class Instrument {
     }
   }
 
+  async clearAllTimeslices() {
+    const instrumentDocSnapshot = await this.instrumentDocRef.get()
+    if (!instrumentDocSnapshot.exists) {
+      throw new util.DatabaseInconsistentError()
+    }
+    const timeslicesCollectionRef = this.instrumentDocRef.collection(
+      'timeslices'
+    )
+    const timeslicesQuerySnapshot = await timeslicesCollectionRef.get()
+    const timeslicesDocs = timeslicesQuerySnapshot.docs
+    for (let i = 0; i < timeslicesDocs.length; ++i) {
+      const timeslice = Timeslice.fromDocRef(timeslicesDocs[i].ref)
+      await timeslice.reset()
+    }
+  }
+
   async destroy() {
     // Find the timeslices collection...
     const timeslicesCollectionRef = this.instrumentDocRef.collection(
@@ -104,12 +126,6 @@ class Instrument {
 
     // Invalidate this object...
     this.instrumentDocRef = null
-  }
-
-  static update(documentQuerySnapshot, key, value) {
-    documentQuerySnapshot.ref.update({
-      [`${key}`]: value
-    })
   }
 
   // Instance methods.........................................................
