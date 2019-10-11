@@ -5,7 +5,6 @@ import {SingleProjectInstruments} from './SingleProjectInstruments'
 
 export const SingleProject = props => {
   const projectDocRef = props.match.params.docRef
-
   return (
     <React.Fragment>
       <SingleProjectDetails docRef={projectDocRef} />

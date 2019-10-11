@@ -1,7 +1,15 @@
 import React, {useState} from 'react'
 import AllProjects from './AllProjects'
 import {auth} from '../firestore/db'
-import {Modal, Button} from 'react-bootstrap'
+import {
+  Modal,
+  Button,
+  Tooltip,
+  OverlayTrigger,
+  ToggleButton,
+  ToggleButtonGroup,
+  Form
+} from 'react-bootstrap'
 
 /**
  * COMPONENT
@@ -9,6 +17,12 @@ import {Modal, Button} from 'react-bootstrap'
 export const UserHome = () => {
   const email = auth.currentUser.email
   const uid = auth.currentUser.uid
+
+  // privacy switch
+  const [publicVal, setPublicVal] = useState(false)
+  const handleSwitch = () => {
+    setPublicVal(!publicVal)
+  }
 
   // modal
   const [show, setShow] = useState(false)
@@ -60,17 +74,33 @@ export const UserHome = () => {
               </select>
             </div>
             <div>
-              <div className="form-options">
-                <label htmlFor="public">Public</label>
-                <input type="radio" name="privacy" id="public" value={false} />
-              </div>
-              <div className="form-options">
-                <label htmlFor="hidden">Hidden</label>
-                <input type="radio" name="privacy" id="hidden" value={true} />
+              <div>
+                <label htmlFor="public">Public?</label>
+                <ToggleButtonGroup
+                  name="public"
+                  type="radio"
+                  value={publicVal}
+                  onChange={handleSwitch}
+                >
+                  <ToggleButton variant="outline-success" value={true}>
+                    Yes
+                  </ToggleButton>
+                  <ToggleButton variant="outline-secondary" value={false}>
+                    No
+                  </ToggleButton>
+                </ToggleButtonGroup>
               </div>
             </div>
             <div>
-              <label htmlFor="tempo">Tempo</label>
+              <label htmlFor="tempo">
+                Tempo
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>The rate your song will play</Tooltip>}
+                >
+                  <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
+                </OverlayTrigger>
+              </label>
               <input
                 type="range"
                 name="tempo"
@@ -78,7 +108,9 @@ export const UserHome = () => {
                 max="200"
                 onInput={handleRange}
               />
-              <output>{rangeVal}</output>
+              <div>
+                <output>{rangeVal} bpm</output>
+              </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
