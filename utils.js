@@ -135,7 +135,7 @@ export class Grid {
     let inst = this.instrument
     const seq = new Tone.Sequence(
       function(time, note) {
-        inst.triggerAttackRelease(note, '32n', time)
+        steelPan.triggerAttackRelease(note, '32n', time)
       },
       chordArr,
       '4n'
