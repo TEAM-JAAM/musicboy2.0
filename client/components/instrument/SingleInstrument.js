@@ -8,10 +8,10 @@ import Tone from 'tone'
 export const SingleInstrument = ({docRef}) => {
   return (
     <React.Fragment>
-      <SingleInstrumentDetails docRef={docRef} />
-      <SingleInstrumentTimeslices docRef={docRef} />
-      {/* <SingleInstrumentTimeslices docRef={docRef} />
-      <SingleInstrumentTimeslices docRef={docRef} /> */}
+      <div className="single-instrument-with-details">
+        <SingleInstrumentDetails docRef={docRef} />
+        <SingleInstrumentTimeslices docRef={docRef} />
+      </div>
       <br />
       <Button
         variant="success"
