@@ -2,6 +2,8 @@ const {db, firestore} = require('../db')
 const Instrument = require('./Instrument')
 const util = require('../utils/dbUtils')
 
+const TIMESLICE_BLOCK_SIZE = 8
+
 //
 // --[ Project ]--------------------------------------------------------------
 //
@@ -28,15 +30,18 @@ class Project {
       .where('name', '==', objectData.name)
       .get()
     if (!projects.empty) {
-      console.log('NOTE: found existing project data')
-      return new Project(projects.docs[0].ref)
+      console.log('NOTE: updating existing project data')
+      const projectDocRef = projects.docs[0].ref
+      projectDocRef.update(objectData)
+      return new Project(projectDocRef)
     } else {
       // populate default data...
       const defaults = {
         members: [],
         memberUids: [],
         permissions: 'Private',
-        tempo: 60
+        tempo: 60,
+        timeslices: 8
       }
       util.populateDefaults(objectData, defaults)
 
@@ -102,9 +107,11 @@ class Project {
 
   // Instance methods.........................................................
   // Create a new child instrument and also create the instrument's initial
-  // set of timeslices
-  addInstrument(objectData) {
-    return Instrument.create(this, objectData)
+  // set of timeslices. If the project's timeslice value was increased, create
+  // the new instrument with the existing timeslice count...
+  async addInstrument(objectData) {
+    const timeslices = await this.getTimeslicesValue()
+    return Instrument.create(this, objectData, timeslices)
   }
 
   async addUserToProject(objectData) {
@@ -129,6 +136,99 @@ class Project {
       members: firestore.FieldValue.arrayRemove(objectData.email),
       memberUids: firestore.FieldValue.arrayRemove(objectData.uid)
     })
+  }
+
+  async destroy() {
+    // Deletion must occur from the bottom up, i.e., with the lowest document
+    // in the document hierarchy. First, find all of the project's
+    // instruments...
+    const instrumentsCollectionRef = this.projectDocRef.collection(
+      'instruments'
+    )
+    const instrumentsQuerySnapshot = await instrumentsCollectionRef.get()
+    if (!instrumentsQuerySnapshot.empty) {
+      console.log('NOTE: attempting to delete instruments...')
+      // Find the instruments timeslices collection...
+      const instrumentsDocs = instrumentsQuerySnapshot.docs
+      for (let i = 0; i < instrumentsDocs.length; ++i) {
+        // Delete each instrument (which also deletes all of the instrument's
+        // timeslices...)
+        const instrument = Instrument.fromDocRef(instrumentsDocs[i].ref)
+        await instrument.destroy()
+      }
+    }
+    // Finally, delete the project...
+    this.projectDocRef.delete()
+  }
+
+  // Add a block (2 measures) of timeslices... When timeslice blocks are added
+  // they are added to ALL existing instruments
+  async addTimesliceBlock() {
+    // Obtain the current timeslices value for the project...
+    let timeslices = await this.getTimeslicesValue()
+
+    // Add an additional block of timeslices to every instrument...
+    const instrumentsCollectionRef = this.projectDocRef.collection(
+      'instruments'
+    )
+    const instrumentsQuerySnapshot = await instrumentsCollectionRef.get()
+    if (!instrumentsQuerySnapshot.empty) {
+      // Find the instruments timeslices collection...
+      const instrumentsDocs = instrumentsQuerySnapshot.docs
+      for (let i = 0; i < instrumentsDocs.length; ++i) {
+        // Add a block of timeslices to each instrument...
+        const instrument = Instrument.fromDocRef(instrumentsDocs[i].ref)
+        await instrument.addTimesliceBlock(timeslices, TIMESLICE_BLOCK_SIZE)
+      }
+    }
+
+    // Finally, update the timeslices count in the project...
+    timeslices += TIMESLICE_BLOCK_SIZE
+    await this.projectDocRef.update({
+      timeslices
+    })
+  }
+
+  // Remove a block (2 measures) of timeslices... When timeslice blocks
+  // are removed they are removed from ALL existing instruments
+  async removeTimesliceBlock() {
+    // Obtain the current timeslices value for the project...
+    let timeslices = await this.getTimeslicesValue()
+    if (timeslices === TIMESLICE_BLOCK_SIZE) {
+      throw new util.InvalidDatabaseOperationError(
+        'attempting to remove the initial timeslice set'
+      )
+    }
+
+    // Remove one block of timeslices to every instrument...
+    const instrumentsCollectionRef = this.projectDocRef.collection(
+      'instruments'
+    )
+    const instrumentsQuerySnapshot = await instrumentsCollectionRef.get()
+    if (!instrumentsQuerySnapshot.empty) {
+      // Find the instruments timeslices collection...
+      const instrumentsDocs = instrumentsQuerySnapshot.docs
+      for (let i = 0; i < instrumentsDocs.length; ++i) {
+        // Remove 1 block of timeslices from each instrument...
+        const instrument = Instrument.fromDocRef(instrumentsDocs[i].ref)
+        await instrument.removeTimesliceBlock(timeslices, TIMESLICE_BLOCK_SIZE)
+      }
+    }
+
+    // Finally, update the timeslices count in the project...
+    timeslices -= TIMESLICE_BLOCK_SIZE
+    await this.projectDocRef.update({
+      timeslices
+    })
+  }
+
+  // Obtain the value of the timeslices field of this project
+  async getTimeslicesValue() {
+    const projectDocSnaphot = await this.projectDocRef.get()
+    if (!projectDocSnaphot.exists) {
+      throw new util.UnknownProjectError()
+    }
+    return projectDocSnaphot.data().timeslices
   }
 
   // Return the Firestore reference to this project document

@@ -13,7 +13,7 @@ const createProjectOnce = async (projectName, type = 'Private') => {
   // add an instrument to the project; also adds an iniital set of
   // timeslices...
   await project.addInstrument({
-    name: 'piano'
+    name: 'marimba'
   })
   console.log('NOTE: added test instrument successfully')
 
