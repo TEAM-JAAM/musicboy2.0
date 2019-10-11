@@ -11,6 +11,7 @@ class MissingMandatoryFieldError extends Error {
 class UnknownUserError extends Error {}
 class UserDocumentUnavailable extends Error {}
 class UnknownProjectError extends Error {}
+class DatabaseInconsistentError extends Error {}
 
 //
 // --[ Utility Methods ]----------------------------------------------------
@@ -27,6 +28,7 @@ const populateDefaults = (objectData, defaults) => {
 }
 
 module.exports = {
+  DatabaseInconsistentError,
   MissingMandatoryFieldError,
   UnknownUserError,
   UserDocumentUnavailable,

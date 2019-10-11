@@ -41,6 +41,15 @@ class Timeslice {
     return new Timeslice(newTimesliceDocRef)
   }
 
+  static async destroy(parentInstrument, index) {
+    console.log('NOTE: removing timeslice @ index: ', index)
+    const timesliceDocRef = await parentInstrument
+      .ref()
+      .collection('timeslices')
+      .doc(index.toString())
+    await timesliceDocRef.delete()
+  }
+
   static fetchTimesliceData(documentQuerySnapshot) {
     return documentQuerySnapshot && documentQuerySnapshot.data()
   }
