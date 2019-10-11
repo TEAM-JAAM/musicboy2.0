@@ -4,7 +4,7 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
-export {UserHome} from './user-home'
+export {default as UserHome} from './user-home'
 export {default as Err} from './Error'
 
 export {SingleProject} from './project/SingleProject'
