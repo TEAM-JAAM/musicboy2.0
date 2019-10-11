@@ -92,7 +92,7 @@ export class Grid {
       PENTATONIC: PENTATONIC
     }
     this.key = keyMap[keyName]
-    console.log('WE ARE SETTING OUR KEY', this.key)
+    //console.log('WE ARE SETTING OUR KEY', this.key)
   }
 
   setInstrument(inst) {
@@ -109,19 +109,8 @@ export class Grid {
     }
 
     this.instrument = instrumentMap[inst]
-    console.log('WE ARE SETTING OUR INSTRUMENT', this.instrument)
+    //console.log('WE ARE SETTING OUR INSTRUMENT', this.instrument)
   }
-
-  // setUpSequence() {
-  // 	let chordSequence = this.grid.map((slice) => {
-  // 		return slice.map((node) => {
-  // 			if (node.status) {
-  // 				return node.pitch;
-  // 			}
-  // 		});
-  // 	});
-  // 	this.sequence = this.createNewSequence(chordSequence);
-  // }
 
   createNewSequence(chordsArray) {
     let chordArr = chordsArray.map(chord => {
@@ -137,7 +126,7 @@ export class Grid {
     ).start(0)
 
     this.sequence = seq
-    console.log('this sequence was just created', this.sequence)
+    // console.log('this sequence was just created', this.sequence)
   }
 
   updateSequenceSlice(cell) {
