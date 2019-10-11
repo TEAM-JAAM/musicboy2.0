@@ -21,11 +21,8 @@ export const SingleTimeslice = ({docRef, grid}) => {
   )
 
   const handleClick = async row => {
-    console.log('clicked index: ', row, ', typeof row: ', typeof row)
-    console.log('row in local store: ', timeslice[row].toString())
     const newCellRow = !timeslice[row]
     await Timeslice.update(timesliceQueryResult, row, newCellRow)
-
     if (newCellRow === true) {
       instrumentGrid.current.playCell(row, timesliceIndex)
     }
@@ -43,19 +40,21 @@ export const SingleTimeslice = ({docRef, grid}) => {
     let timesliceArr = Object.entries(timeslice)
     return (
       <table>
-        {timesliceArr.map(cell => {
-          const statusColor = cell[1] ? 'cell on' : 'cell off'
-          return (
-            <tr key={cell}>
-              <td
-                className={statusColor}
-                onClick={() => {
-                  handleClick(cell[0])
-                }}
-              />
-            </tr>
-          )
-        })}
+        <tbody>
+          {timesliceArr.map(cell => {
+            const statusColor = cell[1] ? 'cell on' : 'cell off'
+            return (
+              <tr key={cell}>
+                <td
+                  className={statusColor}
+                  onClick={() => {
+                    handleClick(cell[0])
+                  }}
+                />
+              </tr>
+            )
+          })}
+        </tbody>
       </table>
     )
   }
