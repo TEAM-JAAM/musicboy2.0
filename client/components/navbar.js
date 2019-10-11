@@ -26,7 +26,7 @@ export default class Navbar extends Component {
           .get()
           .then(
             snapshot => {
-              console.log(snapshot.docs)
+              console.log('navbar')
             },
             err => {
               console.log(err.message)
