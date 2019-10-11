@@ -1,11 +1,11 @@
 import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {Spinner} from 'react-bootstrap'
+import {Button, Spinner} from 'react-bootstrap'
 import {Instrument} from '../../firestore/models'
 
 export const SingleInstrumentDetails = ({docRef}) => {
   const [instrumentQueryResult, loading, error] = useDocument(docRef)
-  const instrument = Instrument.fetchInstrumentData(instrumentQueryResult)
+  const instrumentData = Instrument.fetchInstrumentData(instrumentQueryResult)
 
   function handleChange(event) {
     Instrument.update(
@@ -13,6 +13,11 @@ export const SingleInstrumentDetails = ({docRef}) => {
       `${event.target.name}`,
       event.target.value
     )
+  }
+
+  async function handleClear() {
+    const instrument = Instrument.fromDocRef(instrumentQueryResult.ref)
+    await instrument.clearAllTimeslices()
   }
 
   if (error) throw new Error('FATAL: firestore error encountered')
@@ -26,12 +31,12 @@ export const SingleInstrumentDetails = ({docRef}) => {
   if (instrumentQueryResult) {
     return (
       <div className="single-instrument-options">
-        <h2>{instrument.name}</h2>
+        <h2>{instrumentData.name}</h2>
         <div className="select-instrument-name">
           <label htmlFor="name">select instrument</label>
           <select onChange={handleChange} name="name">
             <option value="" selected disabled hidden>
-              {instrument.name}
+              {instrumentData.name}
             </option>
             <option value="synth">synth</option>
             <option value="steelPan">steel pan</option>
@@ -42,13 +47,16 @@ export const SingleInstrumentDetails = ({docRef}) => {
           <label htmlFor="key">change key</label>
           <select onChange={handleChange} name="key">
             <option value="" selected disabled hidden>
-              {instrument.key}
+              {instrumentData.key}
             </option>
             <option value="G_MAJOR">major</option>
             <option value="G_MINOR">minor</option>
             <option value="PENTATONIC">pentatonic</option>
           </select>
         </div>
+        <Button variant="success" onClick={handleClear}>
+          Clear Grid
+        </Button>
       </div>
     )
   }

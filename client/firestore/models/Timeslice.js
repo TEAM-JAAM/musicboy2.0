@@ -3,6 +3,21 @@ const util = require('../utils/dbUtils')
 //
 // --[ Timeslice ]------------------------------------------------------------
 //
+const INITIAL_STATE = {
+  0: false,
+  1: false,
+  2: false,
+  3: false,
+  4: false,
+  5: false,
+  6: false,
+  7: false,
+  8: false,
+  9: false,
+  10: false,
+  11: false
+}
+
 class Timeslice {
   constructor(timesliceDocRef) {
     this.timesliceDocRef = timesliceDocRef
@@ -23,20 +38,7 @@ class Timeslice {
       .ref()
       .collection('timeslices')
       .doc(objectData.index)
-    newTimesliceDocRef.set({
-      0: false,
-      1: false,
-      2: false,
-      3: false,
-      4: false,
-      5: false,
-      6: false,
-      7: false,
-      8: false,
-      9: false,
-      10: false,
-      11: false
-    })
+    newTimesliceDocRef.set(INITIAL_STATE)
 
     return new Timeslice(newTimesliceDocRef)
   }
@@ -70,6 +72,10 @@ class Timeslice {
   }
 
   // Instance methods..........................................................
+  // Reinitialize all of the timeslice data to false...
+  reset() {
+    this.timesliceDocRef.set(INITIAL_STATE)
+  }
 
   // Return the Firestore reference to this timeslice document
   ref() {
