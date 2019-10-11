@@ -26,6 +26,7 @@ const NewProjectForm = props => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
   const handleSubmit = async () => {
     event.preventDefault()
     const data = {
@@ -34,9 +35,11 @@ const NewProjectForm = props => {
       permissions: event.target.permissions.value ? 'Public' : 'Private',
       tempo: event.target.tempo.value,
       members: [email],
-      memberUids: [uid]
+      memberUids: [uid],
+      max: 5
     }
     const project = await Project.findOrCreate(data)
+    await project.addInstrument({name: 'piano'})
     const id = project.ref().id
     history.push(`/projects/${id}`)
     handleClose()

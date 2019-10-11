@@ -109,15 +109,7 @@ export default class Navbar extends Component {
     return (
       <div>
         <nav>
-          {auth.currentUser ? (
-            <div>
-              <Link to="/home">Home</Link>
-              <Link to="/play">Jaam Out</Link>
-              <a href="#" onClick={this.handleClick}>
-                Logout
-              </a>
-            </div>
-          ) : (
+          {auth.currentUser ? null : (
             <div>
               <Button
                 variant="primary"
