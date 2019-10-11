@@ -36,7 +36,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
         <div className="select-instrument-name">
           <label htmlFor="name">select instrument</label>
           <select onChange={handleChange} name="name">
-            <option value="" selected disabled hidden>
+            <option value="" disabled hidden>
               {instrumentData.name}
             </option>
             <option value="synth">synth</option>
