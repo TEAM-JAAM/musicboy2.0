@@ -2,7 +2,7 @@ import React from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
-import {Card, Button, Row, Spinner} from 'react-bootstrap'
+import {Card, Button, Row, Spinner, Badge} from 'react-bootstrap'
 
 const PublicProjects = props => {
   const {email, uid, history} = props
@@ -58,8 +58,8 @@ const PublicProjects = props => {
         <Row className="justify-content-md-center m-5">
           {projects.map(
             project =>
-              project.members.length < project.max &&
-              !project.members.includes(email) ? (
+              project.members.length < project.max ||
+              project.members.includes(email) ? (
                 <Card
                   key={project.docRef.id}
                   style={{width: '25rem'}}
@@ -82,13 +82,18 @@ const PublicProjects = props => {
                           project.members[0].indexOf('@')
                         )}
                       </strong>
+                      <Card.Text>
+                        <Badge variant="success" className="text-right">
+                          {project.permissions}
+                        </Badge>
+                      </Card.Text>
                     </Card.Title>
                     <Button
                       variant="outline-success"
                       block
                       onClick={() => handleClick(project.docRef)}
                     >
-                      Join +
+                      {joinOrJaam()}
                     </Button>
                   </Card.Body>
                   <Card.Footer>

@@ -71,6 +71,24 @@ const UserProjectsList = props => {
               }`}
             />
             <Card.Body>
+              <Card.Text>
+                This session is{' '}
+                {project.permissions === 'Public' ? (
+                  <Badge variant="success">{project.permissions}</Badge>
+                ) : (
+                  <Badge variant="secondary">{project.permissions}</Badge>
+                )}
+                <br />
+                Managed by:{' '}
+                <strong>
+                  {isOwner(project)
+                    ? 'Me'
+                    : project.members[0].slice(
+                        0,
+                        project.members[0].indexOf('@')
+                      )}
+                </strong>
+              </Card.Text>
               <Button
                 variant="outline-success"
                 size="lg"
