@@ -44,14 +44,6 @@ export class AudioNode {
 //   })
 // }
 
-export const startMusic = () => {
-  Tone.Transport.start()
-}
-
-export const stopMusic = () => {
-  Tone.Transport.stop()
-}
-
 export class Grid {
   constructor() {
     this.key = null

@@ -80,18 +80,20 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     return (
       <div className="single-instrument-container">
         <table className="outer-table">
-          <tr className="table-body">
-            {timeslicesDocRefs.map(timesliceDocRef => {
-              return (
-                <td className="column-td" key={timesliceDocRef.id}>
-                  <SingleTimeslice
-                    docRef={timesliceDocRef.ref}
-                    grid={grid.current}
-                  />
-                </td>
-              )
-            })}
-          </tr>
+          <tbody>
+            <tr className="table-body">
+              {timeslicesDocRefs.map(timesliceDocRef => {
+                return (
+                  <td className="column-td" key={timesliceDocRef.id}>
+                    <SingleTimeslice
+                      docRef={timesliceDocRef.ref}
+                      grid={grid.current}
+                    />
+                  </td>
+                )
+              })}
+            </tr>
+          </tbody>
         </table>
       </div>
     )

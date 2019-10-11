@@ -2,6 +2,7 @@ import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {Button, Spinner} from 'react-bootstrap'
 import {Instrument} from '../../firestore/models'
+import {Grid} from '../../../utils'
 
 export const SingleInstrumentDetails = ({docRef}) => {
   const [instrumentQueryResult, loading, error] = useDocument(docRef)
@@ -10,7 +11,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
   function handleChange(event) {
     Instrument.update(
       instrumentQueryResult,
-      `${event.target.name}`,
+      event.target.name,
       event.target.value
     )
   }
