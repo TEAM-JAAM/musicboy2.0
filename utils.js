@@ -60,33 +60,29 @@ export class Grid {
   }
 
   setUpGrid(slices) {
-    // console.log('THIS GRID', this.grid)
-    // console.log('THIS key', this.key)
-    // console.log('THIS instrument', this.instrument)
-    //console.log('THIS GRID', this.grid)
     if (slices && this.key && this.instrument) {
-      console.log('INSIDE IF ----', slices)
-      console.log('THIS GRID', this.grid)
-      console.log('THIS key', this.key)
-      // console.log('THIS instrument', this.instrument)
+      console.log('SETTING UP NEW GRID!!!!!')
+      let chordArray = []
+
       let nodeArray = []
-      console.log('slices data', slices.docs)
       let docsArray = slices.docs
       for (let i = 0; i < docsArray.length; ++i) {
-        console.log('slices data', docsArray[i].data())
         let singleDoc = docsArray[i].data()
-
         nodeArray.push([])
+        let chord = []
         for (let j = 0; j < 12; ++j) {
           let node = new AudioNode(j, i, this.key[j], this.instrument)
           if (singleDoc[j]) {
             node.status = true
+            chord.push(node.pitch)
           }
           nodeArray[i].push(node)
         }
+        chordArray.push(chord)
       }
       this.grid = nodeArray
-      console.log('OUR GRID', this.grid)
+      console.log('CHORD ARRAY PASSED IN TO CREATE NEW SEQ', chordArray)
+      this.createNewSequence(chordArray)
     } else {
       console.log('No slices were passed to the grid')
     }
@@ -131,24 +127,27 @@ export class Grid {
   }
 
   createNewSequence(chordsArray) {
+    console.log('INSTRUMENT', this.instrument)
+    console.log('MARIMBA', marimba)
     let chordArr = chordsArray.map(chord => {
       return new Tone.Event(null, chord)
     })
-
+    let inst = this.instrument
     const seq = new Tone.Sequence(
       function(time, note) {
-        this.instrument.triggerAttackRelease(note, '32n', time)
+        inst.triggerAttackRelease(note, '32n', time)
       },
       chordArr,
       '4n'
     ).start(0)
-    console.log('seq in createNewSequence', seq)
+
     this.sequence = seq
+    console.log('this.sequence in createNewSequence', this.sequence)
   }
 
   updateSequence(cell) {
-    const timeSlice = cell.timeSlice
-    let eventToUpdate = this.sequence._events[timeSlice].value
+    console.log('CELL DATA in update seq', cell)
+    let eventToUpdate = this.sequence._events[cell.index].value
     if (Array.isArray(eventToUpdate)) {
       if (eventToUpdate.includes(cell.pitch)) {
         eventToUpdate = eventToUpdate.filter(note => note !== cell.pitch)
@@ -167,6 +166,7 @@ export class Grid {
     console.log('cell', cell)
     let instrument = cell.instrument
     instrument.triggerAttackRelease(cell.pitch, '16n')
+    // this.updateSequence(cell)
   }
 
   updateSlice(index, singleSlice) {

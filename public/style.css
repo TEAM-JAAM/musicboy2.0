@@ -22,18 +22,8 @@ form div {
 
 /* SingleInstruments */
 
-table {
-  display: flex;
-  justify-content: center;
-  border-collapse: collapse;
-}
-
-table {
-  border: 1px solid white;
-}
-
-.table-body {
-  background: url('./jaamlogo.png') no-repeat center center local,
+.single-instrument-container {
+  background: url('./jaamlogo.png') space center center local,
     linear-gradient(
       0deg,
       rgba(0, 142, 255, 1) 0%,
@@ -43,10 +33,31 @@ table {
   background-size: contain;
 }
 
-table,
-tr,
+table {
+  table-layout: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.outer-table {
+  overflow-x: scroll;
+  background: inherit;
+}
+
+tr {
+  border: collapse;
+}
+
 td {
   border: 1px solid white;
+  padding: 0px;
+}
+
+td.column-td {
+  border: collapse;
+  margin: 0px;
+  min-width: 30px;
+  height: 15px;
 }
 
 .on {
