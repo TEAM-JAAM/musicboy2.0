@@ -63,6 +63,10 @@ class Project {
     )
   }
 
+  static findAllPublicProjectsQuery() {
+    return db.collection('projects').where('permissions', '==', 'Public')
+  }
+
   static findProjectQuery(documentId) {
     return documentId && db.collection('projects').doc(documentId)
   }

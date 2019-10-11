@@ -72,18 +72,27 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     )
   }
   if (timeslicesQueryResult) {
+    // let copy = [...timeslicesDocRefs]
+    // let copy2 = [...copy]
+    // let copy3 = [...copy, ...copy2, ...timeslicesDocRefs]
+    // let copy4 = [...copy3, ...copy3]
+    // let copy5 = [...copy4, ...copy4]
     return (
       <div className="single-instrument-container">
-        {timeslicesDocRefs.map(timesliceDocRef => {
-          return (
-            <div key={timesliceDocRef.id}>
-              <SingleTimeslice
-                docRef={timesliceDocRef.ref}
-                grid={grid.current}
-              />
-            </div>
-          )
-        })}
+        <table className="outer-table">
+          <tr className="table-body">
+            {timeslicesDocRefs.map(timesliceDocRef => {
+              return (
+                <td className="column-td" key={timesliceDocRef.id}>
+                  <SingleTimeslice
+                    docRef={timesliceDocRef.ref}
+                    grid={grid.current}
+                  />
+                </td>
+              )
+            })}
+          </tr>
+        </table>
       </div>
     )
   }
