@@ -2,14 +2,10 @@ import Tone from 'tone'
 
 import {
   synth,
-  tiny,
-  kalimba,
   electricCello,
   steelPan,
   marimba,
-  electric,
   bassGuitar,
-  pianoetta,
   G_MAJOR,
   G_MINOR,
   PENTATONIC
@@ -24,25 +20,6 @@ export class AudioNode {
     this.instrument = instrument
   }
 }
-
-// broken right now (friday)
-// export const addRowToGrid = grid => {
-//   return grid.map((row, idx) => {
-//     const pitch = row[0].pitch
-//     const rowIndex = idx
-//     const colIndex = row.length
-//     const node = new AudioNode(rowIndex, colIndex, pitch)
-//     row.push(node)
-//     return row
-//   })
-// }
-
-// export const removeRowFromGrid = grid => {
-//   return grid.map(row => {
-//     row.pop()
-//     return row
-//   })
-// }
 
 export class Grid {
   constructor() {
@@ -64,6 +41,7 @@ export class Grid {
         nodeArray.push([])
         let chord = []
         for (let j = 0; j < 12; ++j) {
+          console.log('singleDocLength', Object.keys(singleDoc).length)
           let node = new AudioNode(j, i, this.key[j], this.instrument)
           if (singleDoc[j]) {
             node.status = true
@@ -77,10 +55,8 @@ export class Grid {
       if (!this.sequence.length) {
         this.createNewSequence(this.chordArray)
       } else {
-        this.sequence._events.forEach((chord, idx) => {
-          if (chord.value.length !== this.chordArray[idx].length)
-            chord.value = this.chordArray[idx]
-        })
+        this.sequence.cancel()
+        this.createNewSequence(this.chordArray)
       }
     } else {
       console.log('No slices were passed to the grid')
@@ -94,20 +70,25 @@ export class Grid {
       PENTATONIC: PENTATONIC
     }
     this.key = keyMap[keyName]
-    //console.log('WE ARE SETTING OUR KEY', this.key)
+    this.grid.forEach(slice => {
+      slice.forEach(node => {
+        node.key = this.key
+      })
+    })
+    if (this.sequence.length) {
+      this.sequence.cancel()
+      this.createNewSequence(this.chordArray)
+    }
+    console.log('WE ARE SETTING OUR KEY', this.key)
   }
 
   setInstrument(inst) {
     const instrumentMap = {
       synth: synth,
-      tiny: tiny,
-      kalimba: kalimba,
       electricCello: electricCello,
       steelPan: steelPan,
       marimba: marimba,
-      electric: electric,
-      bassGuitar: bassGuitar,
-      pianoetta: pianoetta
+      bassGuitar: bassGuitar
     }
     this.instrument = instrumentMap[inst]
     this.grid.forEach(slice => {
@@ -134,22 +115,18 @@ export class Grid {
       chordArr,
       '4n'
     ).start(0)
-
     this.sequence = seq
-    // console.log('this sequence was just created', this.sequence)
   }
 
   updateSequenceSlice(cell) {
-    console.log('updateSequence was just called')
-    let eventToUpdate = this.sequence._events[cell.index].value
-    if (Array.isArray(eventToUpdate)) {
-      if (eventToUpdate.includes(cell.pitch)) {
-        eventToUpdate = eventToUpdate.filter(note => note !== cell.pitch)
-      } else {
-        eventToUpdate.push(cell.pitch)
-      }
+    if (this.sequence._events[cell.index].value.includes(cell.pitch)) {
+      this.sequence._events[cell.index].value = this.sequence._events[
+        cell.index
+      ].value.filter(pitch => {
+        if (pitch !== cell.pitch) return pitch
+      })
     } else {
-      eventToUpdate = [cell.pitch]
+      this.sequence._events[cell.index].value.push(cell.pitch)
     }
   }
 
@@ -164,7 +141,9 @@ export class Grid {
     if (this.grid.length) {
       this.grid[index].forEach(cell => {
         if (singleSlice[cell.row] !== cell.status) {
-          this.grid[index][cell.row].status = singleSlice[cell.row]
+          const cellToUpdate = this.grid[index][cell.row]
+          cellToUpdate.status = singleSlice[cell.row]
+          this.updateSequenceSlice(cellToUpdate)
         }
       })
     }
