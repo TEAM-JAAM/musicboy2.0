@@ -45,16 +45,16 @@ export const SingleInstrumentDetails = ({docRef}) => {
           </select>
         </div>
         {/* <div className="select-instrument-key">
-          <label htmlFor="key">change key</label>
-          <select onChange={handleChange} name="key">
-            <option value="" selected disabled hidden>
-              {instrumentData.key}
-            </option>
-            <option value="G_MAJOR">major</option>
-            <option value="G_MINOR">minor</option>
-            <option value="PENTATONIC">pentatonic</option>
-          </select>
-        </div> */}
+					<label htmlFor="key">change key</label>
+					<select onChange={handleChange} name="key">
+						<option value="" selected disabled hidden>
+							{instrumentData.key}
+						</option>
+						<option value="G_MAJOR">major</option>
+						<option value="G_MINOR">minor</option>
+						<option value="PENTATONIC">pentatonic</option>
+					</select>
+				</div> */}
         <div />
         <Button variant="success" onClick={handleClear}>
           Clear Grid

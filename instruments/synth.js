@@ -12,56 +12,6 @@ const synth = new Tone.PolySynth(12, Tone.Synth, {
   }
 }).toMaster()
 
-const tiny = new Tone.PolySynth(12, Tone.AMSynth, {
-  harmonicity: 2,
-  oscillator: {
-    type: 'amsine2',
-    modulationType: 'sine',
-    harmonicity: 1.01
-  },
-  envelope: {
-    attack: 0.006,
-    decay: 4,
-    sustain: 0.04,
-    release: 1.2
-  },
-  modulation: {
-    volume: 13,
-    type: 'amsine2',
-    modulationType: 'sine',
-    harmonicity: 12
-  },
-  modulationEnvelope: {
-    attack: 0.006,
-    decay: 0.2,
-    sustain: 0.2,
-    release: 0.4
-  }
-}).toMaster()
-
-const kalimba = new Tone.PolySynth(12, Tone.FMSynth, {
-  harmonicity: 8,
-  modulationIndex: 2,
-  oscillator: {
-    type: 'sine'
-  },
-  envelope: {
-    attack: 0.001,
-    decay: 2,
-    sustain: 0.1,
-    release: 2
-  },
-  modulation: {
-    type: 'square'
-  },
-  modulationEnvelope: {
-    attack: 0.002,
-    decay: 0.2,
-    sustain: 0,
-    release: 0.2
-  }
-}).toMaster()
-
 const electricCello = new Tone.PolySynth(12, Tone.FMSynth, {
   harmonicity: 3.01,
   modulationIndex: 14,
@@ -69,7 +19,7 @@ const electricCello = new Tone.PolySynth(12, Tone.FMSynth, {
     type: 'triangle'
   },
   envelope: {
-    attack: 0.2,
+    attack: 0.02,
     decay: 0.3,
     sustain: 0.1,
     release: 1.2
@@ -93,7 +43,7 @@ const steelPan = new Tone.PolySynth(12, Tone.Synth, {
     count: 3
   },
   envelope: {
-    attack: 0.001,
+    attack: 0.01,
     decay: 1.6,
     sustain: 0,
     release: 1.6
@@ -102,7 +52,7 @@ const steelPan = new Tone.PolySynth(12, Tone.Synth, {
 
 const marimba = new Tone.PolySynth(12, Tone.Synth, {
   oscillator: {
-    partials: [1, 0, 2, 0, 3]
+    type: 'sawtooth'
   },
   envelope: {
     attack: 0.001,
@@ -111,19 +61,6 @@ const marimba = new Tone.PolySynth(12, Tone.Synth, {
     release: 1.2
   }
 }).toMaster()
-
-const electric = new Tone.PolySynth(12, Tone.Synth, {
-  portamento: 0.2,
-  oscillator: {
-    type: 'sawtooth'
-  },
-  envelope: {
-    attack: 0.03,
-    decay: 0.1,
-    sustain: 0.2,
-    release: 0.02
-  }
-})
 
 const bassGuitar = new Tone.PolySynth(12, Tone.MonoSynth, {
   oscillator: {
@@ -178,14 +115,4 @@ const pianoetta = new Tone.PolySynth(12, Tone.MonoSynth, {
   }
 })
 
-export {
-  synth,
-  tiny,
-  kalimba,
-  electricCello,
-  steelPan,
-  marimba,
-  electric,
-  bassGuitar,
-  pianoetta
-}
+export {synth, electricCello, steelPan, marimba, bassGuitar, pianoetta}
