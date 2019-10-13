@@ -6,7 +6,9 @@ import {withRouter} from 'react-router-dom'
 import {Card, Button, Row, Badge} from 'react-bootstrap'
 
 const UserProjectsList = props => {
-  const {projects, email, uid, history} = props
+  const email = auth.currentUser.email
+  const uid = auth.currentUser.uid
+  const {projects, history} = props
   const isOwner = project => {
     if (project.members[0] === email) return true
     return false
