@@ -50,12 +50,16 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     timeslicesQueryResult
   )
 
-  // Each time the number of timeslices is increased, the sequences
+  // Each time the number of timeslices is changed, the sequences
   // grid must be informed
   useEffect(
     () => {
       if (timeslicesQueryResult) {
-        grid.current.setUpGrid(timeslicesQueryResult)
+        const timeslices = timeslicesQueryResult.size
+        const gridSize = grid.current.getGridSize()
+        if (timeslices !== gridSize) {
+          grid.current.setUpGrid(timeslicesQueryResult)
+        }
       }
     },
     [timeslicesQueryResult]

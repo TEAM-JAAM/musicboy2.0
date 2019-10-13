@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {Button, Spinner} from 'react-bootstrap'
+import {Spinner} from 'react-bootstrap'
 
 import {Timeslice} from '../../firestore/models'
 
@@ -13,6 +13,7 @@ export const SingleTimeslice = ({docRef, grid}) => {
   useEffect(
     () => {
       if (timesliceQueryResult) {
+        console.log('TRYING TO UPDATE SLICE')
         const updatedTimeslice = timesliceQueryResult.data()
         instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
       }

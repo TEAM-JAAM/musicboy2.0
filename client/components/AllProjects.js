@@ -14,6 +14,7 @@ import {Link, withRouter} from 'react-router-dom'
 import PublicProjects from './PublicProjects'
 import UserProjectsList from './UserProjectsList'
 import {Project} from '../firestore/models'
+import Error from './Error'
 
 // need projects from database
 
@@ -56,9 +57,6 @@ const AllProjects = props => {
   }
   const handleChange = val => {
     setValue(val)
-    if (val === 4) {
-      history.push('/jammed')
-    }
   }
 
   if (error) throw new Error('FATAL: Firestore error encountered')
@@ -107,12 +105,7 @@ const AllProjects = props => {
                 </OverlayTrigger>
               </ToggleButton>
               <ToggleButton key={4} variant="outline-dark" value={4}>
-                <OverlayTrigger
-                  placement="top"
-                  overlay={<Tooltip>Jaam</Tooltip>}
-                >
-                  <MdMusicNote className="icon" />
-                </OverlayTrigger>
+                <MdMusicNote className="icon" />
               </ToggleButton>
             </ToggleButtonGroup>
           </Row>
@@ -122,6 +115,8 @@ const AllProjects = props => {
           <PublicProjects projects={projects} email={email} uid={uid} />
         ) : value === 3 ? (
           <UserProjectsList projects={projects} email={email} uid={uid} />
+        ) : value === 4 ? (
+          <Error />
         ) : (
           <Carousel
             activeIndex={index}
