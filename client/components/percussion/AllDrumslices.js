@@ -3,8 +3,14 @@ import {useCollection, useDocument} from 'react-firebase-hooks/firestore'
 import {Spinner} from 'react-bootstrap'
 import {SingleDrumslice} from '../drumslice/SingleDrumslice'
 import {Drums} from '../../firestore/models'
+import {DrumGrid} from '../../../drumUtils'
 
 const AllDrumslices = ({docRef}) => {
+  const grid = useRef(null)
+  useEffect(() => {
+    grid.current = new DrumGrid()
+  }, [])
+
   const [drumsQueryResult, drumsLoading, drumsError] = useDocument(docRef)
 
   const drumslicesCollectionRef = Drums.findDrumslicesQuery(docRef)
@@ -15,6 +21,19 @@ const AllDrumslices = ({docRef}) => {
     drumslicesError
   ] = useCollection(drumslicesCollectionRef)
   const drumslicesDocRefs = Drums.fetchDrumsliceDocRefs(drumslicesQueryResult)
+
+  useEffect(
+    () => {
+      if (drumslicesQueryResult) {
+        const drumslices = drumslicesQueryResult.size
+        const gridSize = grid.current.getGridSize()
+        if (drumslices !== gridSize) {
+          grid.current.setUpGridFromSlices(drumslicesQueryResult)
+        }
+      }
+    },
+    [drumslicesQueryResult]
+  )
 
   if (drumsError || drumslicesError)
     throw new Error('FATAL: firestore error encountered')
@@ -34,6 +53,7 @@ const AllDrumslices = ({docRef}) => {
             <SingleDrumslice
               key={drumsliceDocRef.id}
               docRef={drumsliceDocRef.ref}
+              grid={grid.current}
             />
           )
         })}

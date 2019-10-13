@@ -3,11 +3,29 @@ import {useDocument} from 'react-firebase-hooks/firestore'
 import {Spinner} from 'react-bootstrap'
 import {Drumslice} from '../../firestore/models'
 
-export const SingleDrumslice = ({docRef}) => {
+export const SingleDrumslice = ({docRef, grid}) => {
+  const drumGrid = useRef(grid)
   const [drumsliceQueryResult, loading, error] = useDocument(docRef)
 
-  // const drumsliceIndex = Drumslice.fetchDrumsliceIndex(drumsliceQueryResult);
+  const drumsliceIndex = Drumslice.fetchDrumsliceIndex(drumsliceQueryResult)
   const drumslice = Drumslice.fetchDrumsliceData(drumsliceQueryResult)
+
+  useEffect(
+    () => {
+      if (drumsliceQueryResult) {
+        console.log('TRYING TO UPDATE DRUMSLICE')
+        const updatedDrumslice = drumsliceQueryResult.data()
+        drumGrid.current.updateSlice(drumsliceIndex, updatedDrumslice)
+      }
+    },
+    [drumsliceQueryResult]
+  )
+
+  async function handleClick(cellRowIndex) {
+    const newCellStatus = !drumslice[cellRowIndex]
+    await Drumslice.update(drumsliceQueryResult, cellRowIndex, newCellStatus)
+    console.log('drumGrid...', drumGrid.current)
+  }
 
   if (error) throw new Error('FATAL: firestore error encountered')
   if (loading) {
@@ -22,13 +40,18 @@ export const SingleDrumslice = ({docRef}) => {
     return (
       <div className="single-drumslice-container">
         {cells.map(cell => {
-          console.log('cell...', cell)
-          const statusColor = cell.value ? 'cell on' : 'cell off'
-          return <div key={cell} className={`${statusColor} drum-cell`} />
+          const statusColor = drumslice[cell] ? 'cell on' : 'cell off'
+          return (
+            <div
+              key={cell}
+              className={`${statusColor} drum-cell`}
+              onClick={() => {
+                handleClick(cell)
+              }}
+            />
+          )
         })}
       </div>
     )
-  } else {
-    return <div>no drumslice query result</div>
   }
 }
