@@ -30,6 +30,14 @@ class Drumslice {
     return new Drumslice(newDrumsliceDocRef)
   }
 
+  static fetchDrumsliceIndex(drumsliceQuerySnapshot) {
+    return drumsliceQuerySnapshot && drumsliceQuerySnapshot.id
+  }
+
+  static fetchDrumsliceData(drumsliceQuerySnapshot) {
+    return drumsliceQuerySnapshot && drumsliceQuerySnapshot.data()
+  }
+
   // Instance methods..........................................................
   ref() {
     return this.drumsliceDocRef

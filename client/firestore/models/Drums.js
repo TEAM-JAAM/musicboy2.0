@@ -39,6 +39,14 @@ class Drums {
     return documentQuerySnapshot && documentQuerySnapshot.data()
   }
 
+  static findDrumslicesQuery(docRef) {
+    return docRef && docRef.collection('drumslices')
+  }
+
+  static fetchDrumsliceDocRefs(querySnapshot) {
+    return querySnapshot && querySnapshot.docs
+  }
+
   // Instance methods..........................................................
   ref() {
     return this.drumsDocRef
