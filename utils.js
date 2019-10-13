@@ -52,6 +52,7 @@ export class Grid {
         this.chordArray.push(chord)
       }
       this.grid = nodeArray
+      console.log('SETUP GRID CALLED', this.grid)
       if (!this.sequence.length) {
         this.createNewSequence(this.chordArray)
       } else {
@@ -70,16 +71,25 @@ export class Grid {
       PENTATONIC: PENTATONIC
     }
     this.key = keyMap[keyName]
+    console.log('chordarray before key update', this.chordArray)
+    let chordArr = []
     this.grid.forEach(slice => {
+      let chord = []
       slice.forEach(node => {
-        node.key = this.key
+        node.pitch = this.key[node.row]
+        if (node.status) {
+          chord.push(node.pitch)
+        }
       })
+      chordArr.push(chord)
     })
+    this.chordArray = chordArr
+    console.log('chordarray after key update', this.chordArray)
     if (this.sequence.length) {
       this.sequence.cancel()
       this.createNewSequence(this.chordArray)
     }
-    console.log('WE ARE SETTING OUR KEY', this.key)
+    console.log('WE ARE SETTING OUR KEY', this.grid)
   }
 
   setInstrument(inst) {
@@ -91,6 +101,7 @@ export class Grid {
       bassGuitar: bassGuitar
     }
     this.instrument = instrumentMap[inst]
+
     this.grid.forEach(slice => {
       slice.forEach(node => {
         node.instrument = this.instrument

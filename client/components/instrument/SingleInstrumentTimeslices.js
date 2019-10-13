@@ -57,9 +57,9 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
       if (timeslicesQueryResult) {
         const timeslices = timeslicesQueryResult.size
         const gridSize = grid.current.getGridSize()
-        if (timeslices !== gridSize) {
-          grid.current.setUpGrid(timeslicesQueryResult)
-        }
+        // if (timeslices !== gridSize) {
+        grid.current.setUpGrid(timeslicesQueryResult)
+        // }
       }
     },
     [timeslicesQueryResult]
