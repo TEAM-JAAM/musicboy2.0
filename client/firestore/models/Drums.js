@@ -34,6 +34,11 @@ class Drums {
 
     return newDrums
   }
+
+  // Instance methods..........................................................
+  ref() {
+    return this.drumsDocRef
+  }
 }
 
 module.exports = Drums

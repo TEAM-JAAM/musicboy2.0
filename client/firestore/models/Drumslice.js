@@ -29,6 +29,15 @@ class Drumslice {
 
     return new Drumslice(newDrumsliceDocRef)
   }
+
+  // Instance methods..........................................................
+  ref() {
+    return this.drumsliceDocRef
+  }
+
+  reset() {
+    this.drumsliceDocRef.set(INITIAL_STATE)
+  }
 }
 
 module.exports = Drumslice
