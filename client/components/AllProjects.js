@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {MdGroup, MdAccountCircle, MdHome, MdMusicNote} from 'react-icons/md'
+import {auth} from '../firestore/db'
 import {
   ToggleButtonGroup,
   Carousel,
@@ -19,7 +20,9 @@ import Error from './Error'
 // need projects from database
 
 const AllProjects = props => {
-  const {email, history, uid} = props
+  const email = auth.currentUser.email
+  const uid = auth.currentUser.uid
+  const {history} = props
   const [projectQueryResults, loading, error] = useCollection(
     Project.findAllProjectsForUserQuery(uid)
   )
@@ -58,7 +61,9 @@ const AllProjects = props => {
   const handleChange = val => {
     setValue(val)
   }
-
+  if (value === 2) {
+    history.push('/home/public')
+  }
   if (error) throw new Error('FATAL: Firestore error encountered')
 
   if (loading) {
@@ -111,9 +116,7 @@ const AllProjects = props => {
           </Row>
         </div>
 
-        {value === 2 ? (
-          <PublicProjects projects={projects} email={email} uid={uid} />
-        ) : value === 3 ? (
+        {value === 3 ? (
           <UserProjectsList projects={projects} email={email} uid={uid} />
         ) : value === 4 ? (
           <Error />
