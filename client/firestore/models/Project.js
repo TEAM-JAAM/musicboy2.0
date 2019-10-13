@@ -88,6 +88,16 @@ class Project {
     )
   }
 
+  static findProjectPercussionQuery(documentId) {
+    return (
+      documentId &&
+      db
+        .collection('projects')
+        .doc(documentId)
+        .collection('percussion')
+    )
+  }
+
   static fetchAllProjectsData(querySnapshot) {
     const projects = []
     querySnapshot &&
@@ -104,6 +114,10 @@ class Project {
   }
 
   static fetchInstrumentDocRefs(querySnapshot) {
+    return querySnapshot && querySnapshot.docs
+  }
+
+  static fetchPercussionDocRefs(querySnapshot) {
     return querySnapshot && querySnapshot.docs
   }
 

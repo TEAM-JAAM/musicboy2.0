@@ -35,6 +35,10 @@ class Drums {
     return newDrums
   }
 
+  static fetchDrumsData(documentQuerySnapshot) {
+    return documentQuerySnapshot && documentQuerySnapshot.data()
+  }
+
   // Instance methods..........................................................
   ref() {
     return this.drumsDocRef
