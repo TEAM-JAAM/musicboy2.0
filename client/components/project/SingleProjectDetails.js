@@ -1,7 +1,9 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Tone from 'tone'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {Button, Spinner} from 'react-bootstrap'
+import {TextButton, Dial} from 'react-nexusui'
+import Nexus from 'nexusui'
 
 import {Project} from '../../firestore/models'
 
@@ -9,6 +11,13 @@ export const SingleProjectDetails = ({docRef}) => {
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
   const project = Project.fetchProjectData(projectQueryResult)
+
+  useEffect(() => {
+    return () => {
+      Tone.Transport.stop()
+      Tone.Transport.cancel()
+    }
+  })
 
   if (error) throw new Error('FATAL: firestore error encountered')
   if (loading) {
@@ -28,6 +37,16 @@ export const SingleProjectDetails = ({docRef}) => {
         <p>project.maxMembers: {project.max}</p>
         <p>project.permissions: {project.permissions}</p>
         <p>project.tempo: {project.tempo}</p>
+        <div>
+          <Dial
+            size={[100, 100]}
+            interaction="radial"
+            onChange={console.log}
+            value={Math.random()}
+            min={0}
+            max={10}
+          />
+        </div>
         <br />
         <Button
           variant="success"

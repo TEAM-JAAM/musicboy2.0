@@ -126,7 +126,7 @@ export class Grid {
     ).start(0)
 
     this.sequence = seq
-    // console.log('this sequence was just created', this.sequence)
+    console.log('this sequence was just created', this.sequence)
   }
 
   updateSequenceSlice(cell) {
