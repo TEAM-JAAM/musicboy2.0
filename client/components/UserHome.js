@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {auth} from '../firestore/db'
-import {Carousel, Spinner, Row, Jumbotron, Button} from 'react-bootstrap'
+import {Carousel, Spinner, Row, Alert, Badge} from 'react-bootstrap'
 import {withRouter} from 'react-router-dom'
 import {Project} from '../firestore/models'
 import NewProjectForm from './NewProjectForm'
@@ -53,14 +53,21 @@ const UserHome = props => {
   if (projectQueryResults) {
     return (
       <>
-        <Jumbotron className="text-center">
-          <h1>Welcome to Jaam!</h1>
-          <p>
-            {projects.length
-              ? "Here's what you've been working on..."
-              : "First, let's make a new project. Click the button below to get started"}
+        <Alert variant="dark" className="text-center">
+          <Alert.Heading>Hey, nice to see you</Alert.Heading>
+          <p>This is Jaam. The place where musicians come to collaborate.</p>
+          <hr />
+          <p className="mb-0">
+            {projects.length ? (
+              <span>
+                You have <Badge variant="dark">{projects.length}</Badge> jaam
+                session{projects.length > 1 && 's'}.
+              </span>
+            ) : (
+              "First, let's make a new project. Click the button below to get started"
+            )}
           </p>
-        </Jumbotron>
+        </Alert>
         {projects.length ? (
           <Carousel
             activeIndex={index}

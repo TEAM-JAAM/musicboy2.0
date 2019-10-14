@@ -4,7 +4,8 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import {db, auth, provider} from '../firestore/db'
 import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
-import {Card, Button, Row, Badge, Spinner} from 'react-bootstrap'
+import {Card, Button, Row, Badge, Spinner, Alert} from 'react-bootstrap'
+import NewProjectForm from './NewProjectForm'
 
 const UserProjectsList = props => {
   const email = auth.currentUser.email
@@ -75,75 +76,88 @@ const UserProjectsList = props => {
             </a>
           </div>
         </Card>
-        <Row className="justify-content-md-center m-5">
-          {projects.map(project => (
-            <Card
-              key={project.docRef.id}
-              style={{width: '25rem'}}
-              className="align-self-center m-2"
-              border="primary"
-            >
-              <Card.Img
-                onClick={() => handleClick(project.docRef.id)}
-                variant="top"
-                src={`https://dummyimage.com/1000x5:2/007bff/fff.jpg&text=${
-                  project.name
-                }`}
-              />
-              <Card.Body>
-                <Card.Text>
-                  This session is{' '}
-                  {project.permissions === 'Public' ? (
-                    <Badge variant="success">{project.permissions}</Badge>
-                  ) : (
-                    <Badge variant="secondary">{project.permissions}</Badge>
-                  )}
-                  <br />
-                  Managed by:{' '}
-                  <strong>
-                    {isOwner(project)
-                      ? 'Me'
-                      : project.members[0].slice(
-                          0,
-                          project.members[0].indexOf('@')
-                        )}
-                  </strong>
-                </Card.Text>
-                <Button
-                  variant="outline-success"
-                  size="lg"
-                  block
+        <NewProjectForm email={email} uid={uid} />
+        {projects.length ? (
+          <Row className="justify-content-md-center m-5">
+            {projects.map(project => (
+              <Card
+                key={project.docRef.id}
+                style={{width: '25rem'}}
+                className="align-self-center m-2"
+                border="primary"
+              >
+                <Card.Img
                   onClick={() => handleClick(project.docRef.id)}
-                >
-                  Go Jaam
-                </Button>
-                {isOwner(project) ? (
+                  variant="top"
+                  src={`https://dummyimage.com/1000x5:2/007bff/fff.jpg&text=${
+                    project.name
+                  }`}
+                />
+                <Card.Body>
+                  <Card.Text>
+                    This session is{' '}
+                    {project.permissions === 'Public' ? (
+                      <Badge variant="success">{project.permissions}</Badge>
+                    ) : (
+                      <Badge variant="secondary">{project.permissions}</Badge>
+                    )}
+                    <br />
+                    Managed by:{' '}
+                    <strong>
+                      {isOwner(project)
+                        ? 'Me'
+                        : project.members[0].slice(
+                            0,
+                            project.members[0].indexOf('@')
+                          )}
+                    </strong>
+                  </Card.Text>
                   <Button
-                    variant="outline-danger"
+                    variant="outline-success"
+                    size="lg"
                     block
-                    onClick={() => handleDelete(project.docRef)}
+                    onClick={() => handleClick(project.docRef.id)}
                   >
-                    Delete
+                    Go Jaam
                   </Button>
-                ) : (
-                  <Button
-                    variant="outline-danger"
-                    block
-                    onClick={() => handleLeave(project.docRef)}
-                  >
-                    Leave This Jaam Sesh
-                  </Button>
-                )}
-              </Card.Body>
-              <Card.Footer>
-                <small className="text-muted">
-                  The Band: {project.members.length} out of {project.max}{' '}
-                  members
-                </small>
-              </Card.Footer>
-            </Card>
-          ))}
-        </Row>
+                  {isOwner(project) ? (
+                    <Button
+                      variant="outline-danger"
+                      block
+                      onClick={() => handleDelete(project.docRef)}
+                    >
+                      Delete
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline-danger"
+                      block
+                      onClick={() => handleLeave(project.docRef)}
+                    >
+                      Leave This Jaam Sesh
+                    </Button>
+                  )}
+                </Card.Body>
+                <Card.Footer>
+                  <small className="text-muted">
+                    The Band: {project.members.length} out of {project.max}{' '}
+                    members
+                  </small>
+                </Card.Footer>
+              </Card>
+            ))}
+          </Row>
+        ) : (
+          <Alert className="text-center m-5 text-muted" variant="dark">
+            <p>
+              <strong>This is where your projects will appear.</strong>
+            </p>
+            <p>
+              Go ahead and get started with a new project above. Otherwise, head
+              over to the public tab to join a Jaam sesh.
+            </p>
+          </Alert>
+        )}
       </>
     )
   }

@@ -9,7 +9,8 @@ import {
   OverlayTrigger,
   Tooltip,
   Button,
-  Col
+  Col,
+  ButtonGroup
 } from 'react-bootstrap'
 import {withRouter} from 'react-router-dom'
 import {auth} from '../firestore/db'
@@ -112,12 +113,14 @@ const LoggedInNav = props => {
         <Alert.Heading>Are you sure you want to logout?</Alert.Heading>
 
         <div className="d-flex justify-content-center">
-          <Button onClick={handleLogOut} variant="danger">
-            Logout
-          </Button>
-          <Button onClick={handleClose} variant="secondary">
-            Close
-          </Button>
+          <ButtonGroup>
+            <Button onClick={handleLogOut} variant="danger">
+              Logout
+            </Button>
+            <Button onClick={handleClose} variant="secondary">
+              Close
+            </Button>
+          </ButtonGroup>
         </div>
       </Alert>
     </div>
