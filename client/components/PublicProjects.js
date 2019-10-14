@@ -28,15 +28,16 @@ const PublicProjects = props => {
   if (error) throw new Error('FATAL: Firestore error encountered')
   if (loading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="align-self-center sr-only">Loading...</span>
-      </Spinner>
+      <Row className="d-flex justify-content-center">
+        <Spinner animation="border" role="status">
+          <span className="align-self-center sr-only">Loading...</span>
+        </Spinner>
+      </Row>
     )
   }
   if (projectQueryResults) {
     return (
       <>
-        {/* <AllProjects /> */}
         <Card className="text-center m-5" bg="warning">
           <Card.Header>Featured Song</Card.Header>
           <Card.Body>

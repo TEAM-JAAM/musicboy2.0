@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
 import {db, auth, provider} from '../firestore/db'
 import history from '../history'
 import {Modal, Button, Row} from 'react-bootstrap'
-import AllProjects from './AllProjects'
+import LoggedInNav from './LoggedInNav'
 
 export default class Navbar extends Component {
   constructor() {
@@ -110,7 +109,7 @@ export default class Navbar extends Component {
     return (
       <div>
         {auth.currentUser ? (
-          <AllProjects />
+          <LoggedInNav />
         ) : (
           <Row className="justify-content-center mt-3">
             <Button

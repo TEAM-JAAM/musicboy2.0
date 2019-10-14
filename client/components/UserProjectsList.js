@@ -5,7 +5,6 @@ import {db, auth, provider} from '../firestore/db'
 import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
 import {Card, Button, Row, Badge, Spinner} from 'react-bootstrap'
-import AllProjects from './AllProjects'
 
 const UserProjectsList = props => {
   const email = auth.currentUser.email
@@ -52,16 +51,17 @@ const UserProjectsList = props => {
 
   if (loading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="align-self-center sr-only">Loading...</span>
-      </Spinner>
+      <Row className="d-flex justify-content-center">
+        <Spinner animation="border" role="status">
+          <span className="align-self-center sr-only">Loading...</span>
+        </Spinner>
+      </Row>
     )
   }
 
   if (projectQueryResults) {
     return (
       <>
-        {/* <AllProjects /> */}
         <Card body border="dark" bg="light" className="text-center">
           <h2>My Account</h2>
           <span>username: {email}</span>
