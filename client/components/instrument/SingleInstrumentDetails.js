@@ -3,8 +3,10 @@ import {useDocument} from 'react-firebase-hooks/firestore'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
+import Tooltip from 'react-bootstrap/Tooltip'
 import {Instrument} from '../../firestore/models'
 import {MdGridOff, MdSettings} from 'react-icons/md'
 
@@ -54,11 +56,21 @@ export const SingleInstrumentDetails = ({docRef}) => {
           <Container fluid className="ml-0 mr-0">
             <Row>
               <Col className="pl-0 pr-0">
-                <span className="icon-small">🎹</span>
+                <span>🎹</span>
               </Col>
               <Col className="ml-auto pl-0 pr-0 text-right">
-                <MdGridOff className="icon-small" onClick={handleClear} />
-                <MdSettings className="icon-small" />
+                <OverlayTrigger
+                  placement="auto"
+                  overlay={<Tooltip>Clear grid</Tooltip>}
+                >
+                  <MdGridOff className="icon-small" onClick={handleClear} />
+                </OverlayTrigger>
+                <OverlayTrigger
+                  placement="auto"
+                  overlay={<Tooltip>Instrument settings...</Tooltip>}
+                >
+                  <MdSettings className="icon-small" />
+                </OverlayTrigger>
               </Col>
             </Row>
           </Container>
