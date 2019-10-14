@@ -24,8 +24,8 @@ form div {
 /* SingleInstruments */
 
 .single-instrument-container {
-  background: 
-/*   
+  background:
+/*
   url('./jaamlogo.png') no-repeat center center local, */
     /* linear-gradient(
       0deg,
@@ -197,4 +197,12 @@ td.column-td {
 
 .emoji-option {
   height: 30px;
+}
+
+.dark-mode {
+  color: rgb(195, 195, 195);
+}
+
+.dark-bg {
+  background-color: rgb(73, 73, 73);
 }
