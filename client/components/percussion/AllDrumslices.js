@@ -47,7 +47,7 @@ const AllDrumslices = ({docRef}) => {
 
   if (drumsQueryResult) {
     return (
-      <div className="single-drums-container">
+      <div className="single-drums-container outer-table">
         {drumslicesDocRefs.map(drumsliceDocRef => {
           return (
             <SingleDrumslice

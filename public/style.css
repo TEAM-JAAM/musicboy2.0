@@ -82,8 +82,18 @@ td.column-td {
 }
 
 .drum-details-container {
-  flex: 2;
-  text-align: center;
+  display: flex;
+  margin: 10px;
+  justify-content: space-evenly;
+}
+
+.drum-icon {
+  justify-self: flex-start;
+}
+
+.clear-drums-btn {
+  align-self: center;
+  padding: 0 10px 0 10px;
 }
 
 .single-drums-container {

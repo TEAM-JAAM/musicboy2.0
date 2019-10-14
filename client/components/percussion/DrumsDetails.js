@@ -1,7 +1,8 @@
 import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {Spinner, Button} from 'react-bootstrap'
+import {Spinner, Button, Card, Container} from 'react-bootstrap'
 import {Drums} from '../../firestore/models'
+import {kick} from '../../../instruments'
 
 const DrumsDetails = ({docRef}) => {
   const [drumsQueryResult, loading, error] = useDocument(docRef)
@@ -10,6 +11,7 @@ const DrumsDetails = ({docRef}) => {
   async function handleClear() {
     const drums = Drums.fromDocRef(drumsQueryResult.ref)
     await drums.clearAllDrumSlices()
+    kick.triggerAttackRelease('A2', '16n')
   }
 
   if (error) throw new Error('FATAL: firestore error encountered')
@@ -22,12 +24,28 @@ const DrumsDetails = ({docRef}) => {
   }
   if (drumsQueryResult) {
     return (
-      <div className="drum-details-container">
-        <h1>🥁</h1>
-        <Button variant="success" onClick={handleClear}>
-          Clear Grid
-        </Button>
-      </div>
+      <Card
+        bg="dark"
+        text="white"
+        border="light"
+        className="mr-1 drum-details-card"
+        style={{width: '15rem'}}
+      >
+        <Container fluid className="pl-0 pr-0 drum-details-container">
+          <h1 className="drum-icon">🥁</h1>
+          <Button
+            variant="secondary"
+            className="clear-drums-btn"
+            size="sm"
+            onClick={handleClear}
+          >
+            clear
+          </Button>
+          <Button variant="secondary" className="clear-drums-btn" size="sm">
+            hide
+          </Button>
+        </Container>
+      </Card>
     )
   }
 }
