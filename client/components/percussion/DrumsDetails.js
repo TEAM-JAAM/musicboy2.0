@@ -1,6 +1,15 @@
 import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {Spinner, Button, Card, Container} from 'react-bootstrap'
+import {
+  Spinner,
+  Card,
+  Container,
+  OverlayTrigger,
+  Row,
+  Col,
+  Tooltip
+} from 'react-bootstrap'
+import {MdGridOff, MdSettings} from 'react-icons/md'
 import {Drums} from '../../firestore/models'
 import {kick} from '../../../instruments'
 
@@ -29,22 +38,33 @@ const DrumsDetails = ({docRef}) => {
         text="white"
         border="light"
         className="mr-1 drum-details-card"
-        style={{width: '15rem'}}
+        style={{width: '10rem'}}
       >
-        <Container fluid className="pl-0 pr-0 drum-details-container">
-          <h1 className="drum-icon">🥁</h1>
-          <Button
-            variant="secondary"
-            className="clear-drums-btn"
-            size="sm"
-            onClick={handleClear}
-          >
-            clear
-          </Button>
-          <Button variant="secondary" className="clear-drums-btn" size="sm">
-            hide
-          </Button>
-        </Container>
+        <Card.Header className="p-1">
+          <Container fluid className="pl-0 pr-0 drum-details-container">
+            <Row>
+              <Col className="ml-auto pl-0 pr-0 text-right">
+                <OverlayTrigger
+                  placement="auto"
+                  overlay={<Tooltip>Clear grid</Tooltip>}
+                >
+                  <MdGridOff className="icon-small" onClick={handleClear} />
+                </OverlayTrigger>
+                <OverlayTrigger
+                  placement="auto"
+                  overlay={<Tooltip>Instrument settings...</Tooltip>}
+                >
+                  <MdSettings className="icon-small" />
+                </OverlayTrigger>
+              </Col>
+            </Row>
+          </Container>
+        </Card.Header>
+        <Card.Body>
+          <Card.Title className="text-center instrument-card-title">
+            <h1>🥁</h1>
+          </Card.Title>
+        </Card.Body>
       </Card>
     )
   }
