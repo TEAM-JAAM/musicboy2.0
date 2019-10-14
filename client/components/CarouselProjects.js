@@ -1,22 +1,14 @@
 import React, {useState} from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {auth} from '../firestore/db'
-import {
-  ToggleButtonGroup,
-  Carousel,
-  Row,
-  ToggleButton,
-  Spinner,
-  OverlayTrigger,
-  Tooltip
-} from 'react-bootstrap'
-import {Link, withRouter} from 'react-router-dom'
+import {Carousel, Spinner} from 'react-bootstrap'
+import {withRouter} from 'react-router-dom'
 import {Project} from '../firestore/models'
 
 // need projects from database
 
 const CarouselProjects = props => {
-  const email = auth.currentUser.email
+  // const email = auth.currentUser.email
   const uid = auth.currentUser.uid
   const {history} = props
   const [projectQueryResults, loading, error] = useCollection(

@@ -4,7 +4,6 @@ import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
 import {Card, Button, Row, Spinner, Badge} from 'react-bootstrap'
 import {auth} from '../firestore/db'
-import AllProjects from './AllProjects'
 
 const PublicProjects = props => {
   const email = auth.currentUser.email
