@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
 import {db, auth, provider} from '../firestore/db'
 import history from '../history'
 import {Modal, Button, Row} from 'react-bootstrap'
+import LoggedInNav from './LoggedInNav'
 
 export default class Navbar extends Component {
   constructor() {
@@ -108,47 +108,38 @@ export default class Navbar extends Component {
   render() {
     return (
       <div>
-        <nav>
-          {auth.currentUser ? null : (
-            <div>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: 'Login',
-                    show: true
-                  })
-                }}
-              >
-                <a>Login</a>
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: 'Signup',
-                    show: true
-                  })
-                }}
-              >
-                <a> Sign Up</a>
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: '',
-                    show: false
-                  })
-                }}
-              >
-                <Link to="/play" style={{color: 'white'}}>
-                  Jaam Out
-                </Link>
-              </Button>
-            </div>
-          )}
-        </nav>
+        {auth.currentUser ? (
+          <LoggedInNav />
+        ) : (
+          <Row className="justify-content-center mt-3">
+            <Button
+              className="m-2"
+              size="lg"
+              variant="primary"
+              onClick={() => {
+                this.setState({
+                  popUp: 'Login',
+                  show: true
+                })
+              }}
+            >
+              <a>Login</a>
+            </Button>
+            <Button
+              className="m-2"
+              size="lg"
+              variant="primary"
+              onClick={() => {
+                this.setState({
+                  popUp: 'Signup',
+                  show: true
+                })
+              }}
+            >
+              <a>Sign Up</a>
+            </Button>
+          </Row>
+        )}
         {this.state.popUp ? (
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
@@ -197,9 +188,7 @@ export default class Navbar extends Component {
               </div>
             </Modal.Body>
           </Modal>
-        ) : (
-          <div />
-        )}
+        ) : null}
       </div>
     )
   }
