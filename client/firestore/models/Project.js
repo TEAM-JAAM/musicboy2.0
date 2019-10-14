@@ -1,5 +1,6 @@
 const {db, firestore} = require('../db')
 const Instrument = require('./Instrument')
+const Drums = require('./Drums')
 const util = require('../utils/dbUtils')
 
 const TIMESLICE_BLOCK_SIZE = 8
@@ -41,7 +42,8 @@ class Project {
         memberUids: [],
         permissions: 'Private',
         tempo: 60,
-        timeslices: 8
+        timeslices: 8,
+        drumslices: 8
       }
       util.populateDefaults(objectData, defaults)
 
@@ -86,6 +88,16 @@ class Project {
     )
   }
 
+  static findProjectPercussionQuery(documentId) {
+    return (
+      documentId &&
+      db
+        .collection('projects')
+        .doc(documentId)
+        .collection('percussion')
+    )
+  }
+
   static fetchAllProjectsData(querySnapshot) {
     const projects = []
     querySnapshot &&
@@ -105,6 +117,10 @@ class Project {
     return querySnapshot && querySnapshot.docs
   }
 
+  static fetchPercussionDocRefs(querySnapshot) {
+    return querySnapshot && querySnapshot.docs
+  }
+
   static fromDocRef(projectDocRef) {
     return new Project(projectDocRef)
   }
@@ -116,6 +132,11 @@ class Project {
   async addInstrument(objectData) {
     const timeslices = await this.getTimeslicesValue()
     return Instrument.create(this, objectData, timeslices)
+  }
+
+  async addDrums() {
+    const drumslices = await this.getDrumslicesValue()
+    return Drums.create(this, drumslices)
   }
 
   async addUserToProject(objectData) {
@@ -233,6 +254,14 @@ class Project {
       throw new util.UnknownProjectError()
     }
     return projectDocSnaphot.data().timeslices
+  }
+
+  async getDrumslicesValue() {
+    const projectDocSnapshot = await this.projectDocRef.get()
+    if (!projectDocSnapshot.exists) {
+      throw new util.UnknownProjectError()
+    }
+    return projectDocSnapshot.data().drumslices
   }
 
   // Return the Firestore reference to this project document

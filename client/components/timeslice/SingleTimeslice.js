@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {Button, Spinner} from 'react-bootstrap'
+import {Spinner} from 'react-bootstrap'
 
 import {Timeslice} from '../../firestore/models'
 
@@ -10,15 +10,16 @@ export const SingleTimeslice = ({docRef, grid}) => {
   const timesliceIndex = Timeslice.fetchTimesliceIndex(timesliceQueryResult)
   const timeslice = Timeslice.fetchTimesliceData(timesliceQueryResult)
 
-  // useEffect(
-  //   () => {
-  //     if (timesliceQueryResult) {
-  //       const updatedTimeslice = timesliceQueryResult.data()
-  //       instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
-  //     }
-  //   },
-  //   [timesliceQueryResult]
-  // )
+  useEffect(
+    () => {
+      if (timesliceQueryResult) {
+        console.log('TRYING TO UPDATE SLICE')
+        const updatedTimeslice = timesliceQueryResult.data()
+        instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
+      }
+    },
+    [timesliceQueryResult]
+  )
 
   const handleClick = async row => {
     const newCellRow = !timeslice[row]
@@ -44,7 +45,7 @@ export const SingleTimeslice = ({docRef, grid}) => {
           {timesliceArr.map(cell => {
             const statusColor = cell[1] ? 'cell on' : 'cell off'
             return (
-              <tr key={cell}>
+              <tr key={cell[0]}>
                 <td
                   className={statusColor}
                   onClick={() => {

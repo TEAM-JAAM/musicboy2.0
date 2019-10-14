@@ -25,10 +25,6 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
   useEffect(
     () => {
       if (instrumentQueryResult) {
-        console.log(
-          'calling use effect for instrument, instrument query result: ',
-          instrumentQueryResult
-        )
         const instrument = Instrument.fetchInstrumentData(instrumentQueryResult)
         grid.current.setKey(instrument.key)
         grid.current.setInstrument(instrument.name)
@@ -50,12 +46,16 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     timeslicesQueryResult
   )
 
-  // Each time the number of timeslices is increased, the sequences
+  // Each time the number of timeslices is changed, the sequences
   // grid must be informed
   useEffect(
     () => {
       if (timeslicesQueryResult) {
-        grid.current.setUpGrid(timeslicesQueryResult)
+        const timeslices = timeslicesQueryResult.size
+        const gridSize = grid.current.getGridSize()
+        if (timeslices !== gridSize) {
+          grid.current.setUpGrid(timeslicesQueryResult)
+        }
       }
     },
     [timeslicesQueryResult]
@@ -72,11 +72,6 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     )
   }
   if (timeslicesQueryResult) {
-    // let copy = [...timeslicesDocRefs]
-    // let copy2 = [...copy]
-    // let copy3 = [...copy, ...copy2, ...timeslicesDocRefs]
-    // let copy4 = [...copy3, ...copy3]
-    // let copy5 = [...copy4, ...copy4]
     return (
       <div className="single-instrument-container">
         <table className="outer-table">

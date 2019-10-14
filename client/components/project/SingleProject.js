@@ -2,13 +2,15 @@ import React from 'react'
 
 import {SingleProjectDetails} from './SingleProjectDetails'
 import {SingleProjectInstruments} from './SingleProjectInstruments'
+import {SingleProjectPercussion} from './SingleProjectPercussion'
 
 export const SingleProject = props => {
   const projectDocRef = props.match.params.docRef
   return (
-    <React.Fragment>
-      <SingleProjectDetails docRef={projectDocRef} />
+    <div className="single-project">
+      <SingleProjectDetails {...props} docRef={projectDocRef} />
       <SingleProjectInstruments docRef={projectDocRef} />
-    </React.Fragment>
+      <SingleProjectPercussion docRef={projectDocRef} />
+    </div>
   )
 }

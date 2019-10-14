@@ -1,26 +1,15 @@
-import {
-  synth,
-  tiny,
-  kalimba,
-  electricCello,
-  steelPan,
-  electric,
-  marimba,
-  bassGuitar,
-  pianoetta
-} from './synth'
+import {synth, electricCello, steelPan, marimba, bassGuitar} from './synth'
+import {kick, clap} from './drums'
 import {G_MAJOR, G_MINOR, PENTATONIC} from './scales'
 
 export {
   synth,
-  tiny,
-  kalimba,
   electricCello,
   steelPan,
   marimba,
-  electric,
   bassGuitar,
-  pianoetta,
+  kick,
+  clap,
   G_MAJOR,
   G_MINOR,
   PENTATONIC

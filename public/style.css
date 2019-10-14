@@ -6,6 +6,24 @@ a {
   text-decoration: none;
 }
 
+i.far {
+  color: whitesmoke;
+  cursor: pointer;
+  font-size: 3em;
+  transition: color 0.2s ease;
+}
+
+i.fas {
+  color: whitesmoke;
+  font-size: 2em;
+  transition: color 0.2s ease;
+}
+
+i.far:hover,
+i.fas:hover {
+  color: #007bff;
+}
+
 label {
   display: block;
 }
@@ -59,6 +77,42 @@ td.column-td {
   height: 15px;
 }
 
+.drums-with-details {
+  display: flex;
+}
+
+.drum-details-container {
+  flex: 2;
+  text-align: center;
+}
+
+.single-drums-container {
+  flex: 8;
+  display: flex;
+  background: url('./jaamlogo.png') no-repeat center center local,
+    linear-gradient(
+      0deg,
+      rgba(0, 123, 255, 1) 24%,
+      rgba(148, 195, 255, 1) 57%,
+      rgba(0, 255, 252, 1) 100%
+    );
+  background-size: contain;
+}
+
+.single-drumslice-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.drum-cell {
+  flex: 1;
+  border: 1px solid white;
+}
+
+.cell:hover {
+  background-color: pink;
+}
+
 .on {
   /* background-color: limegreen; */
   background-color: #28a745;
@@ -83,9 +137,35 @@ td.column-td {
   justify-self: center;
 }
 
+.instrument-card-title {
+  font-size: 2rem;
+}
+
 /* managing single-instrument-container & single-instrument-options */
 .single-instrument-with-details {
   display: flex;
+}
+
+.single-project {
+  background-color: #2e2e2e;
+  color: whitesmoke;
+  font-family: 'Titillium Web', sans-serif;
+  padding-bottom: 5em;
+}
+
+.project-details-body {
+  font-weight: 600;
+  margin: 2em 2em;
+}
+
+.project-details-nav {
+  background: linear-gradient(darkgrey, lightgrey);
+  font-weight: 600;
+  font-size: 1.5em;
+}
+
+.project-details-body .table {
+  color: whitesmoke;
 }
 
 .single-instrument-options {
@@ -102,11 +182,13 @@ td.column-td {
   flex-direction: row;
 }
 
-/* single-instrument-options */
-.select-instrument-name .select-instrument-key {
-}
 .icon {
   font-size: 1.5rem;
+}
+
+.icon-small {
+  font-size: 1rem;
+  margin-left: 0.5rem;
 }
 
 .emoji-option {
