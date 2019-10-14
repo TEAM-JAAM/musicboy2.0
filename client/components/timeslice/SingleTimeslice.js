@@ -10,16 +10,16 @@ export const SingleTimeslice = ({docRef, grid}) => {
   const timesliceIndex = Timeslice.fetchTimesliceIndex(timesliceQueryResult)
   const timeslice = Timeslice.fetchTimesliceData(timesliceQueryResult)
 
-  useEffect(
-    () => {
-      if (timesliceQueryResult) {
-        console.log('TRYING TO UPDATE SLICE')
-        const updatedTimeslice = timesliceQueryResult.data()
-        instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
-      }
-    },
-    [timesliceQueryResult]
-  )
+  // useEffect(
+  //   () => {
+  //     if (timesliceQueryResult) {
+  //       console.log('TRYING TO UPDATE SLICE')
+  //       const updatedTimeslice = timesliceQueryResult.data()
+  //       instrumentGrid.current.updateSlice(timesliceIndex, updatedTimeslice)
+  //     }
+  //   },
+  //   [timesliceQueryResult]
+  // )
 
   const handleClick = async row => {
     const newCellRow = !timeslice[row]

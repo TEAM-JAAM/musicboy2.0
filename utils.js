@@ -36,7 +36,6 @@ export class Grid {
 
   setUpGrid(slices) {
     if (slices && this.key && this.instrument) {
-      console.log('SETUP GRID CALLED')
       this.chordArray = []
       let nodeArray = []
       let docsArray = slices
@@ -57,7 +56,6 @@ export class Grid {
         this.chordArray.push(chord)
       }
       this.grid = nodeArray
-
       console.log('SETUP GRID CALLED', this.grid)
       if (!this.sequence.length) {
         this.createNewSequence(this.chordArray)
@@ -77,7 +75,6 @@ export class Grid {
       PENTATONIC: PENTATONIC
     }
     this.key = keyMap[keyName]
-    console.log('chordarray before key update', this.chordArray)
     let chordArr = []
     this.grid.forEach(slice => {
       let chord = []
@@ -90,7 +87,6 @@ export class Grid {
       chordArr.push(chord)
     })
     this.chordArray = chordArr
-    console.log('chordarray after key update', this.chordArray)
     if (this.sequence.length) {
       this.sequence.cancel()
       this.createNewSequence(this.chordArray)
@@ -161,6 +157,7 @@ export class Grid {
     } else {
       this.sequence._events[cell.index].value.push(cell.pitch)
     }
+    console.log('UPDATING SEQUENCE', this.sequence)
   }
 
   playCell(row, col) {
