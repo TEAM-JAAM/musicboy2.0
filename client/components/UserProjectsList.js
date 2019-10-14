@@ -63,9 +63,9 @@ const UserProjectsList = props => {
   if (projectQueryResults) {
     return (
       <>
-        <Card body border="dark" bg="light" className="text-center">
+        <Card body border="dark" bg="dark" className="text-center dark-mode">
           <h2>My Account</h2>
-          <span>username: {email}</span>
+          <span style={{color: 'white'}}>username: {email}</span>
           <div>
             <a href="#" onClick={handleLogOut}>
               <h5>

@@ -53,14 +53,14 @@ const UserHome = props => {
   if (projectQueryResults) {
     return (
       <>
-        <Alert variant="dark" className="text-center">
+        <Alert bg="dark" className="text-center dark-mode">
           <Alert.Heading>Hey, nice to see you</Alert.Heading>
           <p>This is Jaam. The place where musicians come to collaborate.</p>
           <hr />
           <p className="mb-0">
             {projects.length ? (
               <span>
-                You have <Badge variant="dark">{projects.length}</Badge> jaam
+                You have <Badge variant="success">{projects.length}</Badge> jaam
                 session{projects.length > 1 && 's'}.
               </span>
             ) : (

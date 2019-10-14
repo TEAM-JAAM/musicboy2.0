@@ -52,7 +52,7 @@ const NewProjectForm = props => {
   return (
     <div>
       <Modal show={show} onHide={handleClose}>
-        <form onSubmit={handleSubmit}>
+        <form className="dark-mode dark-bg" onSubmit={handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title>You're making a masterpiece!</Modal.Title>
           </Modal.Header>
@@ -137,7 +137,7 @@ const NewProjectForm = props => {
         </form>
       </Modal>
       <Button
-        variant="danger"
+        variant="success"
         type="primary"
         size="lg"
         block

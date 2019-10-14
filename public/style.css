@@ -189,3 +189,11 @@ td.drum-column-td {
 .emoji-option {
   height: 30px;
 }
+
+.dark-mode {
+  color: rgb(195, 195, 195);
+}
+
+.dark-bg {
+  background-color: rgb(73, 73, 73);
+}
