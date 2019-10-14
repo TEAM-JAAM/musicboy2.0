@@ -1,11 +1,8 @@
 import {Button} from 'react-bootstrap'
-import {TextButton, Dial} from 'react-nexusui'
-import Nexus from 'nexusui'
 import React, {useState, useEffect} from 'react'
 import Tone from 'tone'
 import {useDocument} from 'react-firebase-hooks/firestore'
 import {
-  MdAccessTime,
   MdArrowBack,
   MdChat,
   MdPlayArrow,
@@ -19,6 +16,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import Spinner from 'react-bootstrap/Spinner'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 import {Project} from '../../firestore/models'
 
@@ -101,27 +99,28 @@ export const SingleProjectDetails = ({docRef, history}) => {
       <div>
         <Navbar className="project-details-nav">
           <ButtonGroup size="sm">
-            <Button variant="secondary" onClick={handleBack}>
-              <MdArrowBack className="icon" />
-            </Button>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Back</Tooltip>}
+            >
+              <Button variant="secondary" onClick={handleBack}>
+                <MdArrowBack className="icon" />
+              </Button>
+            </OverlayTrigger>
           </ButtonGroup>
           <ButtonGroup size="sm" className="ml-1">
-            <Button variant="secondary" onClick={handlePlay}>
-              {playButton}
-            </Button>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Play/Pause</Tooltip>}
+            >
+              <Button variant="secondary" onClick={handlePlay}>
+                {playButton}
+              </Button>
+            </OverlayTrigger>
           </ButtonGroup>
           <Navbar.Text className="ml-auto mr-auto">{project.name}</Navbar.Text>
-          <Dial
-            size={[50, 50]}
-            interaction="radial"
-            onChange={console.log}
-            value={Math.random()}
-            min={0}
-            max={10}
-          />
-          <span>Volume</span>
           <Form inline onSubmit={saveTempo}>
-            <Form.Group controlId="formTempo">
+            <Form.Group className="m-0" controlId="formTempo">
               <OverlayTrigger
                 trigger="focus"
                 placement="top"
@@ -143,17 +142,37 @@ export const SingleProjectDetails = ({docRef, history}) => {
                 />
               </OverlayTrigger>
             </Form.Group>
-            <Button size="sm" type="submit" variant="secondary">
-              <MdAccessTime className="icon" />
-            </Button>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Set tempo</Tooltip>}
+            >
+              <Button
+                className="ml-1"
+                size="sm"
+                type="submit"
+                variant="secondary"
+              >
+                <small>SET TEMPO</small>
+              </Button>
+            </OverlayTrigger>
           </Form>
-          <ButtonGroup size="sm" className="ml-1">
-            <Button variant="secondary" onClick={handlePlay}>
-              <MdChat className="icon" />
-            </Button>
-            <Button variant="secondary" onClick={handlePlay}>
-              <MdSettings className="icon" />
-            </Button>
+          <ButtonGroup size="sm" className="ml-3">
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Chat with a member</Tooltip>}
+            >
+              <Button variant="secondary" onClick={handlePlay}>
+                <MdChat className="icon" />
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Project settings...</Tooltip>}
+            >
+              <Button variant="secondary" onClick={handlePlay}>
+                <MdSettings className="icon" />
+              </Button>
+            </OverlayTrigger>
           </ButtonGroup>
         </Navbar>
       </div>

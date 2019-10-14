@@ -1,27 +1,10 @@
 body {
+  background-color: #2e2e2e;
   font-family: sans-serif;
 }
 
 a {
   text-decoration: none;
-}
-
-i.far {
-  color: whitesmoke;
-  cursor: pointer;
-  font-size: 3em;
-  transition: color 0.2s ease;
-}
-
-i.fas {
-  color: whitesmoke;
-  font-size: 2em;
-  transition: color 0.2s ease;
-}
-
-i.far:hover,
-i.fas:hover {
-  color: #007bff;
 }
 
 label {
@@ -41,21 +24,14 @@ form div {
 /* SingleInstruments */
 
 .single-instrument-container {
-  background: 
-/*   
-  url('./jaamlogo.png') no-repeat center center local, */
-    /* linear-gradient(
-      0deg,
-      rgba(0, 123, 255, 1) 24%,
-      rgba(148, 195, 255, 1) 57%,
-      rgba(0, 255, 252, 1) 100%
-    ); */ linear-gradient(
+  background: linear-gradient(
     0deg,
     rgba(108, 117, 125, 1) 15%,
     rgba(218, 218, 218, 1) 71%,
     rgba(255, 255, 255, 1) 100%
   );
-  background-size: contain;
+  /* background-size: contain; */
+  height: auto;
 }
 
 table {
@@ -95,36 +71,34 @@ td {
   height: 15px;
 }
 
+td.drum-column-td {
+  margin: 0px;
+  min-width: 30px;
+  height: 85px;
+}
+
 .drums-with-details {
   display: flex;
 }
 
 .drum-details-container {
-  flex: 2;
-  text-align: center;
+  display: flex;
+  margin: 10px;
+  justify-content: space-evenly;
 }
 
-.single-drums-container {
-  flex: 8;
-  display: flex;
-  background: url('./jaamlogo.png') no-repeat center center local,
-    linear-gradient(
-      0deg,
-      rgba(0, 123, 255, 1) 24%,
-      rgba(148, 195, 255, 1) 57%,
-      rgba(0, 255, 252, 1) 100%
-    );
-  background-size: contain;
+.drum-icon {
+  justify-self: flex-start;
+}
+
+.clear-drums-btn {
+  align-self: center;
+  padding: 0 10px 0 10px;
 }
 
 .single-drumslice-container {
   display: flex;
   flex-direction: column;
-}
-
-.drum-cell {
-  flex: 1;
-  border: 1px solid white;
 }
 
 .cell:hover {
@@ -150,7 +124,7 @@ td {
   height: 15px;
 }
 
-.closed {
+.drum .closed {
   cursor: not-allowed;
   opacity: 0.5;
 }
@@ -160,7 +134,7 @@ td {
 }
 
 .instrument-card-title {
-  font-size: 2rem;
+  font-size: 1.25rem;
 }
 
 /* managing single-instrument-container & single-instrument-options */
@@ -208,11 +182,30 @@ td {
   font-size: 1.5rem;
 }
 
+.jaam-icon {
+  width: 3rem;
+  height: 2rem;
+  margin: 1rem;
+}
+
 .icon-small {
+  cursor: pointer;
   font-size: 1rem;
   margin-left: 0.5rem;
 }
 
+.icon-small:hover {
+  color: lightgrey;
+}
+
 .emoji-option {
   height: 30px;
+}
+
+.dark-mode {
+  color: rgb(195, 195, 195);
+}
+
+.dark-bg {
+  background-color: rgb(73, 73, 73);
 }
