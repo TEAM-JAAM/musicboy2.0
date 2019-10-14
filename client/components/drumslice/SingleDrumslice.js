@@ -40,20 +40,24 @@ export const SingleDrumslice = ({docRef, grid}) => {
   if (drumsliceQueryResult) {
     const cells = Object.keys(drumslice)
     return (
-      <div className="single-drumslice-container">
-        {cells.map(cell => {
-          const statusColor = drumslice[cell] ? 'cell on' : 'cell off'
-          return (
-            <div
-              key={cell}
-              className={`${statusColor} drum-cell`}
-              onClick={() => {
-                handleClick(cell)
-              }}
-            />
-          )
-        })}
-      </div>
+      <table>
+        <tbody>
+          {cells.map(cell => {
+            const statusColor = drumslice[cell] ? 'cell on' : 'cell off'
+            return (
+              <tr key={cell}>
+                <td
+                  key={cell}
+                  className={statusColor}
+                  onClick={() => {
+                    handleClick(cell)
+                  }}
+                />
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     )
   }
 }
