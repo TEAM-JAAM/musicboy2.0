@@ -60,10 +60,14 @@ const AllProjects = props => {
   }
   const handleChange = val => {
     setValue(val)
+    if (val === 2) {
+      history.push('/home/public')
+    }
+    if (val === 3) {
+      history.push('/home/myaccount')
+    }
   }
-  if (value === 2) {
-    history.push('/home/public')
-  }
+
   if (error) throw new Error('FATAL: Firestore error encountered')
 
   if (loading) {
@@ -116,9 +120,7 @@ const AllProjects = props => {
           </Row>
         </div>
 
-        {value === 3 ? (
-          <UserProjectsList projects={projects} email={email} uid={uid} />
-        ) : value === 4 ? (
+        {/* {value === 4 ? (
           <Error />
         ) : (
           <Carousel
@@ -147,7 +149,7 @@ const AllProjects = props => {
               ) : null
             })}
           </Carousel>
-        )}
+        )} */}
       </div>
     )
   }

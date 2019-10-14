@@ -4,6 +4,7 @@ import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
 import {Card, Button, Row, Spinner, Badge} from 'react-bootstrap'
 import {auth} from '../firestore/db'
+import AllProjects from './AllProjects'
 
 const PublicProjects = props => {
   const email = auth.currentUser.email
@@ -36,6 +37,7 @@ const PublicProjects = props => {
   if (projectQueryResults) {
     return (
       <>
+        <AllProjects />
         <Card className="text-center m-5" bg="warning">
           <Card.Header>Featured Song</Card.Header>
           <Card.Body>
