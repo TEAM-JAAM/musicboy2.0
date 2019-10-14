@@ -112,45 +112,34 @@ export default class Navbar extends Component {
         {auth.currentUser ? (
           <AllProjects />
         ) : (
-          <nav>
-            <div>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: 'Login',
-                    show: true
-                  })
-                }}
-              >
-                <a>Login</a>
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: 'Signup',
-                    show: true
-                  })
-                }}
-              >
-                <a> Sign Up</a>
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: '',
-                    show: false
-                  })
-                }}
-              >
-                <Link to="/play" style={{color: 'white'}}>
-                  Jaam Out
-                </Link>
-              </Button>
-            </div>
-          </nav>
+          <Row className="justify-content-center mt-3">
+            <Button
+              className="m-2"
+              size="lg"
+              variant="primary"
+              onClick={() => {
+                this.setState({
+                  popUp: 'Login',
+                  show: true
+                })
+              }}
+            >
+              <a>Login</a>
+            </Button>
+            <Button
+              className="m-2"
+              size="lg"
+              variant="primary"
+              onClick={() => {
+                this.setState({
+                  popUp: 'Signup',
+                  show: true
+                })
+              }}
+            >
+              <a>Sign Up</a>
+            </Button>
+          </Row>
         )}
         {this.state.popUp ? (
           <Modal show={this.state.show} onHide={this.handleClose}>
