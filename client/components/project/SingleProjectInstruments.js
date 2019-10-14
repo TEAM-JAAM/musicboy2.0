@@ -1,6 +1,12 @@
 import React from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
-import {Spinner} from 'react-bootstrap'
+import {MdAdd, MdChevronLeft, MdChevronRight} from 'react-icons/md'
+import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Spinner from 'react-bootstrap/Spinner'
 
 import {Project} from '../../firestore/models'
 import {SingleInstrument} from '../instrument/SingleInstrument'
@@ -14,6 +20,10 @@ export const SingleProjectInstruments = ({docRef}) => {
     instrumentQueryResult
   )
 
+  const handleAddInstrument = event => {
+    console.log('iniitate add instrument dialog...')
+  }
+
   if (error) throw new Error('FATAL: firestore error encountered')
   if (loading) {
     return (
@@ -24,16 +34,34 @@ export const SingleProjectInstruments = ({docRef}) => {
   }
   if (instrumentQueryResult) {
     return (
-      <div>
+      <Container fluid className="mt-3">
+        <Row>
+          <Col>
+            <Button variant="secondary" size="sm" onClick={handleAddInstrument}>
+              <MdAdd className="icon" />
+            </Button>
+          </Col>
+          <Col className="text-right">
+            <ButtonGroup size="sm">
+              <Button variant="secondary" size="sm">
+                <MdChevronLeft className="icon" />
+              </Button>
+              <Button variant="secondary" size="sm">
+                <MdChevronRight className="icon" />
+              </Button>
+            </ButtonGroup>
+          </Col>
+        </Row>
         {instrumentDocRefs.map(instrumentDocRef => {
           return (
-            <SingleInstrument
-              key={instrumentDocRef.id}
-              docRef={instrumentDocRef.ref}
-            />
+            <Row key={instrumentDocRef.id} className="mt-3">
+              <Col>
+                <SingleInstrument docRef={instrumentDocRef.ref} />
+              </Col>
+            </Row>
           )
         })}
-      </div>
+      </Container>
     )
   }
 }

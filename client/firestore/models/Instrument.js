@@ -27,9 +27,7 @@ class Instrument {
 
     console.log('NOTE: creating new instrument...', objectData)
     const projectDocRef = parentProject.ref()
-    const newInstrumentDocRef = projectDocRef
-      .collection('instruments')
-      .doc(objectData.name)
+    const newInstrumentDocRef = projectDocRef.collection('instruments').doc()
     await newInstrumentDocRef.set(objectData)
 
     const newInstrument = new Instrument(newInstrumentDocRef)
@@ -86,7 +84,7 @@ class Instrument {
     if (!instrumentDocSnapshot.exists) {
       throw new util.DatabaseInconsistentError()
     }
-    for (let i = finalIndex - 1; i > finalIndex - numberOfTimeslices; --i) {
+    for (let i = finalIndex - 1; i > finalIndex - numberOfTimeslices - 1; --i) {
       await Timeslice.destroy(this, i)
     }
   }
