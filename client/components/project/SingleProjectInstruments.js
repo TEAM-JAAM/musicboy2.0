@@ -22,8 +22,20 @@ export const SingleProjectInstruments = ({docRef}) => {
     instrumentQueryResult
   )
 
-  const handleAddInstrument = event => {
-    console.log('iniitate add instrument dialog...')
+  const handleAddInstrument = () => {
+    console.log('initiate add instrument dialog...')
+  }
+
+  const handleIncreaseGrid = async () => {
+    const projectDocRef = instrumentsCollectionRef.parent
+    const project = Project.fromDocRef(projectDocRef)
+    await project.addTimesliceBlock()
+  }
+
+  const handleDecreaseGrid = async () => {
+    const projectDocRef = instrumentsCollectionRef.parent
+    const project = Project.fromDocRef(projectDocRef)
+    await project.removeTimesliceBlock()
   }
 
   if (error) throw new Error('FATAL: firestore error encountered')
@@ -58,7 +70,11 @@ export const SingleProjectInstruments = ({docRef}) => {
                 placement="auto"
                 overlay={<Tooltip>Reduce grid size</Tooltip>}
               >
-                <Button variant="secondary" size="sm">
+                <Button
+                  onClick={handleDecreaseGrid}
+                  size="sm"
+                  variant="secondary"
+                >
                   <MdRemove />
                   <MdGridOn className="icon" />
                 </Button>
@@ -67,7 +83,11 @@ export const SingleProjectInstruments = ({docRef}) => {
                 placement="auto"
                 overlay={<Tooltip>Increase grid size...</Tooltip>}
               >
-                <Button variant="secondary" size="sm">
+                <Button
+                  onClick={handleIncreaseGrid}
+                  size="sm"
+                  variant="secondary"
+                >
                   <MdGridOn className="icon" />
                   <MdAdd />
                 </Button>
