@@ -47,17 +47,22 @@ const AllDrumslices = ({docRef}) => {
 
   if (drumsQueryResult) {
     return (
-      <div className="single-drums-container outer-table">
-        {drumslicesDocRefs.map(drumsliceDocRef => {
-          return (
-            <SingleDrumslice
-              key={drumsliceDocRef.id}
-              docRef={drumsliceDocRef.ref}
-              grid={grid.current}
-            />
-          )
-        })}
-      </div>
+      <table className="single-instrument-container outer-table">
+        <tbody>
+          <tr className="table-body">
+            {drumslicesDocRefs.map(drumsliceDocRef => {
+              return (
+                <td key={drumsliceDocRef.id} className="drum-column-td">
+                  <SingleDrumslice
+                    docRef={drumsliceDocRef.ref}
+                    grid={grid.current}
+                  />
+                </td>
+              )
+            })}
+          </tr>
+        </tbody>
+      </table>
     )
   }
 }

@@ -41,21 +41,14 @@ form div {
 /* SingleInstruments */
 
 .single-instrument-container {
-  background: 
-/*   
-  url('./jaamlogo.png') no-repeat center center local, */
-    /* linear-gradient(
-      0deg,
-      rgba(0, 123, 255, 1) 24%,
-      rgba(148, 195, 255, 1) 57%,
-      rgba(0, 255, 252, 1) 100%
-    ); */ linear-gradient(
+  background: linear-gradient(
     0deg,
     rgba(108, 117, 125, 1) 15%,
     rgba(218, 218, 218, 1) 71%,
     rgba(255, 255, 255, 1) 100%
   );
-  background-size: contain;
+  /* background-size: contain; */
+  height: auto;
 }
 
 table {
@@ -87,6 +80,12 @@ td.column-td {
   height: 15px;
 }
 
+td.drum-column-td {
+  margin: 0px;
+  min-width: 30px;
+  height: 85px;
+}
+
 .drums-with-details {
   display: flex;
 }
@@ -106,27 +105,9 @@ td.column-td {
   padding: 0 10px 0 10px;
 }
 
-.single-drums-container {
-  flex: 8;
-  display: flex;
-  background: url('./jaamlogo.png') no-repeat center center local,
-    linear-gradient(
-      0deg,
-      rgba(0, 123, 255, 1) 24%,
-      rgba(148, 195, 255, 1) 57%,
-      rgba(0, 255, 252, 1) 100%
-    );
-  background-size: contain;
-}
-
 .single-drumslice-container {
   display: flex;
   flex-direction: column;
-}
-
-.drum-cell {
-  flex: 1;
-  border: 1px solid white;
 }
 
 .cell:hover {
@@ -148,7 +129,7 @@ td.column-td {
   height: 15px;
 }
 
-.closed {
+.drum .closed {
   cursor: not-allowed;
   opacity: 0.5;
 }
