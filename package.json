@@ -30,8 +30,15 @@
 		}
 	},
 	"lint-staged": {
-		"*.{js,jsx}": [ "prettier --write", "npm run lint-fix", "git add" ],
-		"*.{css,scss,json,md}": [ "prettier --write", "git add" ]
+		"*.{js,jsx}": [
+			"prettier --write",
+			"npm run lint-fix",
+			"git add"
+		],
+		"*.{css,scss,json,md}": [
+			"prettier --write",
+			"git add"
+		]
 	},
 	"author": "Fullstack Academy of Code",
 	"license": "MIT",
@@ -46,6 +53,7 @@
 		"history": "^4.9.0",
 		"holderjs": "^2.9.6",
 		"morgan": "^1.9.1",
+		"nexusui": "^2.0.10",
 		"passport": "^0.4.0",
 		"passport-google-oauth": "^2.0.0",
 		"pg": "^7.9.0",
@@ -56,6 +64,7 @@
 		"react-dom": "^16.8.6",
 		"react-firebase-hooks": "^2.1.0",
 		"react-icons": "^3.7.0",
+		"react-nexusui": "^0.1.7",
 		"react-redux": "^7.0.1",
 		"react-router-dom": "^5.0.0",
 		"redux": "^4.0.1",
