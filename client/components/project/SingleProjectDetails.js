@@ -86,40 +86,6 @@ export const SingleProjectDetails = ({docRef, history}) => {
 
     return (
       <div>
-        {/* <h1>Single Project Details</h1>
-        <p>project.name: {project.name}</p>
-        <p>project.members: {project.members.join(', ')}</p>
-        <p>project.emoji: {project.emoji}</p>
-        <p>project.maxMembers: {project.max}</p>
-        <p>project.permissions: {project.permissions}</p>
-        <p>project.tempo: {project.tempo}</p>
-        <div>
-          <Dial
-            size={[100, 100]}
-            interaction="radial"
-            onChange={console.log}
-            value={Math.random()}
-            min={0}
-            max={10}
-          />
-        </div>
-        <br />
-        <Button
-          variant="success"
-          onClick={() => {
-            Tone.Transport.start()
-          }}
-        >
-          Play
-        </Button>
-        <Button
-          variant="warning"
-          onClick={() => {
-            Tone.Transport.stop()
-          }}
-        >
-          Stop
-        </Button> */}
         <Navbar className="project-details-nav">
           <ButtonGroup size="sm">
             <Button variant="secondary" onClick={handleBack}>
@@ -132,6 +98,15 @@ export const SingleProjectDetails = ({docRef, history}) => {
             </Button>
           </ButtonGroup>
           <Navbar.Text className="ml-auto mr-auto">{project.name}</Navbar.Text>
+          <Dial
+            size={[50, 50]}
+            interaction="radial"
+            onChange={console.log}
+            value={Math.random()}
+            min={0}
+            max={10}
+          />
+          <span>Volume</span>
           <Form inline onSubmit={saveTempo}>
             <Form.Group controlId="formTempo">
               <OverlayTrigger
