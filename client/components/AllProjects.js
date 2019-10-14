@@ -72,7 +72,7 @@ const AllProjects = props => {
   if (projectQueryResults) {
     return (
       <div>
-        <div className="center">
+        <div className="center mt-5">
           <Row className="justify-content-md-center mb-2">
             <ToggleButtonGroup
               type="radio"

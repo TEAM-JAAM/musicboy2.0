@@ -6,6 +6,24 @@ a {
   text-decoration: none;
 }
 
+i.far {
+  color: whitesmoke;
+  cursor: pointer;
+  font-size: 3em;
+  transition: color 0.2s ease;
+}
+
+i.fas {
+  color: whitesmoke;
+  font-size: 2em;
+  transition: color 0.2s ease;
+}
+
+i.far:hover,
+i.fas:hover {
+  color: #007bff;
+}
+
 label {
   display: block;
 }
@@ -119,9 +137,35 @@ td.column-td {
   justify-self: center;
 }
 
+.instrument-card-title {
+  font-size: 2rem;
+}
+
 /* managing single-instrument-container & single-instrument-options */
 .single-instrument-with-details {
   display: flex;
+}
+
+.single-project {
+  background-color: #2e2e2e;
+  color: whitesmoke;
+  font-family: 'Titillium Web', sans-serif;
+  padding-bottom: 5em;
+}
+
+.project-details-body {
+  font-weight: 600;
+  margin: 2em 2em;
+}
+
+.project-details-nav {
+  background: linear-gradient(darkgrey, lightgrey);
+  font-weight: 600;
+  font-size: 1.5em;
+}
+
+.project-details-body .table {
+  color: whitesmoke;
 }
 
 .single-instrument-options {
@@ -140,6 +184,11 @@ td.column-td {
 
 .icon {
   font-size: 1.5rem;
+}
+
+.icon-small {
+  font-size: 1rem;
+  margin-left: 0.5rem;
 }
 
 .emoji-option {

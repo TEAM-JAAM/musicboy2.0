@@ -32,5 +32,3 @@ export const SingleProjectPercussion = ({docRef}) => {
     )
   }
 }
-
-export default SingleProjectPercussion
