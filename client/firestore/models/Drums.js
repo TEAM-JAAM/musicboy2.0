@@ -52,6 +52,26 @@ class Drums {
   }
 
   // Instance methods..........................................................
+  async addDrumsliceBlock(startingIndex, numberOfDrumslices) {
+    const drumsDocSnapshot = await this.drumsDocRef.get()
+    if (!drumsDocSnapshot.exists) {
+      throw new util.DatabaseInconsistentError()
+    }
+    for (let i = startingIndex; i < startingIndex + numberOfDrumslices; ++i) {
+      await Drumslice.create(this, {index: `${i}`})
+    }
+  }
+
+  async removeDrumsliceBlock(finalIndex, numberOfDrumslices) {
+    const drumsDocSnapshot = await this.drumsDocRef.get()
+    if (!drumsDocSnapshot.exists) {
+      throw new util.DatabaseInconsistentError()
+    }
+    for (let i = finalIndex - 1; i > finalIndex - numberOfDrumslices - 1; --i) {
+      await Drumslice.destroy(this, i)
+    }
+  }
+
   async clearAllDrumSlices() {
     const drumsDocSnapshot = await this.drumsDocRef.get()
     if (!drumsDocSnapshot.exists) {
