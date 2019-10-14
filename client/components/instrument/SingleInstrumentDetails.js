@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import {Instrument} from '../../firestore/models'
-import {MdBorderClear, MdSettings} from 'react-icons/md'
+import {MdGridOff, MdSettings} from 'react-icons/md'
 
 const instrumentNameMap = {
   bassGuitar: 'Bass Guitar',
@@ -57,7 +57,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
                 <span className="icon-small">🎹</span>
               </Col>
               <Col className="ml-auto pl-0 pr-0 text-right">
-                <MdBorderClear className="icon-small" onClick={handleClear} />
+                <MdGridOff className="icon-small" onClick={handleClear} />
                 <MdSettings className="icon-small" />
               </Col>
             </Row>

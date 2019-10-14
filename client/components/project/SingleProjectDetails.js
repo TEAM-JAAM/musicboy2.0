@@ -89,7 +89,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
           </ButtonGroup>
           <Navbar.Text className="ml-auto mr-auto">{project.name}</Navbar.Text>
           <Form inline onSubmit={saveTempo}>
-            <Form.Group controlId="formTempo">
+            <Form.Group className="m-0" controlId="formTempo">
               <OverlayTrigger
                 trigger="focus"
                 placement="top"
@@ -111,11 +111,16 @@ export const SingleProjectDetails = ({docRef, history}) => {
                 />
               </OverlayTrigger>
             </Form.Group>
-            <Button size="sm" type="submit" variant="secondary">
-              <MdAccessTime className="icon" />
+            <Button
+              className="ml-1"
+              size="sm"
+              type="submit"
+              variant="secondary"
+            >
+              <small>SET TEMPO</small>
             </Button>
           </Form>
-          <ButtonGroup size="sm" className="ml-1">
+          <ButtonGroup size="sm" className="ml-3">
             <Button variant="secondary" onClick={handlePlay}>
               <MdChat className="icon" />
             </Button>

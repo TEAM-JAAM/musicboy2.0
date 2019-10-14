@@ -6,24 +6,6 @@ a {
   text-decoration: none;
 }
 
-i.far {
-  color: whitesmoke;
-  cursor: pointer;
-  font-size: 3em;
-  transition: color 0.2s ease;
-}
-
-i.fas {
-  color: whitesmoke;
-  font-size: 2em;
-  transition: color 0.2s ease;
-}
-
-i.far:hover,
-i.fas:hover {
-  color: #007bff;
-}
-
 label {
   display: block;
 }
@@ -187,8 +169,13 @@ td.column-td {
 }
 
 .icon-small {
+  cursor: pointer;
   font-size: 1rem;
   margin-left: 0.5rem;
+}
+
+.icon-small:hover {
+  color: lightgrey;
 }
 
 .emoji-option {

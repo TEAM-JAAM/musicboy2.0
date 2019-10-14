@@ -1,6 +1,6 @@
 import React from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
-import {MdAdd, MdChevronLeft, MdChevronRight} from 'react-icons/md'
+import {MdAdd, MdBorderAll, MdRemove} from 'react-icons/md'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Container from 'react-bootstrap/Container'
@@ -44,10 +44,12 @@ export const SingleProjectInstruments = ({docRef}) => {
           <Col className="text-right">
             <ButtonGroup size="sm">
               <Button variant="secondary" size="sm">
-                <MdChevronLeft className="icon" />
+                <MdRemove />
+                <MdBorderAll className="icon" />
               </Button>
               <Button variant="secondary" size="sm">
-                <MdChevronRight className="icon" />
+                <MdBorderAll className="icon" />
+                <MdAdd />
               </Button>
             </ButtonGroup>
           </Col>
