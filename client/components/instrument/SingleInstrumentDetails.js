@@ -43,35 +43,33 @@ export const SingleInstrumentDetails = ({docRef}) => {
   }
   if (instrumentQueryResult) {
     return (
-      <div>
-        <Card
-          bg="dark"
-          text="white"
-          border="light"
-          className="mr-1"
-          style={{width: '15rem'}}
-        >
-          <Card.Header>
-            <Container fluid className="ml-0 mr-0">
-              <Row>
-                <Col className="pl-0 pr-0">
-                  <span className="icon-small">🎹</span>
-                </Col>
-                <Col className="ml-auto pl-0 pr-0 text-right">
-                  <MdBorderClear className="icon-small" onClick={handleClear} />
-                  <MdSettings className="icon-small" />
-                </Col>
-              </Row>
-            </Container>
-          </Card.Header>
-          <Card.Body>
-            <Card.Title className="text-center instrument-card-title">
-              {mapInstrumentName(instrumentData.name)}
-            </Card.Title>
-            <Card.Text className="text-muted">{instrumentData.key}</Card.Text>
-          </Card.Body>
-        </Card>
-      </div>
+      <Card
+        bg="dark"
+        text="white"
+        border="light"
+        className="mr-1"
+        style={{width: '15rem'}}
+      >
+        <Card.Header>
+          <Container fluid className="ml-0 mr-0">
+            <Row>
+              <Col className="pl-0 pr-0">
+                <span className="icon-small">🎹</span>
+              </Col>
+              <Col className="ml-auto pl-0 pr-0 text-right">
+                <MdBorderClear className="icon-small" onClick={handleClear} />
+                <MdSettings className="icon-small" />
+              </Col>
+            </Row>
+          </Container>
+        </Card.Header>
+        <Card.Body>
+          <Card.Title className="text-center instrument-card-title">
+            {mapInstrumentName(instrumentData.name)}
+          </Card.Title>
+          <Card.Text className="text-muted">{instrumentData.key}</Card.Text>
+        </Card.Body>
+      </Card>
     )
   }
 }
