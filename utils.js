@@ -41,7 +41,6 @@ export class Grid {
         nodeArray.push([])
         let chord = []
         for (let j = 0; j < 12; ++j) {
-          console.log('singleDocLength', Object.keys(singleDoc).length)
           let node = new AudioNode(j, i, this.key[j], this.instrument)
           if (singleDoc[j]) {
             node.status = true

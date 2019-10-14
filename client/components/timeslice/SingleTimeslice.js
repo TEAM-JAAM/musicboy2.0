@@ -45,7 +45,7 @@ export const SingleTimeslice = ({docRef, grid}) => {
           {timesliceArr.map(cell => {
             const statusColor = cell[1] ? 'cell on' : 'cell off'
             return (
-              <tr key={cell}>
+              <tr key={cell[0]}>
                 <td
                   className={statusColor}
                   onClick={() => {
