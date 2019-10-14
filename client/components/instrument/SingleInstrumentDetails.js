@@ -11,26 +11,7 @@ import {Instrument} from '../../firestore/models'
 import {MdGridOff, MdSettings} from 'react-icons/md'
 
 import {kick} from '../../../instruments'
-
-const instrumentNameMap = {
-  bassGuitar: {name: 'Bass Guitar', image: '/images/guitar.svg'},
-  electric: {name: 'Electric', image: '/images/guitar.svg'},
-  electricCello: {name: 'Electric Cello', image: '/images/guitar.svg'},
-  kalimba: {name: 'Kalimba', image: '/images/keyboard.svg'},
-  marimba: {name: 'Marimba', image: '/images/keyboard.svg'},
-  pianoetta: {name: 'Pianoetta', image: '/images/keyboard.svg'},
-  steelPan: {name: 'Steel Pan', image: '/images/keyboard.svg'},
-  synth: {name: 'Synthesizer', image: '/images/keyboard.svg'},
-  tiny: {name: 'Tiny', image: '/images/keyboard.svg'}
-}
-
-const mapInstrumentName = instrumentName => {
-  return instrumentNameMap[instrumentName].name || 'Mystery'
-}
-
-const mapInstrumentImage = instrumentName => {
-  return instrumentNameMap[instrumentName].image || '/images/keyboard.svg'
-}
+import {mapInstrumentImage, mapInstrumentName} from '../utils/MapInstruments'
 
 export const SingleInstrumentDetails = ({docRef}) => {
   const [instrumentQueryResult, loading, error] = useDocument(docRef)
@@ -62,9 +43,6 @@ export const SingleInstrumentDetails = ({docRef}) => {
         <Card.Header className="p-1">
           <Container fluid className="ml-0 mr-0">
             <Row>
-              {/* <Col className="pl-0 pr-0">
-                <span>🎹</span>
-              </Col> */}
               <Col className="ml-auto pl-0 pr-0 text-right">
                 <OverlayTrigger
                   placement="auto"

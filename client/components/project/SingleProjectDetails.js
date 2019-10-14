@@ -9,7 +9,6 @@ import {
   MdPause,
   MdSettings
 } from 'react-icons/md'
-
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
 import Navbar from 'react-bootstrap/Navbar'
@@ -23,17 +22,20 @@ import {Project} from '../../firestore/models'
 export const SingleProjectDetails = ({docRef, history}) => {
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
-  const project = Project.fetchProjectData(projectQueryResult)
+  const projectData = Project.fetchProjectData(projectQueryResult)
 
   // Tempo-related configuration...
   const [tempo, setTempo] = useState(0)
   const handleTempoChange = event => {
-    console.log('got tempo change: ', event.target.value)
     setTempo(event.target.value)
   }
-  const saveTempo = event => {
+  const saveTempo = async event => {
     event.preventDefault()
     console.log('will try to save new tempo: ', tempo)
+    const project = Project.fromDocRef(projectDocRef)
+    await project.update({
+      tempo: tempo
+    })
   }
   useEffect(
     () => {
@@ -105,7 +107,9 @@ export const SingleProjectDetails = ({docRef, history}) => {
               </Button>
             </OverlayTrigger>
           </ButtonGroup>
-          <Navbar.Text className="ml-auto mr-auto">{project.name}</Navbar.Text>
+          <Navbar.Text className="ml-auto mr-auto">
+            {projectData.name}
+          </Navbar.Text>
           <Form inline onSubmit={saveTempo}>
             <Form.Group className="m-0" controlId="formTempo">
               <OverlayTrigger

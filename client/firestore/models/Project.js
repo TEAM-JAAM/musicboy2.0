@@ -264,6 +264,12 @@ class Project {
     return projectDocSnapshot.data().drumslices
   }
 
+  // Update Project (non-array) fields. See Firestore for the appropriate
+  // field names...
+  async update(objectData) {
+    await this.projectDocRef.update(objectData)
+  }
+
   // Return the Firestore reference to this project document
   ref() {
     return this.projectDocRef

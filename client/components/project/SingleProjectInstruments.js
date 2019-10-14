@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {MdAdd, MdGridOn, MdRemove} from 'react-icons/md'
 import Button from 'react-bootstrap/Button'
@@ -12,6 +12,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 import {Project} from '../../firestore/models'
 import {SingleInstrument} from '../instrument/SingleInstrument'
+import {AddInstrument} from './AddInstrument'
 
 export const SingleProjectInstruments = ({docRef}) => {
   const instrumentsCollectionRef = Project.findProjectInstrumentsQuery(docRef)
@@ -22,8 +23,24 @@ export const SingleProjectInstruments = ({docRef}) => {
     instrumentQueryResult
   )
 
-  const handleAddInstrument = () => {
+  const [showAddInstrument, setShowAddInstrument] = useState(false)
+  const handleShowAddInstrument = () => {
     console.log('initiate add instrument dialog...')
+    setShowAddInstrument(true)
+  }
+
+  const handleCloseAddInstrument = () => {
+    console.log('closing add instrument view')
+    setShowAddInstrument(false)
+  }
+
+  const handleSubmitNewInstrument = event => {
+    event.preventDefault()
+    const form = event.target
+    console.log('trying to submit form')
+    console.log('instrument: ', form.instrument.value)
+    console.log('key: ', form.key.value)
+    console.log('percussion: ', form.usePercussion.checked)
   }
 
   const handleIncreaseGrid = async () => {
@@ -58,7 +75,7 @@ export const SingleProjectInstruments = ({docRef}) => {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={handleAddInstrument}
+                onClick={handleShowAddInstrument}
               >
                 <MdAdd className="icon" />
               </Button>
@@ -100,6 +117,12 @@ export const SingleProjectInstruments = ({docRef}) => {
             <Row key={instrumentDocRef.id} className="mt-3">
               <Col>
                 <SingleInstrument docRef={instrumentDocRef.ref} />
+                <AddInstrument
+                  show={showAddInstrument}
+                  close={handleCloseAddInstrument}
+                  error={false}
+                  submit={handleSubmitNewInstrument}
+                />
               </Col>
             </Row>
           )
