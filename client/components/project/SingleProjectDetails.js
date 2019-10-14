@@ -59,8 +59,21 @@ export const SingleProjectDetails = ({docRef, history}) => {
     if (playing) {
       Tone.Transport.stop()
       setPlaying(false)
+      // Tone.Transport.on('stop', () => {
+      //   setTimeout(() => {
+      //     document
+      //       .getElementsByClassName('table-body')
+      //       .setAttribute('style', 'background-color: inherit;')
+      //   }, 100)
+      //})
     } else {
       Tone.Transport.start()
+      console.log(
+        'TRANSPORT TICKS',
+        Tone.Transport.toSeconds(Tone.Transport.ticks + 'i')
+      )
+      console.log('Tone.Transport.bpm.value', Tone.Transport.bpm.value)
+      console.log('Tone.Transport.timeSignature', Tone.Transport.timeSignature)
       setPlaying(true)
     }
   }

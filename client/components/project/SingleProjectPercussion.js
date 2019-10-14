@@ -1,6 +1,6 @@
 import React from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
-import {Spinner} from 'react-bootstrap'
+import {Spinner, Container, Col, Row} from 'react-bootstrap'
 
 import {Project} from '../../firestore/models'
 import {Drums} from '../percussion/Drums'
@@ -24,11 +24,17 @@ export const SingleProjectPercussion = ({docRef}) => {
   }
   if (percussionQueryResult) {
     return (
-      <div>
+      <Container fluid className="mt-3">
         {percussionDocRefs.map(drumsDocRef => {
-          return <Drums key={drumsDocRef.id} docRef={drumsDocRef.ref} />
+          return (
+            <Row key={drumsDocRef.id} className="mt-3">
+              <Col>
+                <Drums docRef={drumsDocRef.ref} />
+              </Col>
+            </Row>
+          )
         })}
-      </div>
+      </Container>
     )
   }
 }
