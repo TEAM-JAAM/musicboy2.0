@@ -182,6 +182,20 @@ class Project {
         await instrument.destroy()
       }
     }
+
+    // Find all projects percussion...
+    const drumsCollectionRef = this.projectDocRef.collection('percussion')
+    const drumsQuerySnapshot = await drumsCollectionRef.get()
+    if (!drumsQuerySnapshot.empty) {
+      console.log('NOTE: attempting to delete drums...')
+      const drumsDocs = drumsQuerySnapshot.docs
+      for (let i = 0; i < drumsDocs.length; ++i) {
+        // Delete each drums instance, which also deletes that drums instance's drumslices...
+        const drums = Drums.fromDocRef(drumsDocs[i].ref)
+        await drums.destroy()
+      }
+    }
+
     // Finally, delete the project...
     this.projectDocRef.delete()
   }

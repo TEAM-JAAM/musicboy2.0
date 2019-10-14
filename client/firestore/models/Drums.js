@@ -86,6 +86,24 @@ class Drums {
     }
   }
 
+  async destroy() {
+    const drumslicesCollectionRef = this.drumsDocRef.collection('drumslices')
+    const drumslicesQuerySnapshot = await drumslicesCollectionRef.get()
+
+    // Delete all of the drumslices...
+    console.log('NOTE: attempting to delete timeslices')
+    const drumslicesDocs = drumslicesQuerySnapshot.docs
+    for (let i = 0; i < drumslicesDocs.length; ++i) {
+      await drumslicesDocs[i].ref.delete()
+    }
+
+    // Delete the instrument document
+    await this.drumsDocRef.delete()
+
+    // Invalidate this object...
+    this.drumsDocRef = null
+  }
+
   ref() {
     return this.drumsDocRef
   }
