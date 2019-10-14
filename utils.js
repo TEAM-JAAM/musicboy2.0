@@ -21,6 +21,10 @@ export class AudioNode {
   }
 }
 
+function compareNumbers(a, b) {
+  return a.id - b.id
+}
+
 export class Grid {
   constructor() {
     this.key = null
@@ -35,7 +39,9 @@ export class Grid {
       console.log('SETUP GRID CALLED')
       this.chordArray = []
       let nodeArray = []
-      let docsArray = slices.docs
+      let docsArray = slices
+      // docsArray = docsArray.sort(compareNumbers)
+      // console.log('DOC ARRAY', docsArray)
       for (let i = 0; i < docsArray.length; ++i) {
         let singleDoc = docsArray[i].data()
         nodeArray.push([])
@@ -51,6 +57,7 @@ export class Grid {
         this.chordArray.push(chord)
       }
       this.grid = nodeArray
+
       console.log('SETUP GRID CALLED', this.grid)
       if (!this.sequence.length) {
         this.createNewSequence(this.chordArray)
@@ -118,14 +125,30 @@ export class Grid {
       return new Tone.Event(null, chord)
     })
     let inst = this.instrument
+    let counter = -1
     const seq = new Tone.Sequence(
       function(time, chord) {
         inst.triggerAttackRelease(chord, '32n', time)
+        Tone.Draw.schedule(() => {
+          counter++
+          let tempCol = document.querySelectorAll(`#column${counter}`)
+          console.log('TEMP COL', tempCol)
+          tempCol.forEach(col =>
+            col.setAttribute('style', 'background-color: red;')
+          )
+          if (counter > 0) {
+            let removeTemp = document.querySelectorAll(`#column${counter - 1}`)
+            removeTemp.forEach(col =>
+              col.removeAttribute('style', 'background-color: red;')
+            )
+          }
+        }, time)
       },
       chordArr,
       '4n'
     ).start(0)
     this.sequence = seq
+    console.log('OUR SEQUENCE', this.sequence)
   }
 
   updateSequenceSlice(cell) {

@@ -80,7 +80,15 @@ td {
   padding: 0px;
 }
 
-td.column-td {
+.highlightColumn {
+  border: collapse;
+  background: white;
+  margin: 0px;
+  min-width: 30px;
+  height: 15px;
+}
+
+.normalColumn {
   border: collapse;
   margin: 0px;
   min-width: 30px;
@@ -130,6 +138,10 @@ td.column-td {
 
 .curser {
   background-color: pink;
+}
+
+.highlight {
+  background: white;
 }
 
 .cell {
