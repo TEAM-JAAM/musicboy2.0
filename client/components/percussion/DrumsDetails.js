@@ -1,11 +1,16 @@
 import React from 'react'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {Spinner} from 'react-bootstrap'
-// import { Drums } from '../../firestore/models';
+import {Spinner, Button} from 'react-bootstrap'
+import {Drums} from '../../firestore/models'
 
 const DrumsDetails = ({docRef}) => {
   const [drumsQueryResult, loading, error] = useDocument(docRef)
   // const drumsData = Drums.fetchDrumsData(drumsQueryResult);
+
+  async function handleClear() {
+    const drums = Drums.fromDocRef(drumsQueryResult.ref)
+    await drums.clearAllDrumSlices()
+  }
 
   if (error) throw new Error('FATAL: firestore error encountered')
   if (loading) {
@@ -19,10 +24,11 @@ const DrumsDetails = ({docRef}) => {
     return (
       <div className="drum-details-container">
         <h1>🥁</h1>
+        <Button variant="success" onClick={handleClear}>
+          Clear Grid
+        </Button>
       </div>
     )
-  } else {
-    return <div>NO DRUMS QUERY RESULT</div>
   }
 }
 

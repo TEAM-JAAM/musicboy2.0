@@ -47,7 +47,25 @@ class Drums {
     return querySnapshot && querySnapshot.docs
   }
 
+  static fromDocRef(drumsDocRef) {
+    return drumsDocRef && new Drums(drumsDocRef)
+  }
+
   // Instance methods..........................................................
+  async clearAllDrumSlices() {
+    const drumsDocSnapshot = await this.drumsDocRef.get()
+    if (!drumsDocSnapshot.exists) {
+      throw new util.DatabaseInconsistentError()
+    }
+    const drumslicesCollectionRef = this.drumsDocRef.collection('drumslices')
+    const drumslicesQuerySnapshot = await drumslicesCollectionRef.get()
+    const drumslicesDocs = drumslicesQuerySnapshot.docs
+    for (let i = 0; i < drumslicesDocs.length; ++i) {
+      const drumslice = Drumslice.fromDocRef(drumslicesDocs[i].ref)
+      await drumslice.reset()
+    }
+  }
+
   ref() {
     return this.drumsDocRef
   }

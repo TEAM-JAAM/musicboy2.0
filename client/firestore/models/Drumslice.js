@@ -38,6 +38,10 @@ class Drumslice {
     return drumsliceQuerySnapshot && drumsliceQuerySnapshot.data()
   }
 
+  static fromDocRef(drumsliceDocRef) {
+    return new Drumslice(drumsliceDocRef)
+  }
+
   static update(documentQuerySnapshot, rowIndex, newStatus) {
     console.log(`trying to set cell at index ${rowIndex} to value ${newStatus}`)
     documentQuerySnapshot.ref.update({

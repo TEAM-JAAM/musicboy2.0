@@ -15,6 +15,8 @@ async function createProjectWithDrums(projectName, type = 'Public') {
   await project.addDrums()
   console.log('NOTE: added test drums successfully')
 
+  await project.addInstrument({name: 'synth'})
+
   return project
 }
 

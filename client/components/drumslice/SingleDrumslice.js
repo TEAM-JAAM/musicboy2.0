@@ -24,7 +24,9 @@ export const SingleDrumslice = ({docRef, grid}) => {
   async function handleClick(cellRowIndex) {
     const newCellStatus = !drumslice[cellRowIndex]
     await Drumslice.update(drumsliceQueryResult, cellRowIndex, newCellStatus)
-    console.log('drumGrid...', drumGrid.current)
+    if (newCellStatus === true) {
+      drumGrid.current.playCell(cellRowIndex, drumsliceIndex)
+    }
   }
 
   if (error) throw new Error('FATAL: firestore error encountered')

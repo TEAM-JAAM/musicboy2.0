@@ -3,15 +3,15 @@ import {AudioNode} from './utils'
 import {kick, clap} from './instruments'
 
 const drumSoundMap = {
-  0: 'D1',
+  0: '16n',
   1: '16n',
-  2: '16n'
+  2: 'D1'
 }
 
 const drumInstrumentMap = {
-  0: kick,
+  0: clap,
   1: clap,
-  2: clap
+  2: kick
 }
 
 export class DrumGrid {
@@ -74,7 +74,7 @@ export class DrumGrid {
     ).start(0)
 
     this.grid.forEach((slice, idx) => {
-      if (!slice[0].status) this.kickSequence._events[idx].mute = true
+      if (!slice[2].status) this.kickSequence._events[idx].mute = true
       else this.kickSequence._events[idx].mute = false
 
       if (!slice[1].status) this.clapSequence._events[idx].mute = true
@@ -84,7 +84,7 @@ export class DrumGrid {
 
   updateSequenceSlice(sliceIndex, rowIndex) {
     switch (rowIndex) {
-      case 0:
+      case 2:
         this.kickSequence._events[sliceIndex].mute = !this.kickSequence._events[
           sliceIndex
         ].mute
