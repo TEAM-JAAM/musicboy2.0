@@ -1,3 +1,6 @@
+import {Button} from 'react-bootstrap'
+import {TextButton, Dial} from 'react-nexusui'
+import Nexus from 'nexusui'
 import React, {useState, useEffect} from 'react'
 import Tone from 'tone'
 import {useDocument} from 'react-firebase-hooks/firestore'
@@ -9,7 +12,7 @@ import {
   MdPause,
   MdSettings
 } from 'react-icons/md'
-import Button from 'react-bootstrap/Button'
+
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
 import Navbar from 'react-bootstrap/Navbar'
@@ -43,6 +46,13 @@ export const SingleProjectDetails = ({docRef, history}) => {
     },
     [projectQueryResult]
   )
+
+  useEffect(() => {
+    return () => {
+      Tone.Transport.stop()
+      Tone.Transport.cancel()
+    }
+  })
 
   const [playing, setPlaying] = useState(false)
   const handlePlay = () => {
@@ -88,6 +98,15 @@ export const SingleProjectDetails = ({docRef, history}) => {
             </Button>
           </ButtonGroup>
           <Navbar.Text className="ml-auto mr-auto">{project.name}</Navbar.Text>
+          <Dial
+            size={[50, 50]}
+            interaction="radial"
+            onChange={console.log}
+            value={Math.random()}
+            min={0}
+            max={10}
+          />
+          <span>Volume</span>
           <Form inline onSubmit={saveTempo}>
             <Form.Group controlId="formTempo">
               <OverlayTrigger
