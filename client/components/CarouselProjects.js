@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
-
+import {auth} from '../firestore/db'
 import {
   ToggleButtonGroup,
   Carousel,
@@ -16,7 +16,9 @@ import {Project} from '../firestore/models'
 // need projects from database
 
 const CarouselProjects = props => {
-  const {email, history, uid} = props
+  const email = auth.currentUser.email
+  const uid = auth.currentUser.uid
+  const {history} = props
   const [projectQueryResults, loading, error] = useCollection(
     Project.findAllProjectsForUserQuery(uid)
   )

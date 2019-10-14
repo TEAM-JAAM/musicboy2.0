@@ -37,7 +37,7 @@ const PublicProjects = props => {
   if (projectQueryResults) {
     return (
       <>
-        <AllProjects />
+        {/* <AllProjects /> */}
         <Card className="text-center m-5" bg="warning">
           <Card.Header>Featured Song</Card.Header>
           <Card.Body>

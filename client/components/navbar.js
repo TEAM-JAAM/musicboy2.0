@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {db, auth, provider} from '../firestore/db'
 import history from '../history'
 import {Modal, Button, Row} from 'react-bootstrap'
+import AllProjects from './AllProjects'
 
 export default class Navbar extends Component {
   constructor() {
@@ -108,8 +109,10 @@ export default class Navbar extends Component {
   render() {
     return (
       <div>
-        <nav>
-          {auth.currentUser ? null : (
+        {auth.currentUser ? (
+          <AllProjects />
+        ) : (
+          <nav>
             <div>
               <Button
                 variant="primary"
@@ -147,8 +150,8 @@ export default class Navbar extends Component {
                 </Link>
               </Button>
             </div>
-          )}
-        </nav>
+          </nav>
+        )}
         {this.state.popUp ? (
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
@@ -197,10 +200,7 @@ export default class Navbar extends Component {
               </div>
             </Modal.Body>
           </Modal>
-        ) : (
-          <div />
-        )}
-        <hr />
+        ) : null}
       </div>
     )
   }

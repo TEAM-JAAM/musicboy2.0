@@ -13,8 +13,8 @@ class Routes extends Component {
       <Switch>
         {auth.currentUser && (
           <Switch>
-            <Route path="/home/public" component={PublicProjects} />
-            <Route path="/home/myaccount" component={UserProjectsList} />
+            <Route path="/public" component={PublicProjects} />
+            <Route path="/myaccount" component={UserProjectsList} />
             <Route path="/home" component={UserHome} />
             <Route path="/projects/:docRef" component={SingleProject} />
             <Route path="/jammed" component={Err} />

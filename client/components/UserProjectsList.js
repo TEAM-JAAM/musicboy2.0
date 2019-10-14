@@ -61,7 +61,7 @@ const UserProjectsList = props => {
   if (projectQueryResults) {
     return (
       <>
-        <AllProjects />
+        {/* <AllProjects /> */}
         <Card body border="dark" bg="light" className="text-center">
           <h2>My Account</h2>
           <span>username: {email}</span>

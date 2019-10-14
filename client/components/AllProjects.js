@@ -60,11 +60,14 @@ const AllProjects = props => {
   }
   const handleChange = val => {
     setValue(val)
+    if (val === 1) {
+      history.push('/home')
+    }
     if (val === 2) {
-      history.push('/home/public')
+      history.push('/public')
     }
     if (val === 3) {
-      history.push('/home/myaccount')
+      history.push('/myaccount')
     }
   }
 
@@ -82,7 +85,7 @@ const AllProjects = props => {
     return (
       <div>
         <div className="center">
-          <Row className="justify-content-md-center mb-2">
+          <Row className="justify-content-center mb-4 mt-3">
             <ToggleButtonGroup
               type="radio"
               value={value}
@@ -91,7 +94,7 @@ const AllProjects = props => {
             >
               <ToggleButton key={1} variant="outline-dark" value={1}>
                 <OverlayTrigger
-                  placement="top"
+                  placement="bottom"
                   overlay={<Tooltip>Home</Tooltip>}
                 >
                   <MdHome className="icon" />
@@ -99,7 +102,7 @@ const AllProjects = props => {
               </ToggleButton>
               <ToggleButton key={2} variant="outline-dark" value={2}>
                 <OverlayTrigger
-                  placement="top"
+                  placement="bottom"
                   overlay={<Tooltip>Public Sessions</Tooltip>}
                 >
                   <MdGroup className="icon" />
@@ -107,7 +110,7 @@ const AllProjects = props => {
               </ToggleButton>
               <ToggleButton key={3} variant="outline-dark" value={3}>
                 <OverlayTrigger
-                  placement="top"
+                  placement="bottom"
                   overlay={<Tooltip>My Account</Tooltip>}
                 >
                   <MdAccountCircle className="icon" />
