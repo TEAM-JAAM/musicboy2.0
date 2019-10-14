@@ -3,9 +3,12 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
 import {Card, Button, Row, Spinner, Badge} from 'react-bootstrap'
+import {auth} from '../firestore/db'
 
 const PublicProjects = props => {
-  const {email, uid, history} = props
+  const email = auth.currentUser.email
+  const uid = auth.currentUser.uid
+  const {history} = props
   const [projectQueryResults, loading, error] = useCollection(
     Project.findAllPublicProjectsQuery()
   )
@@ -25,9 +28,11 @@ const PublicProjects = props => {
   if (error) throw new Error('FATAL: Firestore error encountered')
   if (loading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="align-self-center sr-only">Loading...</span>
-      </Spinner>
+      <Row className="d-flex justify-content-center">
+        <Spinner animation="border" role="status">
+          <span className="align-self-center sr-only">Loading...</span>
+        </Spinner>
+      </Row>
     )
   }
   if (projectQueryResults) {

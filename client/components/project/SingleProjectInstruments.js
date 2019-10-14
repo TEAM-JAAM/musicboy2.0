@@ -1,12 +1,14 @@
 import React from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
-import {MdAdd, MdChevronLeft, MdChevronRight} from 'react-icons/md'
+import {MdAdd, MdGridOn, MdRemove} from 'react-icons/md'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 import {Project} from '../../firestore/models'
 import {SingleInstrument} from '../instrument/SingleInstrument'
@@ -20,8 +22,20 @@ export const SingleProjectInstruments = ({docRef}) => {
     instrumentQueryResult
   )
 
-  const handleAddInstrument = event => {
-    console.log('iniitate add instrument dialog...')
+  const handleAddInstrument = () => {
+    console.log('initiate add instrument dialog...')
+  }
+
+  const handleIncreaseGrid = async () => {
+    const projectDocRef = instrumentsCollectionRef.parent
+    const project = Project.fromDocRef(projectDocRef)
+    await project.addTimesliceBlock()
+  }
+
+  const handleDecreaseGrid = async () => {
+    const projectDocRef = instrumentsCollectionRef.parent
+    const project = Project.fromDocRef(projectDocRef)
+    await project.removeTimesliceBlock()
   }
 
   if (error) throw new Error('FATAL: firestore error encountered')
@@ -37,18 +51,47 @@ export const SingleProjectInstruments = ({docRef}) => {
       <Container fluid className="mt-3">
         <Row>
           <Col>
-            <Button variant="secondary" size="sm" onClick={handleAddInstrument}>
-              <MdAdd className="icon" />
-            </Button>
+            <OverlayTrigger
+              placement="auto"
+              overlay={<Tooltip>Add new instrument...</Tooltip>}
+            >
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleAddInstrument}
+              >
+                <MdAdd className="icon" />
+              </Button>
+            </OverlayTrigger>
           </Col>
           <Col className="text-right">
             <ButtonGroup size="sm">
-              <Button variant="secondary" size="sm">
-                <MdChevronLeft className="icon" />
-              </Button>
-              <Button variant="secondary" size="sm">
-                <MdChevronRight className="icon" />
-              </Button>
+              <OverlayTrigger
+                placement="auto"
+                overlay={<Tooltip>Reduce grid size</Tooltip>}
+              >
+                <Button
+                  onClick={handleDecreaseGrid}
+                  size="sm"
+                  variant="secondary"
+                >
+                  <MdRemove />
+                  <MdGridOn className="icon" />
+                </Button>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement="auto"
+                overlay={<Tooltip>Increase grid size...</Tooltip>}
+              >
+                <Button
+                  onClick={handleIncreaseGrid}
+                  size="sm"
+                  variant="secondary"
+                >
+                  <MdGridOn className="icon" />
+                  <MdAdd />
+                </Button>
+              </OverlayTrigger>
             </ButtonGroup>
           </Col>
         </Row>
