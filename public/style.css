@@ -84,23 +84,28 @@ td {
 }
 
 .drum-details-container {
-  display: flex;
+  /* display: flex; */
   margin: 10px;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
 }
 
-.drums-details-body {
+.drum-details-body {
+  padding: 0;
   display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0 0;
 }
 
 .drums-details-body h1 {
-  margin-left: 3.75rem;
+  flex: 3;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .clear-drums-btn {
-  margin-right: 1.75rem;
+  flex: 1;
+}
+
+.delete-drums-btn {
+  flex: 1;
 }
 
 .single-drumslice-container {
