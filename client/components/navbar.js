@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {db, auth, provider} from '../firestore/db'
 import history from '../history'
-import {Modal, Button, Row} from 'react-bootstrap'
+import {Modal, Button, Row, Container, Jumbotron, Alert} from 'react-bootstrap'
 import LoggedInNav from './LoggedInNav'
 
 export default class Navbar extends Component {
@@ -111,34 +111,46 @@ export default class Navbar extends Component {
         {auth.currentUser ? (
           <LoggedInNav />
         ) : (
-          <Row className="justify-content-center mt-3">
-            <Button
-              className="m-2"
-              size="lg"
-              variant="primary"
-              onClick={() => {
-                this.setState({
-                  popUp: 'Login',
-                  show: true
-                })
-              }}
-            >
-              <a>Login</a>
-            </Button>
-            <Button
-              className="m-2"
-              size="lg"
-              variant="primary"
-              onClick={() => {
-                this.setState({
-                  popUp: 'Signup',
-                  show: true
-                })
-              }}
-            >
-              <a>Sign Up</a>
-            </Button>
-          </Row>
+          <div>
+            <Row className="justify-content-center mt-3">
+              <Button
+                className="m-2"
+                size="lg"
+                variant="primary"
+                onClick={() => {
+                  this.setState({
+                    popUp: 'Login',
+                    show: true
+                  })
+                }}
+              >
+                <a>Login</a>
+              </Button>
+              <Button
+                className="m-2"
+                size="lg"
+                variant="primary"
+                onClick={() => {
+                  this.setState({
+                    popUp: 'Signup',
+                    show: true
+                  })
+                }}
+              >
+                <a>Sign Up</a>
+              </Button>
+            </Row>
+            <Jumbotron fluid className="bg-transparent" id="home-page">
+              <Container>
+                <h1>This is Jaam.</h1>
+                <p>
+                  The place where live music collaboration is made possible.
+                  Make your own Jaam sessions, create with friends, or go Jaam
+                  out in any public project from around the globe.
+                </p>
+              </Container>
+            </Jumbotron>
+          </div>
         )}
         {this.state.popUp ? (
           <Modal show={this.state.show} onHide={this.handleClose}>
