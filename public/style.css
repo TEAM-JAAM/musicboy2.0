@@ -215,6 +215,17 @@ td {
   background-color: rgb(73, 73, 73);
 }
 
+#home-page {
+  background-image: url('/jaamlogo.png');
+  min-height: 655px;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  text-align: center;
+  color: white;
+  text-shadow: rgb(0, 0, 0) 1px 0 10px;
+}
+
 .zoom {
   padding: 0px;
   background-color: lightgrey;
