@@ -23,13 +23,15 @@ export class DrumGrid {
     this.clapSequence = []
   }
 
-  setUpGridFromSlices(drumslices) {
-    if (drumslices) {
+  setUpGridFromSlices(sortedDocsArray) {
+    if (sortedDocsArray) {
       const slicesArray = []
-      const docsArray = drumslices.docs
-      for (let i = 0; i < docsArray.length; ++i) {
+      console.log('drumslices sorted...', sortedDocsArray)
+      // const docsArray = drumslices.docs;
+      for (let i = 0; i < sortedDocsArray.length; ++i) {
         const slice = []
-        const singleDoc = docsArray[i].data()
+        // const singleDoc = docsArray[i].data();
+        const singleDoc = sortedDocsArray[i]
         slicesArray.push(slice)
         for (let j = 0; j < 3; ++j) {
           const node = new AudioNode(

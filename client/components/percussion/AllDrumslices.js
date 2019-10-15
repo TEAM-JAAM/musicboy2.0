@@ -20,7 +20,7 @@ const AllDrumslices = ({docRef}) => {
     drumslicesLoading,
     drumslicesError
   ] = useCollection(drumslicesCollectionRef)
-  const drumslicesDocRefs = Drums.fetchDrumsliceDocRefs(drumslicesQueryResult)
+  let drumslicesDocRefs = Drums.fetchDrumsliceDocRefs(drumslicesQueryResult)
 
   useEffect(
     () => {
@@ -28,7 +28,10 @@ const AllDrumslices = ({docRef}) => {
         const drumslices = drumslicesQueryResult.size
         const gridSize = grid.current.getGridSize()
         if (drumslices !== gridSize) {
-          grid.current.setUpGridFromSlices(drumslicesQueryResult)
+          let sortedDocsArray = drumslicesQueryResult.docs.sort(function(a, b) {
+            return a.id - b.id
+          })
+          grid.current.setUpGridFromSlices(sortedDocsArray)
         }
       }
     },
@@ -46,6 +49,7 @@ const AllDrumslices = ({docRef}) => {
   }
 
   if (drumsQueryResult) {
+    drumslicesDocRefs.sort((a, b) => a.id - b.id)
     return (
       <table className="single-instrument-container outer-table">
         <tbody>
