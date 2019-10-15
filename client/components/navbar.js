@@ -116,42 +116,42 @@ class Navbar extends Component {
           )
         ) : (
           <div>
-            <Row className="justify-content-center mt-3">
-              <Button
-                className="m-2"
-                size="lg"
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: 'Login',
-                    show: true
-                  })
-                }}
-              >
-                <a>Login</a>
-              </Button>
-              <Button
-                className="m-2"
-                size="lg"
-                variant="primary"
-                onClick={() => {
-                  this.setState({
-                    popUp: 'Signup',
-                    show: true
-                  })
-                }}
-              >
-                <a>Sign Up</a>
-              </Button>
-            </Row>
             <Jumbotron fluid className="bg-transparent" id="home-page">
-              <Container>
+              <Container className="home-page-container">
                 <h1>This is Jaam.</h1>
                 <p>
                   The place where live music collaboration is made possible.
                   Make your own Jaam sessions, create with friends, or go Jaam
                   out in any public project from around the globe.
                 </p>
+                <Row className="justify-content-center mt-3">
+                  <Button
+                    className="m-2"
+                    size="lg"
+                    variant="primary"
+                    onClick={() => {
+                      this.setState({
+                        popUp: 'Login',
+                        show: true
+                      })
+                    }}
+                  >
+                    <a>Login</a>
+                  </Button>
+                  <Button
+                    className="m-2"
+                    size="lg"
+                    variant="primary"
+                    onClick={() => {
+                      this.setState({
+                        popUp: 'Signup',
+                        show: true
+                      })
+                    }}
+                  >
+                    <a>Sign Up</a>
+                  </Button>
+                </Row>
               </Container>
             </Jumbotron>
           </div>

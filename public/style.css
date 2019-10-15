@@ -41,7 +41,7 @@ table {
 }
 
 .outer-table {
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
   border-top: 1px solid #2e2e2e;
   border-left: 1px solid #2e2e2e;
 }
@@ -73,10 +73,10 @@ td {
   height: 15px;
 }
 
-td.drum-column-td {
+.drum-column-tr {
   margin: 0px;
   min-width: 30px;
-  height: 85px;
+  height: 35px;
 }
 
 .drums-with-details {
@@ -89,13 +89,18 @@ td.drum-column-td {
   justify-content: space-evenly;
 }
 
-.drum-icon {
-  justify-self: flex-start;
+.drums-details-body {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0 0;
+}
+
+.drums-details-body h1 {
+  margin-left: 3.75rem;
 }
 
 .clear-drums-btn {
-  align-self: center;
-  padding: 0 10px 0 10px;
+  margin-right: 1.75rem;
 }
 
 .single-drumslice-container {
@@ -120,6 +125,16 @@ td.drum-column-td {
   background: white;
 }
 
+.scroll-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.scroll-item {
+  flex: 0 0 auto;
+}
+
 .cell {
   margin: 0px;
   width: 30px;
@@ -139,7 +154,6 @@ td.drum-column-td {
   font-size: 1.25rem;
 }
 
-/* managing single-instrument-container & single-instrument-options */
 .single-instrument-with-details {
   display: flex;
 }
@@ -221,6 +235,12 @@ td.drum-column-td {
   text-align: center;
   color: white;
   text-shadow: rgb(0, 0, 0) 1px 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.home-page-container p {
+  font-size: 1.5rem;
 }
 
 .zoom {

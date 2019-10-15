@@ -45,7 +45,7 @@ export const SingleDrumslice = ({docRef, grid}) => {
           {cells.map(cell => {
             const statusColor = drumslice[cell] ? 'cell on' : 'cell off'
             return (
-              <tr key={cell}>
+              <tr key={cell} className="drum-column-tr">
                 <td
                   key={cell}
                   className={statusColor}
