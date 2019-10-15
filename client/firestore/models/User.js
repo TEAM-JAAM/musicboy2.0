@@ -20,16 +20,18 @@ class User {
     if (!util.allMandatoryFieldsProvided(objectData, mandatoryFields)) {
       throw new util.MissingMandatoryFieldError(mandatoryFields)
     }
-
-    const userDocSnapshot = await db
-      .collection('users')
+    const userCollectionRef = db.collection('users')
+    const users = await userCollectionRef
       .where('email', '==', objectData.email)
       .get()
-    if (!userDocSnapshot.exists) {
+    if (!users.empty) {
+      console.log('NOTE: user exists')
+      const userDocRef = users.docs[0].ref
+      userDocRef.update(objectData)
+      return new User(userDocRef)
+    } else {
       return null
     }
-
-    return new User(userDocSnapshot.ref)
   }
 
   static fromDocRef(userDocRef) {

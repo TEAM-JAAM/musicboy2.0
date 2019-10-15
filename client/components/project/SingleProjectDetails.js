@@ -165,6 +165,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
               show={modalShow}
               onHide={() => setModalShow(false)}
               project={project}
+              docref={projectDocRef}
             />
           </ButtonGroup>
         </Navbar>

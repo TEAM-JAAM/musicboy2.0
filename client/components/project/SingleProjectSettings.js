@@ -1,21 +1,35 @@
 import React, {useState} from 'react'
-import {MdEdit, MdPersonAdd, MdDelete, MdRemoveCircle} from 'react-icons/md'
+import {
+  MdEdit,
+  MdPersonAdd,
+  MdDelete,
+  MdRemoveCircle,
+  MdLock
+} from 'react-icons/md'
 import {auth} from '../../firestore/db'
 import {Modal, Button, Form, Row} from 'react-bootstrap'
 import {Project, User} from '../../firestore/models'
 
 const SingleProjectSettings = props => {
   const email = auth.currentUser.email
-  const project = Project.fromDocRef(props.project.docRef)
+  const project = Project.fromDocRef(props.docref)
   const [title, setTitle] = useState(props.project.name)
   // const [failed, setFailed] = useState(false)
 
   const handleChange = () => {
     setTitle(event.target.value)
   }
-  const handleRemove = member => {
+  const handleRemove = async memberEmail => {
     event.preventDefault()
-    console.log(member)
+    try {
+      const member = await User.findOne({email: memberEmail})
+      const memberUid = member.ref().id
+      project.removeUserFromProject({email: memberEmail, uid: memberUid})
+      console.log('success')
+    } catch (err) {
+      console.log('touble with removiing: ', memberEmail)
+      console.log('with error: ', err)
+    }
   }
   const handleTitle = () => {
     event.preventDefault()
@@ -25,11 +39,13 @@ const SingleProjectSettings = props => {
     event.preventDefault()
     const inviteeEmail = event.target.email.value
     try {
-      const isUser = await User.findOne({email: inviteeEmail})
-      if (isUser) {
-        console.log(isUser)
+      const invitee = await User.findOne({email: inviteeEmail})
+      if (invitee) {
+        const inviteeUid = invitee.ref().id
+        project.addUserToProject({email: inviteeEmail, uid: inviteeUid})
+        console.log('success')
       } else {
-        console.log('isUser val: ', isUser)
+        console.log('invitee returned val: ', invitee)
         console.log('trouble with adding: ', inviteeEmail)
       }
     } catch (err) {
@@ -74,15 +90,21 @@ const SingleProjectSettings = props => {
         )}
         {props.project.members.map(member => (
           <Row key={member} className="ml-3 mt-1 mb-1">
-            <Button
-              type="submit"
-              variant="outline-danger"
-              onClick={() => handleRemove(member)}
-              className="mr-1"
-              size="sm"
-            >
-              <MdRemoveCircle />
-            </Button>
+            {member === email ? (
+              <Button disabled variant="secondary" className="mr-1" size="sm">
+                <MdLock />
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                variant="outline-danger"
+                onClick={() => handleRemove(member)}
+                className="mr-1"
+                size="sm"
+              >
+                <MdRemoveCircle />
+              </Button>
+            )}
             <h5>{member}</h5>
           </Row>
         ))}
