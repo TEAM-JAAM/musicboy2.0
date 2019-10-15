@@ -23,28 +23,38 @@ export const SingleProjectInstruments = ({docRef}) => {
     instrumentQueryResult
   )
 
+  const percussionCollectionRef = Project.findProjectPercussionQuery(docRef)
+  const [
+    percussionQueryResult,
+    percussionLoading,
+    percussionError
+  ] = useCollection(percussionCollectionRef)
+
+  // Grid management...
+  const projectDocRef = instrumentsCollectionRef.parent
+  const project = Project.fromDocRef(projectDocRef)
   const handleIncreaseGrid = async () => {
-    const projectDocRef = instrumentsCollectionRef.parent
-    const project = Project.fromDocRef(projectDocRef)
     await project.addTimesliceBlock()
   }
 
   const handleDecreaseGrid = async () => {
-    const projectDocRef = instrumentsCollectionRef.parent
-    const project = Project.fromDocRef(projectDocRef)
     await project.removeTimesliceBlock()
   }
 
-  if (error) throw new Error('FATAL: firestore error encountered')
-  if (loading) {
+  if (error || percussionError) {
+    throw new Error('FATAL: firestore error encountered')
+  }
+  if (loading || percussionLoading) {
     return (
       <Spinner animation="border" role="status">
         <span className="align-self-center sr-only">Loading...</span>
       </Spinner>
     )
   }
-  if (instrumentQueryResult) {
+  if (instrumentQueryResult && percussionQueryResult) {
     const instruments = Project.fetchExistingInstruments(instrumentDocRefs)
+    const hasPercussion = percussionQueryResult.size > 0
+
     return (
       <Container fluid className="mt-3">
         <Row>
@@ -53,7 +63,11 @@ export const SingleProjectInstruments = ({docRef}) => {
               placement="auto"
               overlay={<Tooltip>Add new instrument...</Tooltip>}
             >
-              <AddInstrument docRef={docRef} instruments={instruments} />
+              <AddInstrument
+                docRef={docRef}
+                hasPercussion={hasPercussion}
+                instruments={instruments}
+              />
             </OverlayTrigger>
           </Col>
           <Col className="text-right">

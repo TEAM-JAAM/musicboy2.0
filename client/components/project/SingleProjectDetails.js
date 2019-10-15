@@ -59,6 +59,12 @@ export const SingleProjectDetails = ({docRef, history}) => {
   const handlePlay = () => {
     if (playing) {
       Tone.Transport.stop()
+      Tone.Transport.on('stop', () => {
+        let tempCol = document.querySelectorAll('td.zoom')
+        tempCol.forEach(col => {
+          col.removeAttribute('class', 'zoom')
+        })
+      })
       setPlaying(false)
     } else {
       Tone.Transport.start()

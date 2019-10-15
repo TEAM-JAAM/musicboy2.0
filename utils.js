@@ -120,9 +120,10 @@ export class Grid {
     const seq = new Tone.Sequence(
       function(time, event) {
         inst.triggerAttackRelease(event, '32n', time)
-        if (this.progress < 0.002) {
+        Tone.Transport.on('stop', () => {
           counter = 0
-        }
+        })
+        let timeoutValue = 60000 / Tone.Transport.bpm.value
         Tone.Draw.schedule(() => {
           console.log('curr time', Tone.context.currentTime)
           if (counter === seqLength) {
@@ -133,7 +134,7 @@ export class Grid {
             col.setAttribute('class', 'zoom')
             setTimeout(() => {
               col.removeAttribute('class', 'zoom')
-            }, 500)
+            }, timeoutValue)
           })
           counter++
         }, time)

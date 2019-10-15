@@ -7,8 +7,10 @@ import Modal from 'react-bootstrap/Modal'
 import {Project} from '../../firestore/models'
 import {getInstrumentKeysAndNames} from '../utils/MapInstruments'
 
-export const AddInstrument = ({docRef, instruments}) => {
-  const [isChecked, setChecked] = useState(false)
+export const AddInstrument = ({docRef, instruments, hasPercussion}) => {
+  console.log('has percussion: ', hasPercussion)
+  const [isChecked, setChecked] = useState(hasPercussion)
+  console.log('is checked: ', isChecked)
   const handleCheck = () => {
     setChecked(!isChecked)
   }
@@ -80,6 +82,8 @@ export const AddInstrument = ({docRef, instruments}) => {
               </Form.Control>
             </Form.Group>
             <Form.Switch
+              checked={isChecked}
+              disabled={hasPercussion}
               id="percussion-switch"
               label="Percussion"
               name="usePercussion"
