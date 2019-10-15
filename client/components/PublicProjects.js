@@ -52,7 +52,7 @@ const PublicProjects = props => {
             <Card.Text>
               Here's something special we thought you'd enjoy! Here at Jaam we
               want to promote sessions that inspire others to step outside the
-              box and make something magical.
+              box and make something magical... together.
             </Card.Text>
             <Button
               variant="success"
