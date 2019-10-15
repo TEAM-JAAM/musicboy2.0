@@ -73,10 +73,9 @@ td {
   height: 15px;
 }
 
-td.drum-column-td {
+.drum-column-tr {
   margin: 0px;
   min-width: 30px;
-  height: 85px;
 }
 
 .drums-with-details {
@@ -89,12 +88,10 @@ td.drum-column-td {
   justify-content: space-evenly;
 }
 
-.drum-icon {
-  justify-self: flex-start;
-}
-
 .drums-details-body {
   display: flex;
+  justify-content: center;
+  padding: 1.25rem 1.25rem 0rem 1.25rem;
 }
 
 .clear-drums-btn {

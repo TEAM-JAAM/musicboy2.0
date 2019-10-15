@@ -44,8 +44,12 @@ export class DrumGrid {
         }
       }
       this.grid = slicesArray
+      if (this.kickSequence.length) {
+        this.kickSequence.cancel()
+        this.clapSequence.cancel()
+        this.cymbalSequence.cancel()
+      }
       this.setUpSequences()
-      console.log('kickSequence has just been set up...', this.kickSequence)
     }
   }
 
@@ -75,13 +79,13 @@ export class DrumGrid {
       '4n'
     ).start(0)
 
-    // this.cymbalSequence = new Tone.Sequence(
-    // 	function(note) {
-    // 		cymbal.triggerAttackRelease(note);
-    // 	},
-    // 	this.clymbals,
-    // 	'4n'
-    // ).start(0)
+    this.cymbalSequence = new Tone.Sequence(
+      function(note) {
+        cymbal.triggerAttackRelease(note)
+      },
+      this.cymbals,
+      '4n'
+    ).start(0)
 
     this.grid.forEach((slice, idx) => {
       if (!slice[2].status) this.kickSequence._events[idx].mute = true
@@ -90,8 +94,8 @@ export class DrumGrid {
       if (!slice[1].status) this.clapSequence._events[idx].mute = true
       else this.clapSequence._events[idx].mute = false
 
-      // if (!slice[0].status) this.cymbalSequence._events[idx].mute = true;
-      // else this.cymbalSequence._events[idx].mute = false;
+      if (!slice[0].status) this.cymbalSequence._events[idx].mute = true
+      else this.cymbalSequence._events[idx].mute = false
     })
   }
 
@@ -101,15 +105,15 @@ export class DrumGrid {
         this.kickSequence._events[sliceIndex].mute = !this.kickSequence._events[
           sliceIndex
         ].mute
-        console.log(
-          'kickSequence update...',
-          this.kickSequence._events[sliceIndex].mute
-        )
         break
       case 1:
         this.clapSequence._events[sliceIndex].mute = !this.clapSequence._events[
           sliceIndex
         ].mute
+        break
+      case 0:
+        this.cymbalSequence._events[sliceIndex].mute = !this.cymbalSequence
+          ._events[sliceIndex].mute
         break
       default:
         break
