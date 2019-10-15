@@ -32,10 +32,9 @@ export class Grid {
 
   setUpGrid(slices) {
     if (slices && this.key && this.instrument) {
-      console.log('SETUP GRID CALLED')
       this.chordArray = []
       let nodeArray = []
-      let docsArray = slices.docs
+      let docsArray = slices
       for (let i = 0; i < docsArray.length; ++i) {
         let singleDoc = docsArray[i].data()
         nodeArray.push([])
@@ -70,7 +69,6 @@ export class Grid {
       PENTATONIC: PENTATONIC
     }
     this.key = keyMap[keyName]
-    console.log('chordarray before key update', this.chordArray)
     let chordArr = []
     this.grid.forEach(slice => {
       let chord = []
@@ -83,7 +81,6 @@ export class Grid {
       chordArr.push(chord)
     })
     this.chordArray = chordArr
-    console.log('chordarray after key update', this.chordArray)
     if (this.sequence.length) {
       this.sequence.cancel()
       this.createNewSequence(this.chordArray)
@@ -118,14 +115,34 @@ export class Grid {
       return new Tone.Event(null, chord)
     })
     let inst = this.instrument
+    let seqLength = chordArr.length
+    let counter = 0
     const seq = new Tone.Sequence(
-      function(time, chord) {
-        inst.triggerAttackRelease(chord, '32n', time)
+      function(time, event) {
+        inst.triggerAttackRelease(event, '32n', time)
+        if (this.progress < 0.002) {
+          counter = 0
+        }
+        Tone.Draw.schedule(() => {
+          console.log('curr time', Tone.context.currentTime)
+          if (counter === seqLength) {
+            counter = 0
+          }
+          let tempCol = document.querySelectorAll(`#column${counter}`)
+          tempCol.forEach(col => {
+            col.setAttribute('style', 'background-color: red;')
+            setTimeout(() => {
+              col.removeAttribute('style', 'background-color: red;')
+            }, 500)
+          })
+          counter++
+        }, time)
       },
       chordArr,
       '4n'
     ).start(0)
     this.sequence = seq
+    console.log('OUR SEQUENCE', this.sequence)
   }
 
   updateSequenceSlice(cell) {
@@ -138,6 +155,7 @@ export class Grid {
     } else {
       this.sequence._events[cell.index].value.push(cell.pitch)
     }
+    console.log('UPDATING SEQUENCE', this.sequence)
   }
 
   playCell(row, col) {
