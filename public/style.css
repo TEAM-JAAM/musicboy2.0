@@ -83,6 +83,10 @@ td.drum-column-td {
   justify-self: flex-start;
 }
 
+.drums-details-body {
+  display: flex;
+}
+
 .clear-drums-btn {
   align-self: center;
   padding: 0 10px 0 10px;

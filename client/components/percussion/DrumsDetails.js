@@ -40,7 +40,7 @@ const DrumsDetails = ({docRef}) => {
         className="mr-1 drum-details-card"
         style={{width: '10rem'}}
       >
-        <Card.Body>
+        <Card.Body className="drums-details-body">
           <h1>🥁</h1>
           <OverlayTrigger
             placement="auto"
@@ -48,12 +48,12 @@ const DrumsDetails = ({docRef}) => {
           >
             <MdGridOff className="icon-small" onClick={handleClear} />
           </OverlayTrigger>
-          <OverlayTrigger
+          {/* <OverlayTrigger
             placement="auto"
             overlay={<Tooltip>Instrument settings...</Tooltip>}
           >
             <MdSettings className="icon-small" />
-          </OverlayTrigger>
+          </OverlayTrigger> */}
         </Card.Body>
       </Card>
     )

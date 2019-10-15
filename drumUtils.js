@@ -1,6 +1,6 @@
 import Tone from 'tone'
 import {AudioNode} from './utils'
-import {kick, clap} from './instruments'
+import {kick, clap, cymbal} from './instruments'
 
 const drumSoundMap = {
   0: '16n',
@@ -9,7 +9,7 @@ const drumSoundMap = {
 }
 
 const drumInstrumentMap = {
-  0: clap,
+  0: cymbal,
   1: clap,
   2: kick
 }
@@ -19,19 +19,18 @@ export class DrumGrid {
     this.grid = []
     this.kicks = []
     this.claps = []
+    this.cymbals = []
     this.kickSequence = []
     this.clapSequence = []
+    this.cymbalSequence = []
   }
 
   setUpGridFromSlices(sortedDocsArray) {
     if (sortedDocsArray) {
       const slicesArray = []
-      console.log('drumslices sorted...', sortedDocsArray)
-      // const docsArray = drumslices.docs;
       for (let i = 0; i < sortedDocsArray.length; ++i) {
         const slice = []
-        // const singleDoc = docsArray[i].data();
-        const singleDoc = sortedDocsArray[i]
+        const singleDoc = sortedDocsArray[i].data()
         slicesArray.push(slice)
         for (let j = 0; j < 3; ++j) {
           const node = new AudioNode(
@@ -46,17 +45,18 @@ export class DrumGrid {
       }
       this.grid = slicesArray
       this.setUpSequences()
+      console.log('kickSequence has just been set up...', this.kickSequence)
     }
   }
-
-  updateSequences() {}
 
   setUpSequences() {
     this.kicks = []
     this.claps = []
+    this.cymbals = []
     for (let i = 0; i < this.grid.length; ++i) {
       this.kicks.push('D1')
       this.claps.push('16n')
+      this.cymbals.push('16n')
     }
 
     this.kickSequence = new Tone.Sequence(
@@ -75,12 +75,23 @@ export class DrumGrid {
       '4n'
     ).start(0)
 
+    // this.cymbalSequence = new Tone.Sequence(
+    // 	function(note) {
+    // 		cymbal.triggerAttackRelease(note);
+    // 	},
+    // 	this.clymbals,
+    // 	'4n'
+    // ).start(0)
+
     this.grid.forEach((slice, idx) => {
       if (!slice[2].status) this.kickSequence._events[idx].mute = true
       else this.kickSequence._events[idx].mute = false
 
       if (!slice[1].status) this.clapSequence._events[idx].mute = true
       else this.clapSequence._events[idx].mute = false
+
+      // if (!slice[0].status) this.cymbalSequence._events[idx].mute = true;
+      // else this.cymbalSequence._events[idx].mute = false;
     })
   }
 
@@ -90,6 +101,10 @@ export class DrumGrid {
         this.kickSequence._events[sliceIndex].mute = !this.kickSequence._events[
           sliceIndex
         ].mute
+        console.log(
+          'kickSequence update...',
+          this.kickSequence._events[sliceIndex].mute
+        )
         break
       case 1:
         this.clapSequence._events[sliceIndex].mute = !this.clapSequence._events[
