@@ -117,8 +117,21 @@ class Project {
     return querySnapshot && querySnapshot.docs
   }
 
+  static fetchExistingInstruments(instrumentQueryDocSnapshots) {
+    return (
+      instrumentQueryDocSnapshots &&
+      instrumentQueryDocSnapshots.map(instrumentQueryDocSnapshot => {
+        return instrumentQueryDocSnapshot.data().name
+      })
+    )
+  }
+
   static fetchPercussionDocRefs(querySnapshot) {
     return querySnapshot && querySnapshot.docs
+  }
+
+  static fromDocId(documentId) {
+    return documentId && new Project(db.collection('projects').doc(documentId))
   }
 
   static fromDocRef(projectDocRef) {

@@ -42,6 +42,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
       if (projectQueryResult) {
         const newTempo = projectQueryResult.data().tempo
         setTempo(newTempo)
+        Tone.Transport.bpm.value = newTempo
       }
     },
     [projectQueryResult]

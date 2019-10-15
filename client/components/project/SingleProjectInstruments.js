@@ -25,22 +25,33 @@ export const SingleProjectInstruments = ({docRef}) => {
 
   const [showAddInstrument, setShowAddInstrument] = useState(false)
   const handleShowAddInstrument = () => {
-    console.log('initiate add instrument dialog...')
     setShowAddInstrument(true)
   }
 
   const handleCloseAddInstrument = () => {
-    console.log('closing add instrument view')
     setShowAddInstrument(false)
   }
 
-  const handleSubmitNewInstrument = event => {
+  const handleSubmitNewInstrument = async event => {
     event.preventDefault()
     const form = event.target
     console.log('trying to submit form')
     console.log('instrument: ', form.instrument.value)
     console.log('key: ', form.key.value)
     console.log('percussion: ', form.usePercussion.checked)
+    // create the new instrument...
+    // const project = Project.fromDocId(docRef)
+    // await project.addInstrument({
+    //   name: form.instrument.value,
+    //   key: form.key.value
+    // })
+
+    // ...and drums, if requested...
+    // if (form.usePercussion.checked) {
+    //   await project.addDrums()
+    // }
+
+    setShowAddInstrument(false)
   }
 
   const handleIncreaseGrid = async () => {
@@ -64,6 +75,7 @@ export const SingleProjectInstruments = ({docRef}) => {
     )
   }
   if (instrumentQueryResult) {
+    const instruments = Project.fetchExistingInstruments(instrumentDocRefs)
     return (
       <Container fluid className="mt-3">
         <Row>
@@ -120,8 +132,8 @@ export const SingleProjectInstruments = ({docRef}) => {
                 <AddInstrument
                   show={showAddInstrument}
                   close={handleCloseAddInstrument}
-                  error={false}
                   submit={handleSubmitNewInstrument}
+                  instruments={instruments}
                 />
               </Col>
             </Row>

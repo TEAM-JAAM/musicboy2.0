@@ -5,14 +5,14 @@ import Modal from 'react-bootstrap/Modal'
 
 import {getInstrumentKeysAndNames} from '../utils/MapInstruments'
 
-export const AddInstrument = ({show, close, error, submit}) => {
-  const [checked, setChecked] = useState(false)
+export const AddInstrument = ({show, close, submit, instruments}) => {
+  const [isChecked, setChecked] = useState(false)
   const handleCheck = () => {
-    setChecked(!checked)
+    setChecked(!isChecked)
   }
-  const instrumentKeysAndNames = getInstrumentKeysAndNames()
+  const instrumentKeysAndNames = getInstrumentKeysAndNames(instruments)
   return (
-    <Modal centered onHide={close} show={show}>
+    <Modal bg="dark" onHide={close} show={show}>
       <Modal.Header closeButton>
         <Modal.Title>Add Instrument</Modal.Title>
       </Modal.Header>
@@ -22,7 +22,7 @@ export const AddInstrument = ({show, close, error, submit}) => {
             <Form.Label>
               <strong>Instrument Type</strong>
             </Form.Label>
-            <Form.Control as="select" name="instrument">
+            <Form.Control as="select" name="instrument" required>
               <option value="">Select an instrument type</option>
               {instrumentKeysAndNames.map(instrument => (
                 <option key={instrument.key} value={instrument.key}>
@@ -41,13 +41,12 @@ export const AddInstrument = ({show, close, error, submit}) => {
               <option value="PENTATONIC">Pentatonic</option>
             </Form.Control>
           </Form.Group>
-          <Form.Check
-            type="switch"
-            checked={checked}
-            id="percussion-switch"
-            label="Percission"
+          <Form.Switch
+            id="percussionSwitch"
+            label="Percussion"
             name="usePercussion"
             onChange={handleCheck}
+            value={isChecked}
           />
         </Modal.Body>
         <Modal.Footer>
