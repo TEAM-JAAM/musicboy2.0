@@ -120,7 +120,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
             <Form.Group className="m-0" controlId="formTempo">
               <OverlayTrigger
                 trigger="focus"
-                placement="top"
+                placement="bottom"
                 overlay={
                   <Popover id="popover-positioned-top">
                     <Popover.Content>
@@ -162,7 +162,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
                 <MdChat className="icon" />
               </Button>
             </OverlayTrigger>
-            {project.members[0] === email && (
+            {projectData.members[0] === email && (
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip>Project settings...</Tooltip>}
@@ -175,7 +175,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
             <SingleProjectSettings
               show={modalShow}
               onHide={() => setModalShow(false)}
-              project={project}
+              project={projectData}
               docref={projectDocRef}
             />
           </ButtonGroup>

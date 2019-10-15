@@ -4,7 +4,8 @@ import {
   MdPersonAdd,
   MdDelete,
   MdRemoveCircle,
-  MdLock
+  MdLock,
+  MdCheck
 } from 'react-icons/md'
 import {auth} from '../../firestore/db'
 import {Modal, Button, Form, Row} from 'react-bootstrap'
@@ -14,10 +15,15 @@ const SingleProjectSettings = props => {
   const email = auth.currentUser.email
   const project = Project.fromDocRef(props.docref)
   const [title, setTitle] = useState(props.project.name)
-  // const [failed, setFailed] = useState(false)
+  const [check, setCheck] = useState(false)
+  const [emailField, setEmailField] = useState('')
 
-  const handleChange = () => {
+  const handleTitleChange = () => {
+    setCheck(false)
     setTitle(event.target.value)
+  }
+  const handleEmailChange = () => {
+    setEmailField(event.target.value)
   }
   const handleRemove = async memberEmail => {
     event.preventDefault()
@@ -33,7 +39,9 @@ const SingleProjectSettings = props => {
   }
   const handleTitle = () => {
     event.preventDefault()
-    console.log(event.target.title.value)
+    const name = event.target.title.value
+    project.update({name})
+    setCheck(true)
   }
   const handleInvite = async () => {
     event.preventDefault()
@@ -44,9 +52,11 @@ const SingleProjectSettings = props => {
         const inviteeUid = invitee.ref().id
         project.addUserToProject({email: inviteeEmail, uid: inviteeUid})
         console.log('success')
+        setEmailField('')
       } else {
         console.log('invitee returned val: ', invitee)
         console.log('trouble with adding: ', inviteeEmail)
+        setEmailField('not a user')
       }
     } catch (err) {
       console.log(err)
@@ -62,18 +72,26 @@ const SingleProjectSettings = props => {
         <Form onSubmit={handleTitle}>
           <Form.Group controlId="title">
             <Form.Label>
-              <h5>Title</h5>
+              <h5>
+                Title: <span className="text-muted">{props.project.name}</span>
+              </h5>
             </Form.Label>
             <Form.Control
               type="text"
               placeholder="New Title"
               value={title}
-              onChange={handleChange}
+              onChange={handleTitleChange}
             />
           </Form.Group>
-          <Button type="submit" variant="secondary">
-            <MdEdit />
-          </Button>
+          {check ? (
+            <Button disabled variant="success">
+              <MdCheck />
+            </Button>
+          ) : (
+            <Button type="submit" variant="secondary">
+              <MdEdit />
+            </Button>
+          )}
         </Form>
         {props.project.members.length < 5 && (
           <Form onSubmit={handleInvite}>
@@ -81,7 +99,12 @@ const SingleProjectSettings = props => {
               <Form.Label>
                 <h5>Invite by email</h5>
               </Form.Label>
-              <Form.Control type="email" placeholder="enter email..." />
+              <Form.Control
+                type="email"
+                placeholder="enter email..."
+                value={emailField}
+                onChange={handleEmailChange}
+              />
             </Form.Group>
             <Button type="submit" variant="secondary">
               <MdPersonAdd />
