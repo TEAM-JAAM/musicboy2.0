@@ -42,6 +42,8 @@ table {
 
 .outer-table {
   overflow-x: scroll;
+  border-top: 1px solid #2e2e2e;
+  border-left: 1px solid #2e2e2e;
 }
 
 tr {
@@ -56,7 +58,15 @@ td {
   padding: 0px;
 }
 
-td.column-td {
+.highlightColumn {
+  border: collapse;
+  background: white;
+  margin: 0px;
+  min-width: 30px;
+  height: 15px;
+}
+
+.normalColumn {
   border: collapse;
   margin: 0px;
   min-width: 30px;
@@ -108,6 +118,10 @@ td.drum-column-td {
 
 .curser {
   background-color: pink;
+}
+
+.highlight {
+  background: white;
 }
 
 .cell {
@@ -200,4 +214,11 @@ td.drum-column-td {
 
 .dark-bg {
   background-color: rgb(73, 73, 73);
+}
+
+.zoom {
+  padding: 0px;
+  background-color: lightgrey;
+  transition: transform 0.2s;
+  transform: scale(1.05);
 }

@@ -33,6 +33,10 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     [instrumentQueryResult]
   )
 
+  function compareNumbers(a, b) {
+    return a.id - b.id
+  }
+
   // Collection of timeslices...
   const timeslicesCollectionRef = Instrument.findInstrumentTimeslicesQuery(
     docRef
@@ -42,7 +46,7 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     timeslicesLoading,
     timeslicesError
   ] = useCollection(timeslicesCollectionRef)
-  const timeslicesDocRefs = Instrument.fetchTimesliceDocRefs(
+  let timeslicesDocRefs = Instrument.fetchTimesliceDocRefs(
     timeslicesQueryResult
   )
 
@@ -54,7 +58,14 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
         const timeslices = timeslicesQueryResult.size
         const gridSize = grid.current.getGridSize()
         if (timeslices !== gridSize) {
-          grid.current.setUpGrid(timeslicesQueryResult)
+          timeslicesDocRefs = Instrument.fetchTimesliceDocRefs(
+            timeslicesQueryResult
+          ).sort(compareNumbers)
+          console.log(
+            'our time slices docs before grid setup',
+            timeslicesDocRefs
+          )
+          grid.current.setUpGrid(timeslicesDocRefs)
         }
       }
     },
@@ -72,6 +83,9 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
     )
   }
   if (timeslicesQueryResult) {
+    timeslicesDocRefs = Instrument.fetchTimesliceDocRefs(
+      timeslicesQueryResult
+    ).sort(compareNumbers)
     return (
       <div className="single-instrument-container">
         <table className="outer-table">
@@ -79,7 +93,10 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
             <tr className="table-body">
               {timeslicesDocRefs.map(timesliceDocRef => {
                 return (
-                  <td className="column-td" key={timesliceDocRef.id}>
+                  <td
+                    id={`column${timesliceDocRef.id}`}
+                    key={timesliceDocRef.id}
+                  >
                     <SingleTimeslice
                       docRef={timesliceDocRef.ref}
                       grid={grid.current}
