@@ -89,6 +89,16 @@ class Instrument {
     }
   }
 
+  update(objectData) {
+    console.log(
+      'trying to modify firestore. objectData: ',
+      objectData,
+      'for instrument: ',
+      this.instrumentDocRef
+    )
+    return this.instrumentDocRef.update(objectData)
+  }
+
   async clearAllTimeslices() {
     const instrumentDocSnapshot = await this.instrumentDocRef.get()
     if (!instrumentDocSnapshot.exists) {

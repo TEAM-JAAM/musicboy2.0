@@ -6,8 +6,8 @@ import {
   MdArrowBack,
   MdChat,
   MdPlayArrow,
-  MdPause,
-  MdSettings
+  MdSettings,
+  MdStop
 } from 'react-icons/md'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
@@ -86,7 +86,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
   }
   if (projectQueryResult) {
     const playButton = playing ? (
-      <MdPause className="icon" />
+      <MdStop className="icon" />
     ) : (
       <MdPlayArrow className="icon" />
     )
@@ -107,7 +107,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
           <ButtonGroup size="sm" className="ml-1">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip>Play/Pause</Tooltip>}
+              overlay={<Tooltip>Play/Stop</Tooltip>}
             >
               <Button variant="secondary" onClick={handlePlay}>
                 {playButton}

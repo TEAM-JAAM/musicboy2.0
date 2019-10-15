@@ -7,10 +7,8 @@ import Modal from 'react-bootstrap/Modal'
 import {Project} from '../../firestore/models'
 import {getInstrumentKeysAndNames} from '../utils/MapInstruments'
 
-export const AddInstrument = ({docRef, instruments, hasPercussion}) => {
-  console.log('has percussion: ', hasPercussion)
+export const AddInstrument = ({docRef, hasPercussion}) => {
   const [isChecked, setChecked] = useState(hasPercussion)
-  console.log('is checked: ', isChecked)
   const handleCheck = () => {
     setChecked(!isChecked)
   }
@@ -22,17 +20,13 @@ export const AddInstrument = ({docRef, instruments, hasPercussion}) => {
   const handleSubmit = async event => {
     event.preventDefault()
     const form = event.target
-    console.log('trying to submit form')
-    console.log('instrument: ', form.instrument.value)
-    console.log('key: ', form.key.value)
-    console.log('percussion: ', form.usePercussion.checked)
+
     // create the new instrument... The instrument name may
     // be empty, indicating that, perhaps, we are only adding
     // percussion...
     const project = Project.fromDocId(docRef)
     const instrumentName = form.instrument.value
     if (instrumentName.length) {
-      console.log('creating new instrument: ', instrumentName)
       await project.addInstrument({
         name: form.instrument.value,
         key: form.key.value
@@ -41,18 +35,17 @@ export const AddInstrument = ({docRef, instruments, hasPercussion}) => {
 
     // ...and drums, if requested...
     if (form.usePercussion.checked) {
-      console.log('creating percussion')
       await project.addDrums()
     }
 
     setShow(false)
   }
 
-  const instrumentKeysAndNames = getInstrumentKeysAndNames(instruments)
+  const instrumentKeysAndNames = getInstrumentKeysAndNames()
 
   return (
     <React.Fragment>
-      <Modal bg="dark" onHide={handleClose} show={show}>
+      <Modal onHide={handleClose} show={show}>
         <Modal.Header closeButton>
           <Modal.Title>Add Instrument</Modal.Title>
         </Modal.Header>

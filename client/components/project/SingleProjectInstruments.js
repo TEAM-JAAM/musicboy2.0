@@ -52,7 +52,6 @@ export const SingleProjectInstruments = ({docRef}) => {
     )
   }
   if (instrumentQueryResult && percussionQueryResult) {
-    const instruments = Project.fetchExistingInstruments(instrumentDocRefs)
     const hasPercussion = percussionQueryResult.size > 0
 
     return (
@@ -63,11 +62,7 @@ export const SingleProjectInstruments = ({docRef}) => {
               placement="auto"
               overlay={<Tooltip>Add new instrument...</Tooltip>}
             >
-              <AddInstrument
-                docRef={docRef}
-                hasPercussion={hasPercussion}
-                instruments={instruments}
-              />
+              <AddInstrument docRef={docRef} hasPercussion={hasPercussion} />
             </OverlayTrigger>
           </Col>
           <Col className="text-right">

@@ -18,7 +18,7 @@ export const mapInstrumentImage = instrumentName => {
   return instrumentNameMap[instrumentName].image || '/images/keyboard.svg'
 }
 
-export const getInstrumentKeysAndNames = excludedInstruments => {
+export const getInstrumentKeysAndNames = (excludedInstruments = []) => {
   return Object.keys(instrumentNameMap)
     .filter(instrumentKey => !excludedInstruments.includes(instrumentKey))
     .map(instrumentKey => ({
