@@ -6,10 +6,9 @@ import {
   MdArrowBack,
   MdChat,
   MdPlayArrow,
-  MdPause,
-  MdSettings
+  MdSettings,
+  MdStop
 } from 'react-icons/md'
-
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
 import Navbar from 'react-bootstrap/Navbar'
@@ -23,23 +22,27 @@ import {Project} from '../../firestore/models'
 export const SingleProjectDetails = ({docRef, history}) => {
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
-  const project = Project.fetchProjectData(projectQueryResult)
+  const projectData = Project.fetchProjectData(projectQueryResult)
 
   // Tempo-related configuration...
   const [tempo, setTempo] = useState(0)
   const handleTempoChange = event => {
-    console.log('got tempo change: ', event.target.value)
     setTempo(event.target.value)
   }
-  const saveTempo = event => {
+  const saveTempo = async event => {
     event.preventDefault()
     console.log('will try to save new tempo: ', tempo)
+    const project = Project.fromDocRef(projectDocRef)
+    await project.update({
+      tempo: tempo
+    })
   }
   useEffect(
     () => {
       if (projectQueryResult) {
         const newTempo = projectQueryResult.data().tempo
         setTempo(newTempo)
+        Tone.Transport.bpm.value = newTempo
       }
     },
     [projectQueryResult]
@@ -56,6 +59,12 @@ export const SingleProjectDetails = ({docRef, history}) => {
   const handlePlay = () => {
     if (playing) {
       Tone.Transport.stop()
+      Tone.Transport.on('stop', () => {
+        let tempCol = document.querySelectorAll('td.zoom')
+        tempCol.forEach(col => {
+          col.removeAttribute('class', 'zoom')
+        })
+      })
       setPlaying(false)
     } else {
       Tone.Transport.start()
@@ -77,7 +86,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
   }
   if (projectQueryResult) {
     const playButton = playing ? (
-      <MdPause className="icon" />
+      <MdStop className="icon" />
     ) : (
       <MdPlayArrow className="icon" />
     )
@@ -98,14 +107,16 @@ export const SingleProjectDetails = ({docRef, history}) => {
           <ButtonGroup size="sm" className="ml-1">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip>Play/Pause</Tooltip>}
+              overlay={<Tooltip>Play/Stop</Tooltip>}
             >
               <Button variant="secondary" onClick={handlePlay}>
                 {playButton}
               </Button>
             </OverlayTrigger>
           </ButtonGroup>
-          <Navbar.Text className="ml-auto mr-auto">{project.name}</Navbar.Text>
+          <Navbar.Text className="ml-auto mr-auto">
+            {projectData.name}
+          </Navbar.Text>
           <Form inline onSubmit={saveTempo}>
             <Form.Group className="m-0" controlId="formTempo">
               <OverlayTrigger
