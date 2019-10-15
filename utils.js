@@ -21,10 +21,6 @@ export class AudioNode {
   }
 }
 
-function compareNumbers(a, b) {
-  return a.id - b.id
-}
-
 export class Grid {
   constructor() {
     this.key = null
@@ -39,8 +35,6 @@ export class Grid {
       this.chordArray = []
       let nodeArray = []
       let docsArray = slices
-      // docsArray = docsArray.sort(compareNumbers)
-      // console.log('DOC ARRAY', docsArray)
       for (let i = 0; i < docsArray.length; ++i) {
         let singleDoc = docsArray[i].data()
         nodeArray.push([])
@@ -121,23 +115,27 @@ export class Grid {
       return new Tone.Event(null, chord)
     })
     let inst = this.instrument
-    let counter = -1
+    let seqLength = chordArr.length
+    let counter = 0
     const seq = new Tone.Sequence(
-      function(time, chord) {
-        inst.triggerAttackRelease(chord, '32n', time)
+      function(time, event) {
+        inst.triggerAttackRelease(event, '32n', time)
+        if (this.progress < 0.002) {
+          counter = 0
+        }
         Tone.Draw.schedule(() => {
-          counter++
-          let tempCol = document.querySelectorAll(`#column${counter}`)
-          console.log('TEMP COL', tempCol)
-          tempCol.forEach(col =>
-            col.setAttribute('style', 'background-color: red;')
-          )
-          if (counter > 0) {
-            let removeTemp = document.querySelectorAll(`#column${counter - 1}`)
-            removeTemp.forEach(col =>
-              col.removeAttribute('style', 'background-color: red;')
-            )
+          console.log('curr time', Tone.context.currentTime)
+          if (counter === seqLength) {
+            counter = 0
           }
+          let tempCol = document.querySelectorAll(`#column${counter}`)
+          tempCol.forEach(col => {
+            col.setAttribute('style', 'background-color: red;')
+            setTimeout(() => {
+              col.removeAttribute('style', 'background-color: red;')
+            }, 500)
+          })
+          counter++
         }, time)
       },
       chordArr,
