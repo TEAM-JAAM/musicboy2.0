@@ -16,17 +16,17 @@ class User {
   // Find a user by their user id (auth.currentUser.uid)
   // Mandatory fields: uid
   static async findOne(objectData) {
-    const mandatoryFields = ['uid']
+    const mandatoryFields = ['email']
     if (!util.allMandatoryFieldsProvided(objectData, mandatoryFields)) {
       throw new util.MissingMandatoryFieldError(mandatoryFields)
     }
 
     const userDocSnapshot = await db
       .collection('users')
-      .doc(objectData.uid)
+      .where('email', '==', objectData.email)
       .get()
     if (!userDocSnapshot.exists) {
-      throw new util.UnknownUserError()
+      return null
     }
 
     return new User(userDocSnapshot.ref)
