@@ -117,8 +117,21 @@ class Project {
     return querySnapshot && querySnapshot.docs
   }
 
+  static fetchExistingInstruments(instrumentQueryDocSnapshots) {
+    return (
+      instrumentQueryDocSnapshots &&
+      instrumentQueryDocSnapshots.map(instrumentQueryDocSnapshot => {
+        return instrumentQueryDocSnapshot.data().name
+      })
+    )
+  }
+
   static fetchPercussionDocRefs(querySnapshot) {
     return querySnapshot && querySnapshot.docs
+  }
+
+  static fromDocId(documentId) {
+    return documentId && new Project(db.collection('projects').doc(documentId))
   }
 
   static fromDocRef(projectDocRef) {
@@ -304,6 +317,12 @@ class Project {
       throw new util.UnknownProjectError()
     }
     return projectDocSnapshot.data().drumslices
+  }
+
+  // Update Project (non-array) fields. See Firestore for the appropriate
+  // field names...
+  async update(objectData) {
+    await this.projectDocRef.update(objectData)
   }
 
   // Return the Firestore reference to this project document
