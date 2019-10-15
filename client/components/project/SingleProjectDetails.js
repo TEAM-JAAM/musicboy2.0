@@ -17,8 +17,9 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import Spinner from 'react-bootstrap/Spinner'
 import Tooltip from 'react-bootstrap/Tooltip'
-
 import {Project} from '../../firestore/models'
+
+import GroupChat from './GroupChat'
 
 export const SingleProjectDetails = ({docRef, history}) => {
   const projectDocRef = Project.findProjectQuery(docRef)
@@ -38,6 +39,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
   useEffect(
     () => {
       if (projectQueryResult) {
+        console.log('PROJECT REF', projectDocRef)
         const newTempo = projectQueryResult.data().tempo
         setTempo(newTempo)
       }
@@ -56,10 +58,25 @@ export const SingleProjectDetails = ({docRef, history}) => {
   const handlePlay = () => {
     if (playing) {
       Tone.Transport.stop()
+      Tone.Transport.on('stop', () => {
+        let tempCol = document.querySelectorAll(`td.zoom`)
+        tempCol.forEach(col => {
+          col.removeAttribute('class', 'zoom')
+        })
+      })
       setPlaying(false)
     } else {
       Tone.Transport.start()
       setPlaying(true)
+    }
+  }
+
+  const [chatting, toggleChat] = useState(false)
+  const handleChat = () => {
+    if (chatting) {
+      toggleChat(false)
+    } else {
+      toggleChat(true)
     }
   }
 
@@ -148,8 +165,9 @@ export const SingleProjectDetails = ({docRef, history}) => {
               placement="bottom"
               overlay={<Tooltip>Chat with a member</Tooltip>}
             >
-              <Button variant="secondary" onClick={handlePlay}>
+              <Button variant="secondary" onClick={handleChat}>
                 <MdChat className="icon" />
+                <div className="sc-new-messages-count">3</div>
               </Button>
             </OverlayTrigger>
             <OverlayTrigger
@@ -162,6 +180,11 @@ export const SingleProjectDetails = ({docRef, history}) => {
             </OverlayTrigger>
           </ButtonGroup>
         </Navbar>
+        {chatting ? (
+          <div>
+            <GroupChat docRef={docRef} />
+          </div>
+        ) : null}
       </div>
     )
   }
