@@ -20,7 +20,7 @@ const AllDrumslices = ({docRef}) => {
     drumslicesLoading,
     drumslicesError
   ] = useCollection(drumslicesCollectionRef)
-  const drumslicesDocRefs = Drums.fetchDrumsliceDocRefs(drumslicesQueryResult)
+  let drumslicesDocRefs = Drums.fetchDrumsliceDocRefs(drumslicesQueryResult)
 
   useEffect(
     () => {
@@ -28,7 +28,10 @@ const AllDrumslices = ({docRef}) => {
         const drumslices = drumslicesQueryResult.size
         const gridSize = grid.current.getGridSize()
         if (drumslices !== gridSize) {
-          grid.current.setUpGridFromSlices(drumslicesQueryResult)
+          let sortedDocsArray = drumslicesQueryResult.docs.sort(function(a, b) {
+            return a.id - b.id
+          })
+          grid.current.setUpGridFromSlices(sortedDocsArray)
         }
       }
     },
@@ -46,23 +49,30 @@ const AllDrumslices = ({docRef}) => {
   }
 
   if (drumsQueryResult) {
+    drumslicesDocRefs.sort((a, b) => a.id - b.id)
     return (
-      <table className="single-instrument-container outer-table">
-        <tbody>
-          <tr className="table-body">
-            {drumslicesDocRefs.map(drumsliceDocRef => {
-              return (
-                <td key={drumsliceDocRef.id} className="drum-column-td">
-                  <SingleDrumslice
-                    docRef={drumsliceDocRef.ref}
-                    grid={grid.current}
-                  />
-                </td>
-              )
-            })}
-          </tr>
-        </tbody>
-      </table>
+      <div className="single-instrument-container outer-table">
+        <table className="outer-table">
+          <tbody>
+            <tr className="table-body scroll-wrapper">
+              {drumslicesDocRefs.map(drumsliceDocRef => {
+                return (
+                  <td
+                    className="scroll-item"
+                    key={drumsliceDocRef.id}
+                    id={`column${drumsliceDocRef.id}`}
+                  >
+                    <SingleDrumslice
+                      docRef={drumsliceDocRef.ref}
+                      grid={grid.current}
+                    />
+                  </td>
+                )
+              })}
+            </tr>
+          </tbody>
+        </table>
+      </div>
     )
   }
 }

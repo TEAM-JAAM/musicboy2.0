@@ -3,7 +3,7 @@ const Instrument = require('./Instrument')
 const Drums = require('./Drums')
 const util = require('../utils/dbUtils')
 
-const TIMESLICE_BLOCK_SIZE = 8
+const BLOCK_SIZE = 8
 
 //
 // --[ Project ]--------------------------------------------------------------
@@ -195,6 +195,20 @@ class Project {
         await instrument.destroy()
       }
     }
+
+    // Find all projects percussion...
+    const drumsCollectionRef = this.projectDocRef.collection('percussion')
+    const drumsQuerySnapshot = await drumsCollectionRef.get()
+    if (!drumsQuerySnapshot.empty) {
+      console.log('NOTE: attempting to delete drums...')
+      const drumsDocs = drumsQuerySnapshot.docs
+      for (let i = 0; i < drumsDocs.length; ++i) {
+        // Delete each drums instance, which also deletes that drums instance's drumslices...
+        const drums = Drums.fromDocRef(drumsDocs[i].ref)
+        await drums.destroy()
+      }
+    }
+
     // Finally, delete the project...
     this.projectDocRef.delete()
   }
@@ -204,11 +218,13 @@ class Project {
   async addTimesliceBlock() {
     // Obtain the current timeslices value for the project...
     let timeslices = await this.getTimeslicesValue()
+    let drumslices = await this.getDrumslicesValue()
 
     // Add an additional block of timeslices to every instrument...
     const instrumentsCollectionRef = this.projectDocRef.collection(
       'instruments'
     )
+
     const instrumentsQuerySnapshot = await instrumentsCollectionRef.get()
     if (!instrumentsQuerySnapshot.empty) {
       // Find the instruments timeslices collection...
@@ -216,14 +232,27 @@ class Project {
       for (let i = 0; i < instrumentsDocs.length; ++i) {
         // Add a block of timeslices to each instrument...
         const instrument = Instrument.fromDocRef(instrumentsDocs[i].ref)
-        await instrument.addTimesliceBlock(timeslices, TIMESLICE_BLOCK_SIZE)
+        await instrument.addTimesliceBlock(timeslices, BLOCK_SIZE)
+      }
+    }
+
+    const drumsCollectionRef = this.projectDocRef.collection('percussion')
+
+    const drumsQuerySnapshot = await drumsCollectionRef.get()
+    if (!drumsQuerySnapshot.empty) {
+      const drumsDocs = drumsQuerySnapshot.docs
+      for (let i = 0; i < drumsDocs.length; ++i) {
+        const drum = Drums.fromDocRef(drumsDocs[i].ref)
+        await drum.addDrumsliceBlock(drumslices, BLOCK_SIZE)
       }
     }
 
     // Finally, update the timeslices count in the project...
-    timeslices += TIMESLICE_BLOCK_SIZE
+    timeslices += BLOCK_SIZE
+    drumslices += BLOCK_SIZE
     await this.projectDocRef.update({
-      timeslices
+      timeslices,
+      drumslices
     })
   }
 
@@ -232,7 +261,8 @@ class Project {
   async removeTimesliceBlock() {
     // Obtain the current timeslices value for the project...
     let timeslices = await this.getTimeslicesValue()
-    if (timeslices === TIMESLICE_BLOCK_SIZE) {
+    let drumslices = await this.getDrumslicesValue()
+    if (timeslices === BLOCK_SIZE || drumslices === BLOCK_SIZE) {
       throw new util.InvalidDatabaseOperationError(
         'attempting to remove the initial timeslice set'
       )
@@ -249,14 +279,26 @@ class Project {
       for (let i = 0; i < instrumentsDocs.length; ++i) {
         // Remove 1 block of timeslices from each instrument...
         const instrument = Instrument.fromDocRef(instrumentsDocs[i].ref)
-        await instrument.removeTimesliceBlock(timeslices, TIMESLICE_BLOCK_SIZE)
+        await instrument.removeTimesliceBlock(timeslices, BLOCK_SIZE)
+      }
+    }
+
+    const drumsCollectionRef = this.projectDocRef.collection('percussion')
+    const drumsQuerySnapshot = await drumsCollectionRef.get()
+    if (!drumsQuerySnapshot.empty) {
+      const drumsDocs = drumsQuerySnapshot.docs
+      for (let i = 0; i < drumsDocs.length; ++i) {
+        const drums = Drums.fromDocRef(drumsDocs[i].ref)
+        await drums.removeDrumsliceBlock(drumslices, BLOCK_SIZE)
       }
     }
 
     // Finally, update the timeslices count in the project...
-    timeslices -= TIMESLICE_BLOCK_SIZE
+    timeslices -= BLOCK_SIZE
+    drumslices -= BLOCK_SIZE
     await this.projectDocRef.update({
-      timeslices
+      timeslices,
+      drumslices
     })
   }
 

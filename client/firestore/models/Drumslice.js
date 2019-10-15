@@ -49,6 +49,14 @@ class Drumslice {
     })
   }
 
+  static async destroy(parentDrums, index) {
+    const drumsliceDocRef = await parentDrums
+      .ref()
+      .collection('drumslices')
+      .doc(index.toString())
+    await drumsliceDocRef.delete()
+  }
+
   // Instance methods..........................................................
   ref() {
     return this.drumsliceDocRef
