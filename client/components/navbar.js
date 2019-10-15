@@ -3,8 +3,9 @@ import {db, auth, provider} from '../firestore/db'
 import history from '../history'
 import {Modal, Button, Row, Container, Jumbotron, Alert} from 'react-bootstrap'
 import LoggedInNav from './LoggedInNav'
+import {withRouter} from 'react-router-dom'
 
-export default class Navbar extends Component {
+class Navbar extends Component {
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this)
@@ -106,10 +107,13 @@ export default class Navbar extends Component {
   }
 
   render() {
+    console.log('props', this.props)
     return (
       <div>
         {auth.currentUser ? (
-          <LoggedInNav />
+          this.props.location.pathname.includes('projects') ? null : (
+            <LoggedInNav />
+          )
         ) : (
           <div>
             <Row className="justify-content-center mt-3">
@@ -205,3 +209,5 @@ export default class Navbar extends Component {
     )
   }
 }
+
+export default withRouter(Navbar)
