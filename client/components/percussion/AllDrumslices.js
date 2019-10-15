@@ -54,10 +54,11 @@ const AllDrumslices = ({docRef}) => {
       <div className="single-instrument-container outer-table">
         <table className="outer-table">
           <tbody>
-            <tr className="table-body">
+            <tr className="table-body scroll-wrapper">
               {drumslicesDocRefs.map(drumsliceDocRef => {
                 return (
                   <td
+                    className="scroll-item"
                     key={drumsliceDocRef.id}
                     id={`column${drumsliceDocRef.id}`}
                   >

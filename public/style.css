@@ -41,7 +41,7 @@ table {
 }
 
 .outer-table {
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
   border-top: 1px solid #2e2e2e;
   border-left: 1px solid #2e2e2e;
 }
@@ -123,6 +123,16 @@ td {
 
 .highlight {
   background: white;
+}
+
+.scroll-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.scroll-item {
+  flex: 0 0 auto;
 }
 
 .cell {
