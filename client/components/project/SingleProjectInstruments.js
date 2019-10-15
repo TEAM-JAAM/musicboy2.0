@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {MdAdd, MdGridOn, MdRemove} from 'react-icons/md'
 import Button from 'react-bootstrap/Button'
@@ -22,37 +22,6 @@ export const SingleProjectInstruments = ({docRef}) => {
   const instrumentDocRefs = Project.fetchInstrumentDocRefs(
     instrumentQueryResult
   )
-
-  const [showAddInstrument, setShowAddInstrument] = useState(false)
-  const handleShowAddInstrument = () => {
-    setShowAddInstrument(true)
-  }
-
-  const handleCloseAddInstrument = () => {
-    setShowAddInstrument(false)
-  }
-
-  const handleSubmitNewInstrument = async event => {
-    event.preventDefault()
-    const form = event.target
-    console.log('trying to submit form')
-    console.log('instrument: ', form.instrument.value)
-    console.log('key: ', form.key.value)
-    console.log('percussion: ', form.usePercussion.checked)
-    // create the new instrument...
-    // const project = Project.fromDocId(docRef)
-    // await project.addInstrument({
-    //   name: form.instrument.value,
-    //   key: form.key.value
-    // })
-
-    // ...and drums, if requested...
-    // if (form.usePercussion.checked) {
-    //   await project.addDrums()
-    // }
-
-    setShowAddInstrument(false)
-  }
 
   const handleIncreaseGrid = async () => {
     const projectDocRef = instrumentsCollectionRef.parent
@@ -84,13 +53,7 @@ export const SingleProjectInstruments = ({docRef}) => {
               placement="auto"
               overlay={<Tooltip>Add new instrument...</Tooltip>}
             >
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleShowAddInstrument}
-              >
-                <MdAdd className="icon" />
-              </Button>
+              <AddInstrument docRef={docRef} instruments={instruments} />
             </OverlayTrigger>
           </Col>
           <Col className="text-right">
@@ -129,12 +92,6 @@ export const SingleProjectInstruments = ({docRef}) => {
             <Row key={instrumentDocRef.id} className="mt-3">
               <Col>
                 <SingleInstrument docRef={instrumentDocRef.ref} />
-                <AddInstrument
-                  show={showAddInstrument}
-                  close={handleCloseAddInstrument}
-                  submit={handleSubmitNewInstrument}
-                  instruments={instruments}
-                />
               </Col>
             </Row>
           )
