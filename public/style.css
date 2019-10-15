@@ -76,6 +76,7 @@ td {
 .drum-column-tr {
   margin: 0px;
   min-width: 30px;
+  height: 35px;
 }
 
 .drums-with-details {
