@@ -90,13 +90,16 @@ td {
 
 .drums-details-body {
   display: flex;
-  justify-content: center;
-  padding: 1.25rem 1.25rem 0rem 1.25rem;
+  justify-content: space-between;
+  padding: 0.5rem 0 0;
+}
+
+.drums-details-body h1 {
+  margin-left: 3.75rem;
 }
 
 .clear-drums-btn {
-  align-self: center;
-  padding: 0 10px 0 10px;
+  margin-right: 1.75rem;
 }
 
 .single-drumslice-container {
@@ -140,7 +143,6 @@ td {
   font-size: 1.25rem;
 }
 
-/* managing single-instrument-container & single-instrument-options */
 .single-instrument-with-details {
   display: flex;
 }

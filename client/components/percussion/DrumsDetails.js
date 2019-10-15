@@ -44,17 +44,14 @@ const DrumsDetails = ({docRef}) => {
         <Card.Body className="drums-details-body">
           <h1>🥁</h1>
           <OverlayTrigger
-            placement="auto"
+            placement="right"
             overlay={<Tooltip>Clear grid</Tooltip>}
           >
-            <MdGridOff className="icon-small" onClick={handleClear} />
+            <MdGridOff
+              className="icon-small clear-drums-btn"
+              onClick={handleClear}
+            />
           </OverlayTrigger>
-          {/* <OverlayTrigger
-            placement="auto"
-            overlay={<Tooltip>Instrument settings...</Tooltip>}
-          >
-            <MdSettings className="icon-small" />
-          </OverlayTrigger> */}
         </Card.Body>
         <Card.Title className="text-center instrument-card-title">
           Percussion
