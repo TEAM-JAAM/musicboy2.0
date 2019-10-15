@@ -92,7 +92,6 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
           <tbody>
             <tr className="table-body">
               {timeslicesDocRefs.map(timesliceDocRef => {
-                //const highlightColumn = cell[1] ? 'on' : 'off'
                 return (
                   <td
                     id={`column${timesliceDocRef.id}`}

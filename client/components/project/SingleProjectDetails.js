@@ -57,10 +57,6 @@ export const SingleProjectDetails = ({docRef, history}) => {
     if (playing) {
       Tone.Transport.stop()
       setPlaying(false)
-      Tone.Transport.on('stop', () => {
-        Tone.Draw.cancel()
-        console.log('TONE Timeline', Tone.Timeline)
-      })
     } else {
       Tone.Transport.start()
       setPlaying(true)

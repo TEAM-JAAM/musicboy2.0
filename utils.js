@@ -119,17 +119,11 @@ export class Grid {
     let counter = 0
     const seq = new Tone.Sequence(
       function(time, event) {
-        //console.log('THIS STATE before trigger', this)
         inst.triggerAttackRelease(event, '32n', time)
-        //console.log('TONE Timeline', Tone.Timeline)
-        //console.log('THIS CHORD', chordArr)
-        //console.log('POSITION', Tone.Transport.position)
-        //console.log('THIS STATE', this.state)
         if (this.progress < 0.002) {
           counter = 0
         }
         Tone.Draw.schedule(() => {
-          //let loop = true
           console.log('curr time', Tone.context.currentTime)
           if (counter === seqLength) {
             counter = 0
