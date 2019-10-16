@@ -6,7 +6,10 @@ import {
   OverlayTrigger,
   ToggleButton,
   ToggleButtonGroup,
-  Form
+  Form,
+  InputGroup,
+  Col,
+  Row
 } from 'react-bootstrap'
 import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
@@ -18,6 +21,7 @@ const NewProjectForm = props => {
   const {email, uid, history} = props
   // privacy switch
   const [publicVal, setPublicVal] = useState(false)
+
   const handleSwitch = () => {
     setPublicVal(!publicVal)
   }
@@ -29,17 +33,33 @@ const NewProjectForm = props => {
 
   const handleSubmit = async () => {
     event.preventDefault()
+
+    // gather data object for project
     const data = {
       name: event.target.title.value,
-      emoji: event.target.image.value,
+      emoji: '🎷',
       permissions: publicVal ? 'Public' : 'Private',
       tempo: event.target.tempo.value,
       members: [email],
       memberUids: [uid],
       max: 5
     }
+
+    // gather instruments for project
+    const instruments = {
+      marimba: event.target.marimba.checked,
+      steelPan: event.target.steelPan.checked,
+      electricCello: event.target.electricCello.checked,
+      synth: event.target.synth.checked
+    }
+    let instrumentsToAdd = Object.keys(instruments)
+    instrumentsToAdd = instrumentsToAdd.filter(i => instruments[i])
+
+    // create project with instruments
     const project = await Project.findOrCreate(data)
-    await project.addInstrument({name: 'synth'})
+    instrumentsToAdd.forEach(async instrument => {
+      await project.addInstrument({name: instrument})
+    })
     const id = project.ref().id
     history.push(`/projects/${id}`)
     handleClose()
@@ -52,33 +72,21 @@ const NewProjectForm = props => {
   return (
     <div>
       <Modal show={show} onHide={handleClose}>
-        <form className="dark-mode dark-bg" onSubmit={handleSubmit}>
+        <Form className="dark-mode dark-bg" onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>You're making a masterpiece!</Modal.Title>
+            <Modal.Title className="text-center">
+              You're making a masterpiece!
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Now, time for some decisions.......
-            <div className="form-options">
-              <label htmlFor="title">Title</label>
-              <input name="title" type="text" placeholder="Project Name" />
-            </div>
-            <div className="form-options">
-              <label htmlFor="image">Image</label>
-              <select className="emoji-option" name="image">
-                <option value="🎵">🎵</option>
-                <option value="🎸">🎸</option>
-                <option value="🎷">🎷</option>
-                <option value="🎹">🎹</option>
-                <option value="🎻">🎻</option>
-                <option value="🎤">🎤</option>
-                <option value="🎺">🎺</option>
-                <option value="🎧">🎧</option>
-                <option value="🥁">🥁</option>
-              </select>
-            </div>
-            <div>
-              <div>
-                <label htmlFor="permissions">
+            <Form.Row>
+              <Form.Group as={Col} md="6" controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control type="text" placeholder="Enter Title" />
+              </Form.Group>
+
+              <Form.Group as={Col} md="3" controlId="permissions">
+                <Form.Label>
                   Public?
                   <OverlayTrigger
                     placement="top"
@@ -88,43 +96,60 @@ const NewProjectForm = props => {
                   >
                     <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
                   </OverlayTrigger>
-                </label>
-                <ToggleButtonGroup
-                  name="permissions"
-                  type="radio"
-                  value={publicVal}
+                </Form.Label>
+                <Form.Switch
+                  id="permissions"
                   onChange={handleSwitch}
-                >
-                  <ToggleButton variant="outline-success" value={true}>
-                    Yes
-                  </ToggleButton>
-                  <ToggleButton variant="outline-secondary" value={false}>
-                    No
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </div>
-            </div>
-            <div>
-              <label htmlFor="tempo">
-                Tempo
-                <OverlayTrigger
-                  placement="top"
-                  overlay={<Tooltip>The rate your song will play</Tooltip>}
-                >
-                  <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
-                </OverlayTrigger>
-              </label>
-              <input
-                type="range"
-                name="tempo"
-                min="50"
-                max="200"
-                onInput={handleRange}
-              />
-              <div>
-                <output>{rangeVal} bpm</output>
-              </div>
-            </div>
+                  value={publicVal}
+                  label={publicVal ? 'yes' : 'no'}
+                />
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} controlId="tempo">
+                <Form.Label>
+                  Tempo
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>The rate your song will play</Tooltip>}
+                  >
+                    <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
+                  </OverlayTrigger>
+                </Form.Label>
+                <input
+                  type="range"
+                  name="tempo"
+                  min="50"
+                  max="200"
+                  onInput={handleRange}
+                />
+                <div>
+                  <output>{rangeVal} bpm</output>
+                </div>
+              </Form.Group>
+            </Form.Row>
+            <fieldset>
+              <Form.Group>
+                <Form.Label>Add Instruments</Form.Label>
+                <Form.Row>
+                  <Form.Check label="Marimba" name="instruments" id="marimba" />
+                  <Form.Check label="Synth" name="instruments" id="synth" />
+                </Form.Row>
+                <Form.Row>
+                  <Form.Check
+                    label="Electric Cello"
+                    name="instruments"
+                    id="electricCello"
+                  />
+                  <Form.Check
+                    label="Steel Pan"
+                    name="instruments"
+                    id="steelPan"
+                  />
+                </Form.Row>
+              </Form.Group>
+            </fieldset>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -134,7 +159,7 @@ const NewProjectForm = props => {
               Create
             </Button>
           </Modal.Footer>
-        </form>
+        </Form>
       </Modal>
       <Button
         variant="success"

@@ -16,7 +16,10 @@ async function createProjectWithDrums(projectName, type = 'Public') {
   console.log('NOTE: added test drums successfully')
 
   await project.addInstrument({name: 'synth'})
-
+  await project.addUserToProject({
+    email: 'test123@email.com',
+    uid: '5pHrmJQMCpXQvKZ3nVmvdlJ1RXA2'
+  })
   return project
 }
 

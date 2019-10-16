@@ -117,13 +117,10 @@ export class Grid {
     const seq = new Tone.Sequence(
       function(time, event) {
         inst.triggerAttackRelease(event, '32n', time)
-        // if (this.progress < 0.002) {
-        //   counter = 0
-        // }
         Tone.Transport.on('stop', () => {
           counter = 0
         })
-        let timeoutValue = 60000 / Number(Tone.Transport.bpm.value)
+        let timeoutValue = 60000 / Tone.Transport.bpm.value
         Tone.Draw.schedule(() => {
           if (counter === seqLength) {
             counter = 0

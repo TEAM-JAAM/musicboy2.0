@@ -86,10 +86,11 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
       <div className="single-instrument-container">
         <table className="outer-table">
           <tbody>
-            <tr className="table-body">
+            <tr className="table-body scroll-wrapper">
               {timeslicesDocRefs.map(timesliceDocRef => {
                 return (
                   <td
+                    className="scroll-item"
                     id={`column${timesliceDocRef.id}`}
                     key={timesliceDocRef.id}
                   >

@@ -40,31 +40,22 @@ const DrumsDetails = ({docRef}) => {
         className="mr-1 drum-details-card"
         style={{width: '10rem'}}
       >
-        <Card.Header className="p-1">
-          <Container fluid className="pl-0 pr-0 drum-details-container">
-            <Row>
-              <Col className="ml-auto pl-0 pr-0 text-right">
-                <OverlayTrigger
-                  placement="auto"
-                  overlay={<Tooltip>Clear grid</Tooltip>}
-                >
-                  <MdGridOff className="icon-small" onClick={handleClear} />
-                </OverlayTrigger>
-                <OverlayTrigger
-                  placement="auto"
-                  overlay={<Tooltip>Instrument settings...</Tooltip>}
-                >
-                  <MdSettings className="icon-small" />
-                </OverlayTrigger>
-              </Col>
-            </Row>
-          </Container>
-        </Card.Header>
-        <Card.Body>
-          <Card.Title className="text-center instrument-card-title">
-            <h1>🥁</h1>
-          </Card.Title>
+        <div />
+        <Card.Body className="drums-details-body">
+          <h1>🥁</h1>
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>Clear grid</Tooltip>}
+          >
+            <MdGridOff
+              className="icon-small clear-drums-btn"
+              onClick={handleClear}
+            />
+          </OverlayTrigger>
         </Card.Body>
+        <Card.Title className="text-center instrument-card-title">
+          Percussion
+        </Card.Title>
       </Card>
     )
   }

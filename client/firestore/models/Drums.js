@@ -52,6 +52,26 @@ class Drums {
   }
 
   // Instance methods..........................................................
+  async addDrumsliceBlock(startingIndex, numberOfDrumslices) {
+    const drumsDocSnapshot = await this.drumsDocRef.get()
+    if (!drumsDocSnapshot.exists) {
+      throw new util.DatabaseInconsistentError()
+    }
+    for (let i = startingIndex; i < startingIndex + numberOfDrumslices; ++i) {
+      await Drumslice.create(this, {index: `${i}`})
+    }
+  }
+
+  async removeDrumsliceBlock(finalIndex, numberOfDrumslices) {
+    const drumsDocSnapshot = await this.drumsDocRef.get()
+    if (!drumsDocSnapshot.exists) {
+      throw new util.DatabaseInconsistentError()
+    }
+    for (let i = finalIndex - 1; i > finalIndex - numberOfDrumslices - 1; --i) {
+      await Drumslice.destroy(this, i)
+    }
+  }
+
   async clearAllDrumSlices() {
     const drumsDocSnapshot = await this.drumsDocRef.get()
     if (!drumsDocSnapshot.exists) {
@@ -64,6 +84,24 @@ class Drums {
       const drumslice = Drumslice.fromDocRef(drumslicesDocs[i].ref)
       await drumslice.reset()
     }
+  }
+
+  async destroy() {
+    const drumslicesCollectionRef = this.drumsDocRef.collection('drumslices')
+    const drumslicesQuerySnapshot = await drumslicesCollectionRef.get()
+
+    // Delete all of the drumslices...
+    console.log('NOTE: attempting to delete timeslices')
+    const drumslicesDocs = drumslicesQuerySnapshot.docs
+    for (let i = 0; i < drumslicesDocs.length; ++i) {
+      await drumslicesDocs[i].ref.delete()
+    }
+
+    // Delete the instrument document
+    await this.drumsDocRef.delete()
+
+    // Invalidate this object...
+    this.drumsDocRef = null
   }
 
   ref() {
