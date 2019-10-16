@@ -1,6 +1,6 @@
 body {
   background-color: #2e2e2e;
-  font-family: sans-serif;
+  font-family: 'Titillium Web', sans-serif;
 }
 
 a {
@@ -90,23 +90,28 @@ td {
 }
 
 .drum-details-container {
-  display: flex;
+  /* display: flex; */
   margin: 10px;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
 }
 
-.drums-details-body {
+.drum-details-body {
+  padding: 10px 0 0 0;
   display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0 0;
 }
 
 .drums-details-body h1 {
-  margin-left: 3.75rem;
+  flex: 3;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .clear-drums-btn {
-  margin-right: 1.75rem;
+  flex: 1;
+}
+
+.delete-drums-btn {
+  flex: 1;
 }
 
 .single-drumslice-container {
@@ -135,10 +140,15 @@ td {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: scroll;
+  overflow-y: hidden;
+  height: 100%;
+  max-width: 1500px;
 }
 
 .scroll-item {
   flex: 0 0 auto;
+  padding: 0;
+  /* min-width: 30px; */
 }
 
 .cell {
@@ -236,7 +246,6 @@ td {
   background-image: url('/jaamlogo.png');
   min-height: 655px;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-position: center;
   text-align: center;
   color: white;
@@ -251,6 +260,7 @@ td {
 
 .zoom {
   padding: 0px;
+  flex: 0 0 auto;
   background-color: lightgrey;
   transition: transform 0.2s;
   transform: scale(1.05);

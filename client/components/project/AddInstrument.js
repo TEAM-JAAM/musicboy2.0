@@ -3,6 +3,8 @@ import {MdAdd} from 'react-icons/md'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 import {Project} from '../../firestore/models'
 import {getInstrumentKeysAndNames} from '../utils/MapInstruments'
@@ -94,9 +96,14 @@ export const AddInstrument = ({docRef, hasPercussion}) => {
           </Modal.Footer>
         </Form>
       </Modal>
-      <Button variant="secondary" size="sm" onClick={handleShow}>
-        <MdAdd className="icon" />
-      </Button>
+      <OverlayTrigger
+        placement="auto"
+        overlay={<Tooltip>Add new instrument...</Tooltip>}
+      >
+        <Button variant="secondary" size="sm" onClick={handleShow}>
+          <MdAdd className="icon" />
+        </Button>
+      </OverlayTrigger>
     </React.Fragment>
   )
 }
