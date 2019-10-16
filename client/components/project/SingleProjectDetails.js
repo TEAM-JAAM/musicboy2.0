@@ -18,7 +18,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import Tooltip from 'react-bootstrap/Tooltip'
 import {Project} from '../../firestore/models'
 
-import GroupChat from './GroupChat'
+import GroupChat from '../Chat/GroupChat'
 
 export const SingleProjectDetails = ({docRef, history}) => {
   const projectDocRef = Project.findProjectQuery(docRef)
