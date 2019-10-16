@@ -63,13 +63,13 @@ const UserProjectsList = props => {
   if (projectQueryResults) {
     return (
       <>
-        <Card body border="dark" bg="dark" className="text-center dark-mode">
+        <Card body bg="transparent" className="text-center dark-mode">
           <h2>My Account</h2>
           <span style={{color: 'white'}}>username: {email}</span>
-          <div>
+          <div className="mt-3">
             <a href="#" onClick={handleLogOut}>
               <h5>
-                <Badge pill variant="primary">
+                <Badge pill variant="info">
                   LOGOUT
                 </Badge>
               </h5>
@@ -84,12 +84,12 @@ const UserProjectsList = props => {
                 key={project.docRef.id}
                 style={{width: '25rem'}}
                 className="align-self-center m-2"
-                border="primary"
+                border="secondary"
               >
                 <Card.Img
                   onClick={() => handleClick(project.docRef.id)}
                   variant="top"
-                  src={`https://dummyimage.com/1000x5:2/007bff/fff.jpg&text=${
+                  src={`https://dummyimage.com/1000x5:2/2274A5/fff.jpg&text=${
                     project.name
                   }`}
                 />

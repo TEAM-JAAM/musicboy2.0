@@ -2,7 +2,7 @@ import React from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
-import {Card, Button, Row, Spinner, Badge} from 'react-bootstrap'
+import {Card, Button, Row, Spinner, Badge, Col} from 'react-bootstrap'
 import {auth} from '../firestore/db'
 
 const PublicProjects = props => {
@@ -18,6 +18,10 @@ const PublicProjects = props => {
     const project = Project.fromDocRef(docRef)
     project.addUserToProject({email, uid})
     history.push(`/projects/${docRef.id}`)
+  }
+  const isOwner = project => {
+    if (project.members[0] === email) return true
+    return false
   }
 
   const featuredProject = projects[Math.floor(Math.random() * projects.length)]
@@ -39,33 +43,31 @@ const PublicProjects = props => {
     return (
       <>
         <Card
-          className="text-center m-5"
-          bg="dark"
+          className="m-5"
           text="white"
-          border="success"
+          // border="secondary"
+          bg="dark"
         >
-          <Card.Header>Curated Song</Card.Header>
           <Card.Body>
-            <Card.Title>
+            <Card.Title className="text-center">
               <strong>{featuredProject.name}</strong>
             </Card.Title>
-            <Card.Text>
-              Here's something special we thought you'd enjoy! This popular song
-              was created for everyone to make it their own. Here at Jaam we
-              want to promote sessions that inspire others to step outside the
-              box and make something magical... together.
-            </Card.Text>
-            <Button
-              variant="success"
-              onClick={() => handleClick(featuredProject.docRef)}
-            >
-              {joinOrJaam(featuredProject)}
-            </Button>
-          </Card.Body>
-        </Card>
-        <Card border="dark" bg="dark" className="text-center">
-          <Card.Body>
-            <h2 className="dark-mode">Open Jaam Sessions</h2>
+            <Row>
+              <Card.Text as={Col} md="10">
+                Here's something special we thought you'd enjoy! This popular
+                song was created for everyone to make it their own. Here at Jaam
+                we want to promote sessions that inspire others to step outside
+                the box and make something magical... together.
+              </Card.Text>
+              <Col className="mr-3 text-right">
+                <Button
+                  variant="success"
+                  onClick={() => handleClick(featuredProject.docRef)}
+                >
+                  {joinOrJaam(featuredProject)}
+                </Button>
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
         <Row className="justify-content-md-center m-5">
@@ -77,31 +79,34 @@ const PublicProjects = props => {
                   key={project.docRef.id}
                   style={{width: '25rem'}}
                   className="align-self-center m-2"
-                  border="primary"
-                  bg="light"
+                  border="secondary"
                 >
                   <Card.Img
                     onClick={() => handleClick(project.docRef)}
                     variant="top"
-                    src={`https://dummyimage.com/1000x5:2/007bff/fff.jpg&text=${
+                    src={`https://dummyimage.com/1000x5:2/2274A5/fff.jpg&text=${
                       project.name
                     }`}
                   />
                   <Card.Body>
-                    <Card.Title>
-                      Manager:{' '}
+                    <Card.Text>
+                      This session is{' '}
+                      {project.permissions === 'Public' ? (
+                        <Badge variant="success">{project.permissions}</Badge>
+                      ) : (
+                        <Badge variant="secondary">{project.permissions}</Badge>
+                      )}
+                      <br />
+                      Managed by:{' '}
                       <strong>
-                        {project.members[0].slice(
-                          0,
-                          project.members[0].indexOf('@')
-                        )}
+                        {isOwner(project)
+                          ? 'Me'
+                          : project.members[0].slice(
+                              0,
+                              project.members[0].indexOf('@')
+                            )}
                       </strong>
-                      <Card.Text>
-                        <Badge variant="success" className="text-right">
-                          {project.permissions}
-                        </Badge>
-                      </Card.Text>
-                    </Card.Title>
+                    </Card.Text>
                     <Button
                       variant="outline-success"
                       block
