@@ -23,53 +23,6 @@ export const SingleProjectDetails = ({docRef, history}) => {
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
   const projectData = Project.fetchProjectData(projectQueryResult)
 
-  // ANDRE!!
-  // THIS CODE SHOULD BE MOVED TO YOUR CHAT COMPONENT, with "docRef" passed
-  // as a prop
-  // I PUT IT HERE FOR TESTING ONLY!!
-  // THANKS! HOPE IT WORKS FOR YOU!!
-  const messageCollectionQuery = Project.findProjectMessagesQuery(docRef)
-  const [messageQueryResult, messagesLoading, messagesError] = useCollection(
-    messageCollectionQuery
-  )
-  const messageData = Message.fetchAllMessagesData(messageQueryResult)
-
-  if (messageQueryResult) {
-    console.log('message Data, ordered by time (hopefully): ', messageData)
-    // ANDRE. Notice that some messages will have empty e-mails and content.
-    // Your component will have to ignore these (not display them)
-    // Also notice that the timestamp is of time Timestamp. You can convert
-    // this to a Date as follows:
-    messageData.forEach((message, index) => {
-      console.log(
-        'message[',
-        index,
-        ']: timestamp: ',
-        message.timestamp.toDate()
-      )
-    })
-  }
-  // ANDRE: notice that the messages are ordered from oldest (index 0)
-  // to newest (index 9)... I think we can take advantage of that and
-  // always update index 0 with our new messages (overwrite the oldest)
-  // I wrote a message routine to do this. Pass it messageData[0].docRef
-  // Note this is a HACK to test the chat!! I simply added a handler to the
-  // chat button to post a message every time the chat button is pushed. Your
-  // component will, of course, do something similar on its "Send" button
-  // handler
-  const send = async () => {
-    console.log('trying to send a new message')
-    await Message.send(messageData[0].docRef, {
-      email: 'mike.wislek@gmail.com',
-      content: 'Hi Andre. Hope this works for you'
-    })
-  }
-  // I seeded the "Chris Can Juggle" project with the chat structure. If
-  // you bring up the application on this project and push the "chat" button
-  // AND look at Firestore, you should see the documents update...
-
-  // END OF SPECIAL ANDRE MESSAGE!!
-
   // Tempo-related configuration...
   const [tempo, setTempo] = useState(0)
   const handleTempoChange = event => {

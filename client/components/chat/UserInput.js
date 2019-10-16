@@ -1,19 +1,32 @@
 import React, {Component} from 'react'
 import Button from 'react-bootstrap/Button'
+import {auth} from '../../firestore/db'
+import {Message} from '../../firestore/models'
 
 class UserInput extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       inputActive: false,
       inputHasText: false
     }
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   handleKeyDown(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
       return this.submitText(event)
     }
+  }
+
+  async onSubmit(docRef, textObj) {
+    console.log('trying to send a new message')
+    await Message.send(docRef, textObj)
+
+    //   messageData[0].docRef, {
+    //   email: 'mike.wislek@gmail.com',
+    //   content: 'Hi Andre. Hope this works for you'
+    // }
   }
 
   handleKeyUp(event) {
@@ -26,12 +39,10 @@ class UserInput extends Component {
     event.preventDefault()
     const text = this.userInput.textContent
     if (text && text.length > 0) {
-      // this.props.onSubmit({
-      //   author: 'me',
-      //   time: new Date(),
-      //   data: {text}
-      // })
-      this.props.onSubmit(text)
+      this.onSubmit(this.props.messageDocRef, {
+        email: auth.currentUser.email,
+        content: text
+      })
       this.userInput.innerHTML = ''
     }
   }
