@@ -90,7 +90,7 @@ td {
 }
 
 .drum-details-body {
-  padding: 0;
+  padding: 10px 0 0 0;
   display: flex;
 }
 
@@ -134,10 +134,14 @@ td {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: scroll;
+  overflow-y: hidden;
+  height: 100%;
+  max-width: 1500px;
 }
 
 .scroll-item {
   flex: 0 0 auto;
+  /* min-width: 30px; */
 }
 
 .cell {
@@ -235,7 +239,6 @@ td {
   background-image: url('/jaamlogo.png');
   min-height: 655px;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-position: center;
   text-align: center;
   color: white;
@@ -249,8 +252,10 @@ td {
 }
 
 .zoom {
-  padding: 0px;
+  /* padding: 0px; */
+  flex: 0 0 auto;
   background-color: lightgrey;
-  transition: transform 0.2s;
-  transform: scale(1.05);
+  /* transition: transform 0.2s; */
+  /* transform: scale(1.05); */
+  /* flex: 0 0 auto; */
 }
