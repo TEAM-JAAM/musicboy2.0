@@ -1,13 +1,8 @@
 const instrumentNameMap = {
-  bassGuitar: {name: 'Bass Guitar', image: '/images/guitar.svg'},
-  electric: {name: 'Electric', image: '/images/guitar.svg'},
-  electricCello: {name: 'Electric Cello', image: '/images/guitar.svg'},
-  kalimba: {name: 'Kalimba', image: '/images/keyboard.svg'},
-  marimba: {name: 'Marimba', image: '/images/keyboard.svg'},
-  pianoetta: {name: 'Pianoetta', image: '/images/keyboard.svg'},
+  electricCello: {name: 'Cello', image: '/images/cello.svg'},
+  marimba: {name: 'Electric Guitar', image: '/images/guitar.svg'},
   steelPan: {name: 'Steel Pan', image: '/images/keyboard.svg'},
-  synth: {name: 'Synthesizer', image: '/images/keyboard.svg'},
-  tiny: {name: 'Tiny', image: '/images/keyboard.svg'}
+  synth: {name: 'Synthesizer', image: '/images/keyboard.svg'}
 }
 
 export const mapInstrumentName = instrumentName => {

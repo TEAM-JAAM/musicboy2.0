@@ -1,7 +1,7 @@
 import {Button} from 'react-bootstrap'
 import React, {useState, useEffect} from 'react'
 import Tone from 'tone'
-import {useDocument} from 'react-firebase-hooks/firestore'
+import {useCollection, useDocument} from 'react-firebase-hooks/firestore'
 import {MdHome, MdChat, MdPlayArrow, MdSettings, MdStop} from 'react-icons/md'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
@@ -10,7 +10,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import Spinner from 'react-bootstrap/Spinner'
 import Tooltip from 'react-bootstrap/Tooltip'
-import {Project} from '../../firestore/models'
+
+import {Message, Project} from '../../firestore/models'
 import {auth} from '../../firestore/db'
 import SingleProjectSettings from './SingleProjectSettings'
 
@@ -21,6 +22,53 @@ export const SingleProjectDetails = ({docRef, history}) => {
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
   const projectData = Project.fetchProjectData(projectQueryResult)
+
+  // ANDRE!!
+  // THIS CODE SHOULD BE MOVED TO YOUR CHAT COMPONENT, with "docRef" passed
+  // as a prop
+  // I PUT IT HERE FOR TESTING ONLY!!
+  // THANKS! HOPE IT WORKS FOR YOU!!
+  const messageCollectionQuery = Project.findProjectMessagesQuery(docRef)
+  const [messageQueryResult, messagesLoading, messagesError] = useCollection(
+    messageCollectionQuery
+  )
+  const messageData = Message.fetchAllMessagesData(messageQueryResult)
+
+  if (messageQueryResult) {
+    console.log('message Data, ordered by time (hopefully): ', messageData)
+    // ANDRE. Notice that some messages will have empty e-mails and content.
+    // Your component will have to ignore these (not display them)
+    // Also notice that the timestamp is of time Timestamp. You can convert
+    // this to a Date as follows:
+    messageData.forEach((message, index) => {
+      console.log(
+        'message[',
+        index,
+        ']: timestamp: ',
+        message.timestamp.toDate()
+      )
+    })
+  }
+  // ANDRE: notice that the messages are ordered from oldest (index 0)
+  // to newest (index 9)... I think we can take advantage of that and
+  // always update index 0 with our new messages (overwrite the oldest)
+  // I wrote a message routine to do this. Pass it messageData[0].docRef
+  // Note this is a HACK to test the chat!! I simply added a handler to the
+  // chat button to post a message every time the chat button is pushed. Your
+  // component will, of course, do something similar on its "Send" button
+  // handler
+  const send = async () => {
+    console.log('trying to send a new message')
+    await Message.send(messageData[0].docRef, {
+      email: 'mike.wislek@gmail.com',
+      content: 'Hi Andre. Hope this works for you'
+    })
+  }
+  // I seeded the "Chris Can Juggle" project with the chat structure. If
+  // you bring up the application on this project and push the "chat" button
+  // AND look at Firestore, you should see the documents update...
+
+  // END OF SPECIAL ANDRE MESSAGE!!
 
   // Tempo-related configuration...
   const [tempo, setTempo] = useState(0)
@@ -40,7 +88,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
       if (projectQueryResult) {
         const newTempo = projectQueryResult.data().tempo
         setTempo(newTempo)
-        Tone.Transport.bpm.value = newTempo
+        Tone.Transport.bpm.value = 2 * newTempo
       }
     },
     [projectQueryResult]
@@ -113,7 +161,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
               </Button>
             </OverlayTrigger>
           </ButtonGroup>
-          <ButtonGroup size="sm" className="ml-1">
+          <ButtonGroup size="sm" className="ml-5">
             <OverlayTrigger
               placement="bottom"
               overlay={<Tooltip>Play/Stop</Tooltip>}

@@ -14,7 +14,7 @@ const createProjectOnce = async (projectName, type = 'Private') => {
   // add an instrument to the project; also adds an iniital set of
   // timeslices...
   await project.addInstrument({
-    name: 'marimba'
+    name: 'electricCello'
   })
   console.log('NOTE: added test instrument successfully')
 
@@ -68,10 +68,10 @@ const seed = async () => {
       'Testing, Testing, 1-2-3'
     )
     await projectWith3Instruments.addInstrument({
-      name: 'saxaphone'
+      name: 'electricCello'
     })
     await projectWith3Instruments.addInstrument({
-      name: 'accordian'
+      name: 'marimba'
     })
     await projectWith3Instruments.addUserToProject({
       email: 'cody@email.com',
@@ -102,10 +102,10 @@ const seed = async () => {
       'Public'
     )
     await publicProjectWith3Instruments.addInstrument({
-      name: 'saxaphone'
+      name: 'synth'
     })
     await publicProjectWith3Instruments.addInstrument({
-      name: 'accordian'
+      name: 'steelPan'
     })
 
     // all projects added to test1234@email.com...
