@@ -66,7 +66,7 @@ const LoggedInNav = props => {
             name="projectToggle"
             onChange={handleChange}
           >
-            <ToggleButton key={1} variant="outline-light" value={1}>
+            <ToggleButton key={1} variant="outline-secondary" value={1}>
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip>Home</Tooltip>}
@@ -74,7 +74,7 @@ const LoggedInNav = props => {
                 <MdHome className="icon" />
               </OverlayTrigger>
             </ToggleButton>
-            <ToggleButton key={2} variant="outline-light" value={2}>
+            <ToggleButton key={2} variant="outline-secondary" value={2}>
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip>Public Sessions</Tooltip>}
@@ -82,7 +82,7 @@ const LoggedInNav = props => {
                 <MdPublic className="icon" />
               </OverlayTrigger>
             </ToggleButton>
-            <ToggleButton key={3} variant="outline-light" value={3}>
+            <ToggleButton key={3} variant="outline-secondary" value={3}>
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip>My Account</Tooltip>}
@@ -92,7 +92,7 @@ const LoggedInNav = props => {
             </ToggleButton>
             <ToggleButton
               key={4}
-              variant="outline-light"
+              variant="outline-secondary"
               value={4}
               onClick={handleAlert}
             >

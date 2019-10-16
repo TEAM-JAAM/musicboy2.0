@@ -71,7 +71,7 @@ const NewProjectForm = props => {
 
   return (
     <div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="lg">
         <Form className="dark-mode dark-bg" onSubmit={handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title className="text-center">
@@ -80,14 +80,16 @@ const NewProjectForm = props => {
           </Modal.Header>
           <Modal.Body>
             <Form.Row>
-              <Form.Group as={Col} md="6" controlId="title">
-                <Form.Label>Title</Form.Label>
+              <Form.Group as={Col} md="8" controlId="title">
+                <Form.Label>
+                  <h5>Title</h5>
+                </Form.Label>
                 <Form.Control type="text" placeholder="Enter Title" />
               </Form.Group>
 
               <Form.Group as={Col} md="3" controlId="permissions">
                 <Form.Label>
-                  Public?
+                  <h5>Public?</h5>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -109,7 +111,7 @@ const NewProjectForm = props => {
             <Form.Row>
               <Form.Group as={Col} controlId="tempo">
                 <Form.Label>
-                  Tempo
+                  <h5>Tempo</h5>
                   <OverlayTrigger
                     placement="top"
                     overlay={<Tooltip>The rate your song will play</Tooltip>}
@@ -131,12 +133,12 @@ const NewProjectForm = props => {
             </Form.Row>
             <fieldset>
               <Form.Group>
-                <Form.Label>Add Instruments</Form.Label>
+                <Form.Label>
+                  <h5>Add Instruments</h5>
+                </Form.Label>
                 <Form.Row>
                   <Form.Check label="Marimba" name="instruments" id="marimba" />
                   <Form.Check label="Synth" name="instruments" id="synth" />
-                </Form.Row>
-                <Form.Row>
                   <Form.Check
                     label="Electric Cello"
                     name="instruments"
