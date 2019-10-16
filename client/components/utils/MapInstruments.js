@@ -1,7 +1,7 @@
 const instrumentNameMap = {
   electricCello: {name: 'Cello', image: '/images/cello.svg'},
   marimba: {name: 'Electric Guitar', image: '/images/guitar.svg'},
-  steelPan: {name: 'Steel Pan', image: '/images/keyboard.svg'},
+  steelPan: {name: 'Steel Drum', image: '/images/steel-drum.png'},
   synth: {name: 'Synthesizer', image: '/images/keyboard.svg'}
 }
 
