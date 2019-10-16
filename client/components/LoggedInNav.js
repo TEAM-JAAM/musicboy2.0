@@ -56,9 +56,6 @@ const LoggedInNav = props => {
   return (
     <div className="center">
       <Row>
-        <Col className="d-flex justify-content-end">
-          <img src="/jaamlogo.png" className="jaam-icon" />
-        </Col>
         <Col className="d-flex justify-content-center m-3">
           <ToggleButtonGroup
             type="radio"
@@ -104,9 +101,6 @@ const LoggedInNav = props => {
               </OverlayTrigger>
             </ToggleButton>
           </ToggleButtonGroup>
-        </Col>
-        <Col className="d-flex justify-content-start">
-          <img src="/jaamlogo.png" className="jaam-icon" />
         </Col>
       </Row>
       <Alert show={show} variant="danger" className="text-center mr-5 ml-5">

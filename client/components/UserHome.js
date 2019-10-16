@@ -32,8 +32,6 @@ const UserHome = props => {
     setIndex(selectedIndex)
     setDirection(e.direction)
   }
-  const colors = ['007BFF', '0069D9', '0062CC', '268FFF']
-  const colorIdx = (index + 1) % colors.length
   const handleClick = () => {
     history.push(`/projects/${projects[index].docRef.id}`)
   }
@@ -54,8 +52,8 @@ const UserHome = props => {
     return (
       <>
         <Alert bg="dark" className="text-center dark-mode">
-          <Alert.Heading>Hey, nice to see you</Alert.Heading>
-          <p>This is Jaam. The place where musicians come to collaborate.</p>
+          <Alert.Heading>This is Jaam</Alert.Heading>
+          <p>The place where musicians come to collaborate.</p>
           <hr />
           <p className="mb-0">
             {projects.length ? (
@@ -74,14 +72,15 @@ const UserHome = props => {
             direction={direction}
             onSelect={handleSelect}
             interval={3000}
+            className="mb-2"
           >
             {projects.map(project => (
               <Carousel.Item onClick={handleClick} key={project.docRef.id}>
                 <img
                   className="d-block w-100"
-                  src={`https://imgholder.ru/${width}x${height()}/${
-                    colors[colorIdx]
-                  }/adb9ca&text=${project.name}&font=kelson`}
+                  src={`https://imgholder.ru/${width}x${height()}/2274A5/adb9ca&text=${
+                    project.name
+                  }&font=roboto`}
                   alt={project.name}
                 />
                 <Carousel.Caption>
