@@ -4,12 +4,8 @@ import {
   Button,
   Tooltip,
   OverlayTrigger,
-  ToggleButton,
-  ToggleButtonGroup,
   Form,
-  InputGroup,
-  Col,
-  Row
+  Col
 } from 'react-bootstrap'
 import {Project} from '../firestore/models'
 import {withRouter} from 'react-router-dom'
