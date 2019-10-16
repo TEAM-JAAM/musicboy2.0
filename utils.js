@@ -49,7 +49,6 @@ export class Grid {
         this.chordArray.push(chord)
       }
       this.grid = nodeArray
-      console.log('SETUP GRID CALLED', this.grid)
       if (!this.sequence.length) {
         this.createNewSequence(this.chordArray)
       } else {
@@ -84,7 +83,6 @@ export class Grid {
       this.sequence.cancel()
       this.createNewSequence(this.chordArray)
     }
-    console.log('WE ARE SETTING OUR KEY', this.grid)
   }
 
   setInstrument(inst) {
@@ -105,7 +103,6 @@ export class Grid {
       this.sequence.cancel()
       this.createNewSequence(this.chordArray)
     }
-    console.log('WE ARE SETTING OUR INSTRUMENT', this.instrument)
   }
 
   createNewSequence(chordsArray) {
@@ -123,7 +120,6 @@ export class Grid {
         })
         let timeoutValue = 60000 / Tone.Transport.bpm.value
         Tone.Draw.schedule(() => {
-          console.log('curr time', Tone.context.currentTime)
           if (counter === seqLength) {
             counter = 0
           }
@@ -141,7 +137,6 @@ export class Grid {
       '4n'
     ).start(0)
     this.sequence = seq
-    console.log('OUR SEQUENCE', this.sequence)
   }
 
   updateSequenceSlice(cell) {
@@ -154,7 +149,6 @@ export class Grid {
     } else {
       this.sequence._events[cell.index].value.push(cell.pitch)
     }
-    console.log('UPDATING SEQUENCE', this.sequence)
   }
 
   playCell(row, col) {

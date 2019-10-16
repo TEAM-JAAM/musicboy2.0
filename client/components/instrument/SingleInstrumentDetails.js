@@ -78,7 +78,7 @@ export const SingleInstrumentDetails = ({docRef}) => {
                 <Col className="ml-auto pr-0 text-right">
                   <OverlayTrigger
                     placement="auto"
-                    overlay={<Tooltip>Clear grid</Tooltip>}
+                    overlay={<Tooltip>Remove instrument...</Tooltip>}
                   >
                     <MdClear
                       className="icon-small"

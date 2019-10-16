@@ -1,14 +1,8 @@
 import {Button} from 'react-bootstrap'
 import React, {useState, useEffect} from 'react'
 import Tone from 'tone'
-import {useDocument} from 'react-firebase-hooks/firestore'
-import {
-  MdArrowBack,
-  MdChat,
-  MdPlayArrow,
-  MdSettings,
-  MdStop
-} from 'react-icons/md'
+import {useCollection, useDocument} from 'react-firebase-hooks/firestore'
+import {MdHome, MdChat, MdPlayArrow, MdSettings, MdStop} from 'react-icons/md'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
 import Navbar from 'react-bootstrap/Navbar'
@@ -17,12 +11,64 @@ import Popover from 'react-bootstrap/Popover'
 import Spinner from 'react-bootstrap/Spinner'
 import Tooltip from 'react-bootstrap/Tooltip'
 
-import {Project} from '../../firestore/models'
+import {Message, Project} from '../../firestore/models'
+import {auth} from '../../firestore/db'
+import SingleProjectSettings from './SingleProjectSettings'
+
+import GroupChat from '../Chat/GroupChat'
 
 export const SingleProjectDetails = ({docRef, history}) => {
+  const email = auth.currentUser.email
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
   const projectData = Project.fetchProjectData(projectQueryResult)
+
+  // ANDRE!!
+  // THIS CODE SHOULD BE MOVED TO YOUR CHAT COMPONENT, with "docRef" passed
+  // as a prop
+  // I PUT IT HERE FOR TESTING ONLY!!
+  // THANKS! HOPE IT WORKS FOR YOU!!
+  const messageCollectionQuery = Project.findProjectMessagesQuery(docRef)
+  const [messageQueryResult, messagesLoading, messagesError] = useCollection(
+    messageCollectionQuery
+  )
+  const messageData = Message.fetchAllMessagesData(messageQueryResult)
+
+  if (messageQueryResult) {
+    console.log('message Data, ordered by time (hopefully): ', messageData)
+    // ANDRE. Notice that some messages will have empty e-mails and content.
+    // Your component will have to ignore these (not display them)
+    // Also notice that the timestamp is of time Timestamp. You can convert
+    // this to a Date as follows:
+    messageData.forEach((message, index) => {
+      console.log(
+        'message[',
+        index,
+        ']: timestamp: ',
+        message.timestamp.toDate()
+      )
+    })
+  }
+  // ANDRE: notice that the messages are ordered from oldest (index 0)
+  // to newest (index 9)... I think we can take advantage of that and
+  // always update index 0 with our new messages (overwrite the oldest)
+  // I wrote a message routine to do this. Pass it messageData[0].docRef
+  // Note this is a HACK to test the chat!! I simply added a handler to the
+  // chat button to post a message every time the chat button is pushed. Your
+  // component will, of course, do something similar on its "Send" button
+  // handler
+  const send = async () => {
+    console.log('trying to send a new message')
+    await Message.send(messageData[0].docRef, {
+      email: 'mike.wislek@gmail.com',
+      content: 'Hi Andre. Hope this works for you'
+    })
+  }
+  // I seeded the "Chris Can Juggle" project with the chat structure. If
+  // you bring up the application on this project and push the "chat" button
+  // AND look at Firestore, you should see the documents update...
+
+  // END OF SPECIAL ANDRE MESSAGE!!
 
   // Tempo-related configuration...
   const [tempo, setTempo] = useState(0)
@@ -42,7 +88,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
       if (projectQueryResult) {
         const newTempo = projectQueryResult.data().tempo
         setTempo(newTempo)
-        Tone.Transport.bpm.value = newTempo
+        Tone.Transport.bpm.value = 2 * newTempo
       }
     },
     [projectQueryResult]
@@ -72,9 +118,20 @@ export const SingleProjectDetails = ({docRef, history}) => {
     }
   }
 
-  const handleBack = () => {
-    history.goBack()
+  const [chatting, toggleChat] = useState(false)
+  const handleChat = () => {
+    if (chatting) {
+      toggleChat(false)
+    } else {
+      toggleChat(true)
+    }
   }
+
+  const handleBack = () => {
+    history.push('/home')
+  }
+  // modal settings show hide
+  const [modalShow, setModalShow] = React.useState(false)
 
   if (error) throw new Error('FATAL: firestore error encountered')
   if (loading) {
@@ -100,11 +157,11 @@ export const SingleProjectDetails = ({docRef, history}) => {
               overlay={<Tooltip>Back</Tooltip>}
             >
               <Button variant="secondary" onClick={handleBack}>
-                <MdArrowBack className="icon" />
+                <MdHome className="icon" />
               </Button>
             </OverlayTrigger>
           </ButtonGroup>
-          <ButtonGroup size="sm" className="ml-1">
+          <ButtonGroup size="sm" className="ml-5">
             <OverlayTrigger
               placement="bottom"
               overlay={<Tooltip>Play/Stop</Tooltip>}
@@ -121,7 +178,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
             <Form.Group className="m-0" controlId="formTempo">
               <OverlayTrigger
                 trigger="focus"
-                placement="top"
+                placement="bottom"
                 overlay={
                   <Popover id="popover-positioned-top">
                     <Popover.Content>
@@ -159,20 +216,38 @@ export const SingleProjectDetails = ({docRef, history}) => {
               placement="bottom"
               overlay={<Tooltip>Chat with a member</Tooltip>}
             >
-              <Button variant="secondary" onClick={handlePlay}>
+              <Button variant="secondary" onClick={handleChat}>
                 <MdChat className="icon" />
               </Button>
             </OverlayTrigger>
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>Project settings...</Tooltip>}
-            >
-              <Button variant="secondary" onClick={handlePlay}>
-                <MdSettings className="icon" />
-              </Button>
-            </OverlayTrigger>
+            {projectData.members[0] === email && (
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip>Project settings...</Tooltip>}
+              >
+                <Button variant="secondary" onClick={() => setModalShow(true)}>
+                  <MdSettings className="icon" />
+                </Button>
+              </OverlayTrigger>
+            )}
+            <SingleProjectSettings
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              project={projectData}
+              docref={projectDocRef}
+            />
           </ButtonGroup>
         </Navbar>
+        {chatting ? (
+          <div>
+            <GroupChat
+              docRef={docRef}
+              handleClose={handleChat}
+              isOpen={chatting}
+              projectName={projectData.name}
+            />
+          </div>
+        ) : null}
       </div>
     )
   }
