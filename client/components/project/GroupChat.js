@@ -3,26 +3,38 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import {Spinner, Container, Col, Row} from 'react-bootstrap'
 import {Project} from '../../firestore/models'
 import ChatWindow from './ChatWindow'
-import {useDocument} from 'react-firebase-hooks/firestore'
 
-export const GroupChat = () => {
-  //   if (error) throw new Error('FATAL: firestore error encountered')
-  //   if (loading) {
-  //     return (
-  //       <Spinner animation="border" role="status">
-  //         <span className="align-self-center sr-only">Loading...</span>
-  //       </Spinner>
-  //     )
-  //   }
+let messagesFromDb = ['hello', 'goodbye', 'who is this?']
 
-  return (
-    <div id="sc-launcher">
-      <ChatWindow
-        messageList={['hello', 'goodbye', 'who is this?']}
-        // onUserInputSubmit={this.props.onMessageWasSent}
-      />
-    </div>
-  )
+class GroupChat extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      messageList: messagesFromDb
+    }
+    this.onMessageWasSent = this.onMessageWasSent.bind(this)
+  }
+
+  onMessageWasSent(message) {
+    let arr = this.state.messageList
+    this.setState({
+      messageList: [...arr, message]
+    })
+  }
+
+  render() {
+    return (
+      <div id="sc-launcher">
+        <ChatWindow
+          messageList={this.state.messageList}
+          handleClose={this.props.handleClose}
+          isOpen={this.props.isOpen}
+          projectName={this.props.projectName}
+          onUserInputSubmit={this.onMessageWasSent}
+        />
+      </div>
+    )
+  }
 }
 
 export default GroupChat

@@ -43,11 +43,6 @@
 	"author": "Fullstack Academy of Code",
 	"license": "MIT",
 	"dependencies": {
-		"emoji-js": "3.2.2",
-		"gh-pages": "^1.2.0",
-		"react-highlight.js": "1.0.5",
-		"react-linkify": "^0.2.1",
-		"socket.io-client": "2.0.3",
 		"axios": "^0.19.0",
 		"bootstrap": "^4.3.1",
 		"compression": "^1.7.3",
@@ -83,12 +78,6 @@
 		"tone": "^13.8.28"
 	},
 	"devDependencies": {
-		"emoji-js": "3.2.2",
-		"gh-pages": "^1.2.0",
-		"prop-types": "15.5.10",
-		"react-highlight.js": "1.0.5",
-		"react-linkify": "^0.2.1",
-		"socket.io-client": "2.0.3",
 		"@babel/core": "^7.4.3",
 		"@babel/plugin-proposal-class-properties": "7.4.0",
 		"@babel/plugin-proposal-decorators": "7.4.0",

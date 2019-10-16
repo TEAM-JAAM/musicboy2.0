@@ -1,8 +1,5 @@
-import PropTypes from 'prop-types'
 import React, {Component} from 'react'
-// import SendIcon from './icons/SendIcon'
-
-// import PopupWindow from './popups/PopupWindow'
+import Button from 'react-bootstrap/Button'
 
 class UserInput extends Component {
   constructor() {
@@ -15,7 +12,7 @@ class UserInput extends Component {
 
   handleKeyDown(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
-      return this._submitText(event)
+      return this.submitText(event)
     }
   }
 
@@ -29,41 +26,37 @@ class UserInput extends Component {
     event.preventDefault()
     const text = this.userInput.textContent
     if (text && text.length > 0) {
-      this.props.onSubmit({
-        author: 'me',
-        type: 'text',
-        data: {text}
-      })
+      // this.props.onSubmit({
+      //   author: 'me',
+      //   time: new Date(),
+      //   data: {text}
+      // })
+      this.props.onSubmit(text)
       this.userInput.innerHTML = ''
     }
   }
 
-  renderSendOrFileIcon() {
+  renderSend() {
     if (this.state.inputHasText) {
       return (
-        <div className="sc-user-input--button">
-          <button
-            type="button"
-            onClick={() => {
-              console.log('USER INPUT')
-            }}
-          >
-            Send
-          </button>
-        </div>
+        <Button
+          className="sc-user-input--button"
+          type="submit"
+          variant="primary"
+          onClick={this.submitText.bind(this)}
+        >
+          Send
+        </Button>
       )
     } else {
       return (
-        <div className="sc-user-input--button">
-          <button
-            type="button"
-            onClick={() => {
-              console.log('USER INPUT')
-            }}
-          >
-            NO INPUT
-          </button>
-        </div>
+        <Button
+          className="sc-user-input--button"
+          type="submit"
+          variant="secondary"
+        >
+          Send
+        </Button>
       )
     }
   }
@@ -90,10 +83,7 @@ class UserInput extends Component {
           placeholder="Write a reply..."
           className="sc-user-input--text"
         />
-        <div className="sc-user-input--buttons">
-          <div className="sc-user-input--button" />
-          {this.renderSendOrFileIcon()}
-        </div>
+        <div className="sc-user-input--button">{this.renderSend()}</div>
       </form>
     )
   }

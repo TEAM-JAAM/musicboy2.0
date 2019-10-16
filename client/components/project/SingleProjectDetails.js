@@ -171,7 +171,6 @@ export const SingleProjectDetails = ({docRef, history}) => {
             >
               <Button variant="secondary" onClick={handleChat}>
                 <MdChat className="icon" />
-                <div className="sc-new-messages-count">3</div>
               </Button>
             </OverlayTrigger>
             <OverlayTrigger
@@ -186,7 +185,12 @@ export const SingleProjectDetails = ({docRef, history}) => {
         </Navbar>
         {chatting ? (
           <div>
-            <GroupChat docRef={docRef} />
+            <GroupChat
+              docRef={docRef}
+              handleClose={handleChat}
+              isOpen={chatting}
+              projectName={projectData.name}
+            />
           </div>
         ) : null}
       </div>
