@@ -71,7 +71,7 @@ const NewProjectForm = props => {
 
   return (
     <div>
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose}>
         <Form className="dark-mode dark-bg" onSubmit={handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title className="text-center">
@@ -80,7 +80,7 @@ const NewProjectForm = props => {
           </Modal.Header>
           <Modal.Body>
             <Form.Row>
-              <Form.Group as={Col} md="8" controlId="title">
+              <Form.Group as={Col} md="6" controlId="title">
                 <Form.Label>
                   <h5>Title</h5>
                 </Form.Label>
@@ -89,15 +89,17 @@ const NewProjectForm = props => {
 
               <Form.Group as={Col} md="3" controlId="permissions">
                 <Form.Label>
-                  <h5>Public?</h5>
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={
-                      <Tooltip>If yes, anyone can join your band</Tooltip>
-                    }
-                  >
-                    <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
-                  </OverlayTrigger>
+                  <h5>
+                    Public?
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip>If yes, anyone can join your band</Tooltip>
+                      }
+                    >
+                      <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
+                    </OverlayTrigger>
+                  </h5>
                 </Form.Label>
                 <Form.Switch
                   id="permissions"
@@ -111,13 +113,15 @@ const NewProjectForm = props => {
             <Form.Row>
               <Form.Group as={Col} controlId="tempo">
                 <Form.Label>
-                  <h5>Tempo</h5>
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={<Tooltip>The rate your song will play</Tooltip>}
-                  >
-                    <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
-                  </OverlayTrigger>
+                  <h5>
+                    Tempo
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip>The rate your song will play</Tooltip>}
+                    >
+                      <img src="https://img.icons8.com/color/20/000000/info--v2.png" />
+                    </OverlayTrigger>
+                  </h5>
                 </Form.Label>
                 <input
                   type="range"
@@ -137,7 +141,11 @@ const NewProjectForm = props => {
                   <h5>Add Instruments</h5>
                 </Form.Label>
                 <Form.Row>
-                  <Form.Check label="Marimba" name="instruments" id="marimba" />
+                  <Form.Check
+                    label="Electric Guitar"
+                    name="instruments"
+                    id="marimba"
+                  />
                   <Form.Check label="Synth" name="instruments" id="synth" />
                   <Form.Check
                     label="Electric Cello"
