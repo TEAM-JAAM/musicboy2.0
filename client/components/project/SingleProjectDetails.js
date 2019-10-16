@@ -39,7 +39,6 @@ export const SingleProjectDetails = ({docRef, history}) => {
   useEffect(
     () => {
       if (projectQueryResult) {
-        console.log('PROJECT REF', projectDocRef)
         const newTempo = projectQueryResult.data().tempo
         setTempo(newTempo)
       }

@@ -23,16 +23,17 @@ class ChatWindow extends Component {
     let classList = ['sc-chat-window', temp ? 'opened' : 'closed']
     return (
       <div className={classList.join(' ')}>
-        <Header teamName="Rock City" imageUrl="../../../public/jaamlogo.png" />
+        <Header
+          teamName="Rock City"
+          imageUrl="/Users/abirkus/Desktop/capstone/musicboy2.0/public/jaamlogo.png"
+        />
         <div>
-          {Messages.map((message, i) => {
+          {messageList.map((message, i) => {
             return <li key={i}>message</li>
           })}
         </div>
         <UserInput
-          onSubmit={this.onUserInputSubmit.bind(this)}
-          onFilesSelected={this.onFilesSelected.bind(this)}
-          showEmoji={this.props.showEmoji}
+        //   onSubmit={this.onUserInputSubmit.bind(this)}
         />
       </div>
     )

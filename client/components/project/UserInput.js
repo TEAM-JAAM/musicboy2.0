@@ -25,7 +25,7 @@ class UserInput extends Component {
     this.setState({inputHasText})
   }
 
-  _submitText(event) {
+  submitText(event) {
     event.preventDefault()
     const text = this.userInput.textContent
     if (text && text.length > 0) {
@@ -38,11 +38,31 @@ class UserInput extends Component {
     }
   }
 
-  _renderSendOrFileIcon() {
+  renderSendOrFileIcon() {
     if (this.state.inputHasText) {
       return (
         <div className="sc-user-input--button">
-          <button onClick={this._submitText.bind(this)}>Send</button>
+          <button
+            type="button"
+            onClick={() => {
+              console.log('USER INPUT')
+            }}
+          >
+            Send
+          </button>
+        </div>
+      )
+    } else {
+      return (
+        <div className="sc-user-input--button">
+          <button
+            type="button"
+            onClick={() => {
+              console.log('USER INPUT')
+            }}
+          >
+            NO INPUT
+          </button>
         </div>
       )
     }
@@ -72,6 +92,7 @@ class UserInput extends Component {
         />
         <div className="sc-user-input--buttons">
           <div className="sc-user-input--button" />
+          {this.renderSendOrFileIcon()}
         </div>
       </form>
     )

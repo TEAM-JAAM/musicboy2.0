@@ -98,16 +98,6 @@ class Project {
     )
   }
 
-  static findProjectChatQuery(documentId) {
-    return (
-      documentId &&
-      db
-        .collection('projects')
-        .doc(documentId)
-        .collection('chat')
-    )
-  }
-
   static fetchAllProjectsData(querySnapshot) {
     const projects = []
     querySnapshot &&
@@ -128,10 +118,6 @@ class Project {
   }
 
   static fetchPercussionDocRefs(querySnapshot) {
-    return querySnapshot && querySnapshot.docs
-  }
-
-  static fetchChatData(querySnapshot) {
     return querySnapshot && querySnapshot.docs
   }
 
