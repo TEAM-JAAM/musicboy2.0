@@ -5,7 +5,6 @@ import {
   electricCello,
   steelPan,
   marimba,
-  bassGuitar,
   G_MAJOR,
   G_MINOR,
   PENTATONIC
@@ -91,8 +90,7 @@ export class Grid {
       synth: synth,
       electricCello: electricCello,
       steelPan: steelPan,
-      marimba: marimba,
-      bassGuitar: bassGuitar
+      marimba: marimba
     }
     this.instrument = instrumentMap[inst]
 
@@ -127,9 +125,9 @@ export class Grid {
           }
           let tempCol = document.querySelectorAll(`#column${counter}`)
           tempCol.forEach(col => {
-            col.setAttribute('class', 'zoom')
+            col.classList.add('zoom')
             setTimeout(() => {
-              col.removeAttribute('class', 'zoom')
+              col.classList.remove('zoom')
             }, timeoutValue)
           })
           counter++

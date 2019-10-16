@@ -2,7 +2,8 @@ import Tone from 'tone'
 
 const synth = new Tone.PolySynth(12, Tone.Synth, {
   oscillator: {
-    type: 'triangle'
+    type: 'triangle',
+    volume: 2
   },
   envelope: {
     attack: 0.005,
@@ -16,7 +17,8 @@ const electricCello = new Tone.PolySynth(12, Tone.FMSynth, {
   harmonicity: 3.01,
   modulationIndex: 14,
   oscillator: {
-    type: 'triangle'
+    type: 'triangle',
+    volume: 6
   },
   envelope: {
     attack: 0.02,
@@ -52,7 +54,8 @@ const steelPan = new Tone.PolySynth(12, Tone.Synth, {
 
 const marimba = new Tone.PolySynth(12, Tone.Synth, {
   oscillator: {
-    type: 'sawtooth'
+    type: 'sawtooth',
+    volume: -4
   },
   envelope: {
     attack: 0.001,
@@ -62,57 +65,4 @@ const marimba = new Tone.PolySynth(12, Tone.Synth, {
   }
 }).toMaster()
 
-const bassGuitar = new Tone.PolySynth(12, Tone.MonoSynth, {
-  oscillator: {
-    type: 'fmsquare5',
-    modulationType: 'triangle',
-    modulationIndex: 2,
-    harmonicity: 0.501
-  },
-  filter: {
-    Q: 1,
-    type: 'lowpass',
-    rolloff: -24
-  },
-  envelope: {
-    attack: 0.01,
-    decay: 0.1,
-    sustain: 0.4,
-    release: 2
-  },
-  filterEnvelope: {
-    attack: 0.01,
-    decay: 0.1,
-    sustain: 0.8,
-    release: 1.5,
-    baseFrequency: 50,
-    octaves: 4.4
-  }
-})
-
-const pianoetta = new Tone.PolySynth(12, Tone.MonoSynth, {
-  oscillator: {
-    type: 'square'
-  },
-  filter: {
-    Q: 2,
-    type: 'lowpass',
-    rolloff: -12
-  },
-  envelope: {
-    attack: 0.005,
-    decay: 3,
-    sustain: 0,
-    release: 0.45
-  },
-  filterEnvelope: {
-    attack: 0.001,
-    decay: 0.32,
-    sustain: 0.9,
-    release: 3,
-    baseFrequency: 700,
-    octaves: 2.3
-  }
-})
-
-export {synth, electricCello, steelPan, marimba, bassGuitar, pianoetta}
+export {synth, electricCello, steelPan, marimba}
