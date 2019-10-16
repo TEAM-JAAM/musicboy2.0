@@ -44,13 +44,14 @@ const PublicProjects = props => {
           text="white"
           border="success"
         >
-          <Card.Header>Featured Song</Card.Header>
+          <Card.Header>Curated Song</Card.Header>
           <Card.Body>
             <Card.Title>
               <strong>{featuredProject.name}</strong>
             </Card.Title>
             <Card.Text>
-              Here's something special we thought you'd enjoy! Here at Jaam we
+              Here's something special we thought you'd enjoy! This popular song
+              was created for everyone to make it their own. Here at Jaam we
               want to promote sessions that inspire others to step outside the
               box and make something magical... together.
             </Card.Text>

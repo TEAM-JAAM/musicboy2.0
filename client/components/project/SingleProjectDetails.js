@@ -2,13 +2,7 @@ import {Button} from 'react-bootstrap'
 import React, {useState, useEffect} from 'react'
 import Tone from 'tone'
 import {useDocument} from 'react-firebase-hooks/firestore'
-import {
-  MdArrowBack,
-  MdChat,
-  MdPlayArrow,
-  MdSettings,
-  MdStop
-} from 'react-icons/md'
+import {MdHome, MdChat, MdPlayArrow, MdSettings, MdStop} from 'react-icons/md'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
 import Navbar from 'react-bootstrap/Navbar'
@@ -18,8 +12,11 @@ import Spinner from 'react-bootstrap/Spinner'
 import Tooltip from 'react-bootstrap/Tooltip'
 
 import {Project} from '../../firestore/models'
+import {auth} from '../../firestore/db'
+import SingleProjectSettings from './SingleProjectSettings'
 
 export const SingleProjectDetails = ({docRef, history}) => {
+  const email = auth.currentUser.email
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
   const projectData = Project.fetchProjectData(projectQueryResult)
@@ -73,8 +70,10 @@ export const SingleProjectDetails = ({docRef, history}) => {
   }
 
   const handleBack = () => {
-    history.goBack()
+    history.push('/home')
   }
+  // modal settings show hide
+  const [modalShow, setModalShow] = React.useState(false)
 
   if (error) throw new Error('FATAL: firestore error encountered')
   if (loading) {
@@ -100,7 +99,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
               overlay={<Tooltip>Back</Tooltip>}
             >
               <Button variant="secondary" onClick={handleBack}>
-                <MdArrowBack className="icon" />
+                <MdHome className="icon" />
               </Button>
             </OverlayTrigger>
           </ButtonGroup>
@@ -121,7 +120,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
             <Form.Group className="m-0" controlId="formTempo">
               <OverlayTrigger
                 trigger="focus"
-                placement="top"
+                placement="bottom"
                 overlay={
                   <Popover id="popover-positioned-top">
                     <Popover.Content>
@@ -163,14 +162,22 @@ export const SingleProjectDetails = ({docRef, history}) => {
                 <MdChat className="icon" />
               </Button>
             </OverlayTrigger>
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>Project settings...</Tooltip>}
-            >
-              <Button variant="secondary" onClick={handlePlay}>
-                <MdSettings className="icon" />
-              </Button>
-            </OverlayTrigger>
+            {projectData.members[0] === email && (
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip>Project settings...</Tooltip>}
+              >
+                <Button variant="secondary" onClick={() => setModalShow(true)}>
+                  <MdSettings className="icon" />
+                </Button>
+              </OverlayTrigger>
+            )}
+            <SingleProjectSettings
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              project={projectData}
+              docref={projectDocRef}
+            />
           </ButtonGroup>
         </Navbar>
       </div>
