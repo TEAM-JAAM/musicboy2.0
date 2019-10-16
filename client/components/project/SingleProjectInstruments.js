@@ -58,12 +58,7 @@ export const SingleProjectInstruments = ({docRef}) => {
       <Container fluid className="mt-3">
         <Row>
           <Col>
-            <OverlayTrigger
-              placement="auto"
-              overlay={<Tooltip>Add new instrument...</Tooltip>}
-            >
-              <AddInstrument docRef={docRef} hasPercussion={hasPercussion} />
-            </OverlayTrigger>
+            <AddInstrument docRef={docRef} hasPercussion={hasPercussion} />
           </Col>
           <Col className="text-right">
             <ButtonGroup size="sm">

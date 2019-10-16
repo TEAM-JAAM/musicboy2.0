@@ -154,7 +154,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
           <ButtonGroup size="sm">
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip>Back</Tooltip>}
+              overlay={<Tooltip>Home</Tooltip>}
             >
               <Button variant="secondary" onClick={handleBack}>
                 <MdHome className="icon" />
