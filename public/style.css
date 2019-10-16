@@ -444,7 +444,6 @@ div#sc-launcher {
   white-space: pre-wrap;
   -webkit-font-smoothing: subpixel-antialiased;
   word-wrap: break-word;
-  width: calc(100% - 90px);
 }
 
 .sc-message--content.sent .sc-message--text {

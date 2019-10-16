@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import {Spinner} from 'react-bootstrap'
-
+import {auth} from '../../firestore/db'
 import {Message, Project} from '../../firestore/models'
 import UserInput from './UserInput'
 //let messagesFromDb = ['hello', 'goodbye', 'who is this?']
@@ -35,6 +35,8 @@ const GroupChat = props => {
   let messageData = Message.fetchAllMessagesData(messageQueryResult)
 
   let messageRef
+
+  let me = auth.currentUser.email
   //let messageRef = messageData[0].docRef
   // useEffect(
   //   () => {
@@ -112,7 +114,13 @@ const GroupChat = props => {
           <div className="sc-message-list">
             {messageList.map((message, i) => (
               <div className="sc-message" key={i}>
-                <div className="sc-message--content received">
+                <div
+                  className={
+                    me === message.email
+                      ? 'sc-message--content sent'
+                      : 'sc-message--content received'
+                  }
+                >
                   <div
                     className="sc-message--avatar"
                     style={{

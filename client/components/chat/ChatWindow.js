@@ -53,9 +53,3 @@ class ChatWindow extends Component {
 }
 
 export default ChatWindow
-
-// className={
-//                 this.props.message.author === 'me'
-//                   ? 'sc-message--content sent'
-//                   : 'sc-message--content received'
-//               }
