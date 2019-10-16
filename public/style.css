@@ -141,6 +141,7 @@ td {
 
 .scroll-item {
   flex: 0 0 auto;
+  padding: 0;
   /* min-width: 30px; */
 }
 
@@ -252,10 +253,9 @@ td {
 }
 
 .zoom {
-  /* padding: 0px; */
+  padding: 0px;
   flex: 0 0 auto;
   background-color: lightgrey;
-  /* transition: transform 0.2s; */
-  /* transform: scale(1.05); */
-  /* flex: 0 0 auto; */
+  transition: transform 0.2s;
+  transform: scale(1.05);
 }

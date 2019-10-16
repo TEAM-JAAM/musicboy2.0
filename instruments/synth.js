@@ -18,7 +18,7 @@ const electricCello = new Tone.PolySynth(12, Tone.FMSynth, {
   modulationIndex: 14,
   oscillator: {
     type: 'triangle',
-    volume: 4
+    volume: 6
   },
   envelope: {
     attack: 0.02,

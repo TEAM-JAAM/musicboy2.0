@@ -130,10 +130,8 @@ export class Grid {
           let tempCol = document.querySelectorAll(`#column${counter}`)
           tempCol.forEach(col => {
             col.classList.add('zoom')
-            // col.setAttribute('class', 'zoom')
             setTimeout(() => {
               col.classList.remove('zoom')
-              // col.removeAttribute('zoom')
             }, timeoutValue)
           })
           counter++
