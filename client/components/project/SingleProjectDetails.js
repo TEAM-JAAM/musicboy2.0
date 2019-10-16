@@ -15,6 +15,8 @@ import {Message, Project} from '../../firestore/models'
 import {auth} from '../../firestore/db'
 import SingleProjectSettings from './SingleProjectSettings'
 
+import GroupChat from '../Chat/GroupChat'
+
 export const SingleProjectDetails = ({docRef, history}) => {
   const email = auth.currentUser.email
   const projectDocRef = Project.findProjectQuery(docRef)
@@ -116,6 +118,15 @@ export const SingleProjectDetails = ({docRef, history}) => {
     }
   }
 
+  const [chatting, toggleChat] = useState(false)
+  const handleChat = () => {
+    if (chatting) {
+      toggleChat(false)
+    } else {
+      toggleChat(true)
+    }
+  }
+
   const handleBack = () => {
     history.push('/home')
   }
@@ -205,7 +216,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
               placement="bottom"
               overlay={<Tooltip>Chat with a member</Tooltip>}
             >
-              <Button variant="secondary" onClick={send}>
+              <Button variant="secondary" onClick={handleChat}>
                 <MdChat className="icon" />
               </Button>
             </OverlayTrigger>
@@ -227,6 +238,16 @@ export const SingleProjectDetails = ({docRef, history}) => {
             />
           </ButtonGroup>
         </Navbar>
+        {chatting ? (
+          <div>
+            <GroupChat
+              docRef={docRef}
+              handleClose={handleChat}
+              isOpen={chatting}
+              projectName={projectData.name}
+            />
+          </div>
+        ) : null}
       </div>
     )
   }

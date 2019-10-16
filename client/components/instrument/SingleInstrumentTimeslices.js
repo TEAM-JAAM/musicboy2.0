@@ -61,10 +61,6 @@ export const SingleInstrumentTimeslices = ({docRef}) => {
           timeslicesDocRefs = Instrument.fetchTimesliceDocRefs(
             timeslicesQueryResult
           ).sort(compareNumbers)
-          console.log(
-            'our time slices docs before grid setup',
-            timeslicesDocRefs
-          )
           grid.current.setUpGrid(timeslicesDocRefs)
         }
       }
