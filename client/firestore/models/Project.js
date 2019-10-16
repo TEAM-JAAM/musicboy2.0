@@ -1,9 +1,11 @@
 const {db, firestore} = require('../db')
 const Instrument = require('./Instrument')
 const Drums = require('./Drums')
+const Message = require('./Message')
 const util = require('../utils/dbUtils')
 
 const BLOCK_SIZE = 8
+const MAX_MESSAGES = 10
 
 //
 // --[ Project ]--------------------------------------------------------------
@@ -49,7 +51,13 @@ class Project {
 
       console.log('NOTE: creating new project...', objectData)
       const newProjectDocRef = await projectCollectionRef.add(objectData)
-      return new Project(newProjectDocRef)
+      const thisProject = new Project(newProjectDocRef)
+
+      // Add messages...
+      for (let i = 0; i < MAX_MESSAGES; ++i) {
+        await Message.create(thisProject)
+      }
+      return thisProject
     }
   }
 
@@ -95,6 +103,17 @@ class Project {
         .collection('projects')
         .doc(documentId)
         .collection('percussion')
+    )
+  }
+
+  static findProjectMessagesQuery(documentId) {
+    return (
+      documentId &&
+      db
+        .collection('projects')
+        .doc(documentId)
+        .collection('chat')
+        .orderBy('timestamp')
     )
   }
 
