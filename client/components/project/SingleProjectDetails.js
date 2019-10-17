@@ -18,6 +18,8 @@ import SingleProjectSettings from './SingleProjectSettings'
 
 import GroupChat from '../Chat/GroupChat'
 
+let counter = 1
+
 export const SingleProjectDetails = ({docRef, history}) => {
   const email = auth.currentUser.email
   const projectDocRef = Project.findProjectQuery(docRef)
@@ -27,17 +29,6 @@ export const SingleProjectDetails = ({docRef, history}) => {
   const messageCollectionQuery = Project.findProjectMessagesQuery(docRef)
   const [messageQueryResult, messagesLoading, messagesError] = useCollection(
     messageCollectionQuery
-  )
-
-  let notification = false
-  useEffect(
-    () => {
-      if (messageQueryResult) {
-        console.log('NEW MESSAGE')
-        notification = true
-      }
-    },
-    [messageQueryResult]
   )
 
   // Tempo-related configuration...
@@ -88,16 +79,36 @@ export const SingleProjectDetails = ({docRef, history}) => {
     }
   }
 
+  const [notification, showNotification] = useState(false)
+
   const [chatting, toggleChat] = useState(false)
   const handleChat = () => {
     if (chatting) {
       toggleChat(false)
     } else {
-      notification = false
       toggleChat(true)
+      showNotification(false)
     }
   }
 
+  useEffect(
+    () => {
+      if (messageQueryResult) {
+        console.log('NEW MESSAGE notif', notification)
+        if (!chatting) {
+          console.log('counter', counter)
+          if (counter > 1) {
+            showNotification(true)
+          }
+          counter++
+          console.log('counter', counter)
+        } else {
+          showNotification(false)
+        }
+      }
+    },
+    [messageQueryResult]
+  )
   const handleBack = () => {
     history.push('/home')
   }
@@ -189,8 +200,9 @@ export const SingleProjectDetails = ({docRef, history}) => {
             >
               <Button variant="secondary" onClick={handleChat}>
                 <MdChat className="icon" />
-                {notification &&
-                  !chatting && <div className="sc-new-messages-count">!</div>}
+                {notification ? (
+                  <div className="sc-new-messages-count">!</div>
+                ) : null}
               </Button>
             </OverlayTrigger>
             {projectData.members[0] === email && (
