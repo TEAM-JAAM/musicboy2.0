@@ -384,8 +384,8 @@ div#sc-launcher {
 
 .sc-new-messages-count {
   position: absolute;
-  top: -3px;
-  left: 41px;
+  top: -12px;
+  right: 30px;
   display: flex;
   justify-content: center;
   flex-direction: column;

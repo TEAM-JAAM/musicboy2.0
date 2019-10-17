@@ -4,28 +4,6 @@ import {Spinner} from 'react-bootstrap'
 import {auth} from '../../firestore/db'
 import {Message, Project} from '../../firestore/models'
 import UserInput from './UserInput'
-//let messagesFromDb = ['hello', 'goodbye', 'who is this?']
-
-// ANDRE!!
-// THIS CODE SHOULD BE MOVED TO YOUR CHAT COMPONENT, with "docRef" passed
-// as a prop
-// I PUT IT HERE FOR TESTING ONLY!!
-// THANKS! HOPE IT WORKS FOR YOU!!
-
-// ANDRE: notice that the messages are ordered from oldest (index 0)
-// to newest (index 9)... I think we can take advantage of that and
-// always update index 0 with our new messages (overwrite the oldest)
-// I wrote a message routine to do this. Pass it messageData[0].docRef
-// Note this is a HACK to test the chat!! I simply added a handler to the
-// chat button to post a message every time the chat button is pushed. Your
-// component will, of course, do something similar on its "Send" button
-// handler
-
-// I seeded the "Chris Can Juggle" project with the chat structure. If
-// you bring up the application on this project and push the "chat" button
-// AND look at Firestore, you should see the documents update...
-
-// END OF SPECIAL ANDRE MESSAGE!!
 
 const GroupChat = props => {
   const messageCollectionQuery = Project.findProjectMessagesQuery(props.docRef)
@@ -37,18 +15,6 @@ const GroupChat = props => {
   let messageRef
 
   let me = auth.currentUser.email
-  //let messageRef = messageData[0].docRef
-  // useEffect(
-  //   () => {
-
-  // )
-
-  // onMessageWasSent(message) {
-  //   let arr = this.state.messageList
-  //   this.setState({
-  //     messageList: [...arr, message]
-  //   })
-  // }
 
   useEffect(
     () => {
@@ -73,10 +39,6 @@ const GroupChat = props => {
   if (messageQueryResult) {
     console.log('message Data, ordered by time (hopefully): ', messageData)
     messageRef = messageData[0].docRef
-    // ANDRE. Notice that some messages will have empty e-mails and content.
-    // Your component will have to ignore these (not display them)
-    // Also notice that the timestamp is of time Timestamp. You can convert
-    // this to a Date as follows:
     messageData.forEach((message, index) => {
       console.log(
         'message[',

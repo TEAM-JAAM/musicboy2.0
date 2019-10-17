@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import {Button} from 'react-bootstrap'
 import React, {useState, useEffect} from 'react'
 import Tone from 'tone'
@@ -17,11 +18,18 @@ import SingleProjectSettings from './SingleProjectSettings'
 
 import GroupChat from '../Chat/GroupChat'
 
+let counter = 1
+
 export const SingleProjectDetails = ({docRef, history}) => {
   const email = auth.currentUser.email
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
   const projectData = Project.fetchProjectData(projectQueryResult)
+
+  const messageCollectionQuery = Project.findProjectMessagesQuery(docRef)
+  const [messageQueryResult, messagesLoading, messagesError] = useCollection(
+    messageCollectionQuery
+  )
 
   // Tempo-related configuration...
   const [tempo, setTempo] = useState(0)
@@ -71,15 +79,36 @@ export const SingleProjectDetails = ({docRef, history}) => {
     }
   }
 
+  const [notification, showNotification] = useState(false)
+
   const [chatting, toggleChat] = useState(false)
   const handleChat = () => {
     if (chatting) {
       toggleChat(false)
     } else {
       toggleChat(true)
+      showNotification(false)
     }
   }
 
+  useEffect(
+    () => {
+      if (messageQueryResult) {
+        console.log('NEW MESSAGE notif', notification)
+        if (!chatting) {
+          console.log('counter', counter)
+          if (counter > 1) {
+            showNotification(true)
+          }
+          counter++
+          console.log('counter', counter)
+        } else {
+          showNotification(false)
+        }
+      }
+    },
+    [messageQueryResult]
+  )
   const handleBack = () => {
     history.push('/home')
   }
@@ -171,6 +200,9 @@ export const SingleProjectDetails = ({docRef, history}) => {
             >
               <Button variant="secondary" onClick={handleChat}>
                 <MdChat className="icon" />
+                {notification ? (
+                  <div className="sc-new-messages-count">!</div>
+                ) : null}
               </Button>
             </OverlayTrigger>
             {projectData.members[0] === email && (
