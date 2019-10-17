@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import {Button} from 'react-bootstrap'
 import React, {useState, useEffect} from 'react'
 import Tone from 'tone'
@@ -22,6 +23,22 @@ export const SingleProjectDetails = ({docRef, history}) => {
   const projectDocRef = Project.findProjectQuery(docRef)
   const [projectQueryResult, loading, error] = useDocument(projectDocRef)
   const projectData = Project.fetchProjectData(projectQueryResult)
+
+  const messageCollectionQuery = Project.findProjectMessagesQuery(docRef)
+  const [messageQueryResult, messagesLoading, messagesError] = useCollection(
+    messageCollectionQuery
+  )
+
+  let notification = false
+  useEffect(
+    () => {
+      if (messageQueryResult) {
+        console.log('NEW MESSAGE')
+        notification = true
+      }
+    },
+    [messageQueryResult]
+  )
 
   // Tempo-related configuration...
   const [tempo, setTempo] = useState(0)
@@ -76,6 +93,7 @@ export const SingleProjectDetails = ({docRef, history}) => {
     if (chatting) {
       toggleChat(false)
     } else {
+      notification = false
       toggleChat(true)
     }
   }
@@ -171,6 +189,8 @@ export const SingleProjectDetails = ({docRef, history}) => {
             >
               <Button variant="secondary" onClick={handleChat}>
                 <MdChat className="icon" />
+                {notification &&
+                  !chatting && <div className="sc-new-messages-count">!</div>}
               </Button>
             </OverlayTrigger>
             {projectData.members[0] === email && (
