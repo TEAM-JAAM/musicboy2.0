@@ -24,14 +24,14 @@ form div {
 /* SingleInstruments */
 
 .single-instrument-container {
-  background: linear-gradient(
-    0deg,
-    rgba(108, 117, 125, 1) 15%,
-    rgba(218, 218, 218, 1) 71%,
-    rgba(255, 255, 255, 1) 100%
-  );
-  /* background-size: contain; */
   height: auto;
+  background: radial-gradient(
+    800px circle at 0% 0%,
+    rgba(255, 255, 255, 1) 10%,
+    rgba(108, 117, 125, 1) 60%,
+    rgba(108, 117, 125, 0.5) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 table {
@@ -43,6 +43,13 @@ table {
 .outer-table {
   /* overflow-x: scroll;
 	overflow-y: hidden; */
+  background: linear-gradient(
+    0deg,
+    rgba(108, 117, 125, 1) 15%,
+    rgba(218, 218, 218, 1) 71%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  overflow-x: scroll;
   border-top: 1px solid #2e2e2e;
   border-left: 1px solid #2e2e2e;
 }
@@ -378,8 +385,8 @@ div#sc-launcher {
 
 .sc-new-messages-count {
   position: absolute;
-  top: -3px;
-  left: 41px;
+  top: -12px;
+  right: 30px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -437,6 +444,17 @@ div#sc-launcher {
   -webkit-font-smoothing: subpixel-antialiased;
   word-wrap: break-word;
   width: calc(100% - 90px);
+}
+
+.sc-message--small-text {
+  /* padding: 17px 20px;
+  border-radius: 6px;
+  font-weight: 300; */
+  font-size: 8px;
+  /* line-height: 1.4; */
+  white-space: pre-wrap;
+  -webkit-font-smoothing: subpixel-antialiased;
+  word-wrap: break-word;
 }
 
 .sc-message--content.sent .sc-message--text {

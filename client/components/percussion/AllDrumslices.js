@@ -51,7 +51,7 @@ const AllDrumslices = ({docRef}) => {
   if (drumsQueryResult) {
     drumslicesDocRefs.sort((a, b) => a.id - b.id)
     return (
-      <div className="single-instrument-container outer-table">
+      <div className="single-instrument-container">
         <table className="outer-table">
           <tbody>
             <tr className="table-body scroll-wrapper">

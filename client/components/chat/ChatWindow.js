@@ -1,13 +1,8 @@
 import React, {Component} from 'react'
-import UserInput from './UserInput'
 
 let Messages = ['hello', 'goodbye', 'who is this?']
 
 class ChatWindow extends Component {
-  onUserInputSubmit(message) {
-    this.props.onUserInputSubmit(message)
-  }
-
   render() {
     let messageList = this.props.messageList || []
     //let messageList = ['hello', 'goodbye', 'who is this?']
@@ -51,16 +46,10 @@ class ChatWindow extends Component {
             </div>
           ))}
         </div>
-        <UserInput onSubmit={this.onUserInputSubmit.bind(this)} />
+        <UserInput />
       </div>
     )
   }
 }
 
 export default ChatWindow
-
-// className={
-//                 this.props.message.author === 'me'
-//                   ? 'sc-message--content sent'
-//                   : 'sc-message--content received'
-//               }
