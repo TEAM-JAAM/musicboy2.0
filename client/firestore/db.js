@@ -3,12 +3,12 @@ const firebase = require('firebase/app')
 require('firebase/firestore')
 require('firebase/auth')
 
-const jaam = require('../secrets')
+console.log('NOTE: current environment [', process.env.NODE_ENV, ']')
 
 const app = firebase.initializeApp({
-  apiKey: jaam.API_KEY,
-  authDomain: jaam.AUTH_DOMAIN,
-  projectId: jaam.PROJECT_ID
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID
 })
 
 module.exports = {

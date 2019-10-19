@@ -1,4 +1,5 @@
 const isDev = process.env.NODE_ENV === 'development'
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
@@ -25,5 +26,6 @@ module.exports = {
         loader: 'babel-loader'
       }
     ]
-  }
+  },
+  plugins: [new Dotenv()]
 }
