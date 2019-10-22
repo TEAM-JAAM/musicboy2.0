@@ -41,6 +41,8 @@ table {
 }
 
 .outer-table {
+  /* overflow-x: scroll;
+	overflow-y: hidden; */
   background: linear-gradient(
     0deg,
     rgba(108, 117, 125, 1) 15%,
@@ -148,7 +150,6 @@ td {
 .scroll-item {
   flex: 0 0 auto;
   padding: 0;
-  /* min-width: 30px; */
 }
 
 .cell {
