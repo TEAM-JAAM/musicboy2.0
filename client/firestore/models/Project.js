@@ -5,6 +5,7 @@ const Message = require('./Message')
 const util = require('../utils/dbUtils')
 
 const BLOCK_SIZE = 8
+const MAX_BLOCK_SIZE = 32
 const MAX_MESSAGES = 10
 
 //
@@ -238,6 +239,11 @@ class Project {
     // Obtain the current timeslices value for the project...
     let timeslices = await this.getTimeslicesValue()
     let drumslices = await this.getDrumslicesValue()
+    if (timeslices === MAX_BLOCK_SIZE || drumslices === MAX_BLOCK_SIZE) {
+      throw new util.InvalidDatabaseOperationError(
+        'attempting to remove the initial timeslice set'
+      )
+    }
 
     // Add an additional block of timeslices to every instrument...
     const instrumentsCollectionRef = this.projectDocRef.collection(
