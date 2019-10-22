@@ -3,7 +3,7 @@
 	"version": "2.0.0",
 	"description": "Make music with your friends with jaam!",
 	"engines": {
-		"node": ">= 7.0.0"
+		"node": ">=12.13.0"
 	},
 	"main": "index.js",
 	"scripts": {
